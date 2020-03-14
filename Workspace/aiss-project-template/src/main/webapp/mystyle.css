@@ -34,8 +34,7 @@ a.button2:active{
 }
 
 body{
-    background-image: url("images/background.png");
-    -webkit-text-fill-color: #f8f8f8;
+    color: #f8f8f8;
     font-family: 'Lato', sans-serif;
     
     
@@ -74,7 +73,7 @@ footer{
 
 #footer {
     position:fixed;
-    bottom:5;
+    bottom: 5px;
 }
 
 .div-mid{
@@ -96,3 +95,26 @@ footer{
     justify-content: center;
 }
 
+.profilepic{
+    height: 75%;
+    width: 75%;
+}
+
+.div-parrafo{
+    padding: 70px;
+    max-width: 1200px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+.bg {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -20;
+}

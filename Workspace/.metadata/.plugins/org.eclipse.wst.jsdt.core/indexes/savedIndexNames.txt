@@ -1,7 +1,0 @@
-INDEX VERSION 1.4+D:\Mis Docs\Archivos\Universidad\Curso 2\AISS\Repo\moovid\Workspace\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
-855996358.index
-255485212.index
-2365589489.index
-1502761019.index
-731746709.index
-2936057754.index

@@ -151,7 +151,7 @@ a.button3{
     display:inline-block;
     padding:0.5em 3em;
     border:0.05em solid black;
-    margin:0 0.3em 0.3em 0;
+    margin:0 0.3em 2em 0;
     box-sizing: border-box;
     text-decoration:none;
     text-transform:uppercase;
@@ -166,8 +166,19 @@ a.button3{
     font-size: 30px;
     
 }
+
 a.button3:hover{
     color:#000000;
     border-color:#000000;
     background-color:  #ddaf53;
+}
+
+
+.buttons-yellow{
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+
 }

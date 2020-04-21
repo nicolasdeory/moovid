@@ -1,4 +1,4 @@
-package aiss.luis.model;
+package aiss.luis.model.enumerates;
 
 public enum Sentiment {
 	positive, neutral, negative

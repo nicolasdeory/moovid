@@ -1,7 +1,7 @@
 package aiss.luis.model;
 
 public enum IntentType {
-	COMMUNICATION_CANCEL, COMMUNICATION_CONFIRM, CREATE_MONTAGE,
-	DECIDE_FOR_ME, GREETING, MONTAGE_THEME_INTENT, MUSIC_DESCRIPTION,
-	NONE, SPECIFIC_THEME
+	CommunicationCancel, CommunicationConfirm, CreateMontage,
+	DecideForMe, Greeting, MontageThemeIntent, MusicDescription,
+	None, SpecificTheme
 }

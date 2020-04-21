@@ -1,14 +1,18 @@
 package aiss.luis.model;
 
-import java.util.Map;
+import java.time.LocalDate;
 
 public class Intent {
 
-	private IntentType topIntent;
-	private Map<String, String> entities; 
+	protected IntentType topIntent;
+	protected LocalDate start;
+	protected LocalDate end;
+	protected Sentiment sentiment;
 	
 	public Intent() {
 		super();
+		topIntent = IntentType.None;
+		
 	}
 
 	public IntentType getTopIntent() {
@@ -19,10 +23,7 @@ public class Intent {
 		this.topIntent = topIntent;
 	}
 
-	@Override
-	public String toString() {
-		return "Intent [topIntent=" + topIntent + ", entities=" + entities + "]";
-	}
+	
 	
 	
 }

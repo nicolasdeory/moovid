@@ -1,16 +1,19 @@
 package aiss.model.resources.photos;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collection;
 
 import org.restlet.resource.ClientResource;
 import org.restlet.resource.ResourceException;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import aiss.model.photos.filter.Filters;
 import aiss.model.photos.mediaitem.MediaItem;
+import aiss.model.photos.mediaitem.NewMediaItem;
+import aiss.model.photos.mediaitem.NewMediaItemResult;
+import aiss.model.photos.mediaitem.SimpleMediaItem;
 
 //Va static pq si no tendria que crearse un objeto MediaItemResource. Preguntar duda al doño (pq va estatico?)
 
@@ -43,15 +46,27 @@ public class MediaItemResource {
 		return Arrays.asList(list);
 	}
 	
-	public static MediaItem createMediaItem(MediaItem MI){
-		ClientResource cr = null;
-		MediaItem resultMediaItem = null;
+	public static NewMediaItemResult createMediaItem(String ficheromedia, String nombreMontaje){
+		//2 pasos, primero subir el archivo a Google Servers, segundo colocarlo en Google Photos
+		ClientResource cr1 = null;
+		ClientResource cr2 = null;
+		NewMediaItemResult resultMediaItem = null;
 		try {
-			cr = new ClientResource(uri + ":batchCreate");
-			cr.setEntityBuffering(true);
-			resultMediaItem = cr.post(MI, MediaItem.class);
+			//Subir el archivo a Google Servers (Se obtiene uploadToken)
+			InputStream inputStream = new FileInputStream(ficheromedia);
+			cr1 = new ClientResource("https://photoslibrary.googleapis.com/v1/uploads");
+			cr1.setEntityBuffering(true);
+			String uploadToken = cr1.post(inputStream,String.class);
+			//Meter el archivo en Google Photos
+			cr2 = new ClientResource(uri + ":batchCreate");
+			cr2.setEntityBuffering(true);
+			SimpleMediaItem SMI = new SimpleMediaItem(uploadToken,nombreMontaje);
+			NewMediaItem NMI = new NewMediaItem(SMI);
+			resultMediaItem = cr2.post(NMI, NewMediaItemResult.class);
 		} catch (ResourceException re){
 			System.out.println("Error when creating the MediaItem");
+		} catch (FileNotFoundException ex) {
+			System.out.println("File not found");
 		}
 		return resultMediaItem;
 	}

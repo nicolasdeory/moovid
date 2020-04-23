@@ -1,10 +1,10 @@
 package aiss.luis.model.enumerates;
 
 public enum MontageTheme {
-	ANIMALS, FASHION, LANDMARKS, RECEIPTS, WEDDINGS,
-	ARTS, FLOWERS, LANDSCAPES, SCREENSHOTS, WHITEBOARDS,
-	BIRTHDAYS, FOOD, NIGHT, SELFIES,	 
-	CITYSCAPES, GARDENS, PEOPLE, SPORT,	 
-	CRAFTS, HOLIDAYS, PERFORMANCES, TRAVEL,	 
-	DOCUMENTS, HOUSES, PETS, UTILITY
+	animals, fashion, landmarks, receipts, weddings,
+	arts, flowers, landscapes, screenshots, whiteboards,
+	birthdays, food, night, selfies,	 
+	cityscapes, gardens, people, sport,	 
+	crafts, holidays, perfomances, travel,	 
+	documents, houses, pets, utility
 }

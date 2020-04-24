@@ -6,7 +6,7 @@ a.button2{
     box-sizing: border-box;
     text-decoration:none;
     text-transform:uppercase;
-    font-family:'Sen',sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight:400;
     color:#f8f8f8;
     text-align:center;
@@ -35,7 +35,7 @@ a.button2:active{
 
 body{
     color: #f8f8f8;
-    font-family: 'Lato', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     
     
 }
@@ -46,7 +46,7 @@ body{
 
 
 .title{
-    font-family: 'Sen', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     text-align: center;
     text-transform: uppercase;
 }
@@ -81,6 +81,12 @@ footer{
 }
 
 .col-container {
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.col-container2 {
 
     display: flex;
     flex-direction: row;
@@ -120,51 +126,44 @@ footer{
 }
 
 .col-yellow1 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    background-color: #e3b04b;
-    height: 550px;
+    background-color: #FFD449;
+    height: 530px;
     width: 450px;
     position: fixed;
     left: 150px;
-    top: 150px;
+    top: 100px;
     color: black;
 }
 
 .col-yellow2 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    background-color: #e3b04b;
-    height: 550px;
+    background-color: #FFD449;
+    height: 530px;
     width: 700px;
     position: fixed;
-    left: 700px;
-    top: 150px;
+    left: 620px;
+    top: 100px;
     color: black;
 }
 
 a.button3{
     display:inline-block;
-    padding:0.5em 3em;
-    border:0.05em solid black;
-    margin:0 0.3em 2em 0;
+    padding:0.4em 2.7em;
+    border:0.03em solid black;
+    margin:0 0.3em 0.3em 0;
     box-sizing: border-box;
     text-decoration:none;
     text-transform:uppercase;
-    font-family:'Sen',sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight:400;
     color: black;
-    background-color:  #f3c25f;
+    background-color:  #FFD85A;
     text-align:center;
     transition: all 0.1s;
     width: auto;
     height: auto;
     font-size: 30px;
-    
+    margin-top: 15px;
+    margin-bottom: 20px;
 }
 
 a.button3:hover{
@@ -179,6 +178,34 @@ a.button3:hover{
     display: flex;
     flex-direction: column;
     align-items: center;
-    
 
 }
+
+.title-container{
+    display: flex;
+    padding: 30px 20px  20px  20px;
+   flex-direction: row;
+   align-items: center;
+}
+
+.title-inside-yellow{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 25px;
+    margin-left: 25px;
+    text-transform: uppercase;
+}
+
+.black-line {
+    height: 1px;
+   background-color: black;
+   flex-grow: 1;
+   margin-left: 25px;
+   margin-right: 20px;
+
+  }
+  .subtitle-for-yellow1{
+    padding: 10px 20px  10px  10px;
+    font-size: 14px;
+    text-align: center;
+    font-weight: 800;
+  }

@@ -27,11 +27,12 @@ public class VideoEncodeService
 	static final Integer videoHeight = 1080;
 	
 	
-	public static void Encode(String path/*, BufferedImage[] frames*/) throws IOException, InterruptedException
+	public static void Encode(String filePath/*, BufferedImage[] frames*/) throws IOException, InterruptedException
 	{
-		log.info("Encoding video");
+		log.info("Encoding new video");
+		long startTime = System.nanoTime(); // stopwatch
 		// Create H264 Muxer
-		final Muxer muxer = Muxer.make(path, null, "mp4"); // h264?
+		final Muxer muxer = Muxer.make(filePath, null, "mp4"); // h264?
 		
 		final MuxerFormat format = muxer.getFormat();
 		final Codec codec;
@@ -96,7 +97,6 @@ public class VideoEncodeService
 				if (packet.isComplete())
 					muxer.write(packet, false);
 			} while (packet.isComplete());
-			log.info(String.format("Video encode: %d / %d", i, framesToWrite));
 		}
 		
 		// Flush encoder
@@ -110,6 +110,8 @@ public class VideoEncodeService
 		// Clean-up
 		muxer.close();
 		
+		long endTime = System.nanoTime();
+		log.info("Encoded " + filePath + " in " + (endTime - startTime)/1000000000. + " seconds");
 	}
 	
 	private static void fillBufferedImageData(BufferedImage img, int[] data, int w, int h) 

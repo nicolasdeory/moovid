@@ -1,6 +1,8 @@
 package aiss.service.video;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.logging.Logger;
 
 import io.humble.video.Codec;
 import io.humble.video.Encoder;
@@ -16,6 +18,8 @@ import io.humble.video.awt.MediaPictureConverterFactory;
 public class VideoEncodeService 
 {
 
+	private static Logger log = Logger.getLogger(VideoEncodeService.class.getName());
+	
 	static final Integer defaultFps = 30;
 	static final Rational framerate = Rational.make(1, defaultFps);
 	
@@ -23,11 +27,11 @@ public class VideoEncodeService
 	static final Integer videoHeight = 1080;
 	
 	
-	public static void Encode(String path/*, BufferedImage[] frames*/)
+	public static void Encode(String path/*, BufferedImage[] frames*/) throws IOException, InterruptedException
 	{
-		
+		log.info("Encoding video");
 		// Create H264 Muxer
-		final Muxer muxer = Muxer.make(path, null, "h264"); // h264?
+		final Muxer muxer = Muxer.make(path, null, "mp4"); // h264?
 		
 		final MuxerFormat format = muxer.getFormat();
 		final Codec codec;
@@ -47,8 +51,10 @@ public class VideoEncodeService
 		if (format.getFlag(MuxerFormat.Flag.GLOBAL_HEADER))
 			encoder.setFlag(Encoder.Flag.FLAG_GLOBAL_HEADER, true);
 		
-		// Open encoder
+		// Open encoder and muxer
 		encoder.open(null, null);
+		muxer.addNewStream(encoder);
+		muxer.open(null, null);
 		
 		// Create converter from RGB to YCrCb format
 		MediaPictureConverter converter = null;
@@ -75,7 +81,7 @@ public class VideoEncodeService
 		// Write Example Video
 		for (int i = 0; i < framesToWrite; i++) 
 		{
-			BufferedImage frame = new BufferedImage(videoWidth, videoHeight, BufferedImage.TYPE_INT_RGB);
+			BufferedImage frame = new BufferedImage(videoWidth, videoHeight, BufferedImage.TYPE_3BYTE_BGR);
 			fillBufferedImageData(frame, rgbArray, videoWidth, videoHeight);
 			
 			// Convert from RGB to YUV420P
@@ -90,7 +96,7 @@ public class VideoEncodeService
 				if (packet.isComplete())
 					muxer.write(packet, false);
 			} while (packet.isComplete());
-
+			log.info(String.format("Video encode: %d / %d", i, framesToWrite));
 		}
 		
 		// Flush encoder

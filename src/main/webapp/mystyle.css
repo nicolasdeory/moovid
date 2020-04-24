@@ -201,6 +201,7 @@ a.button3:hover{
    flex-grow: 1;
    margin-left: 25px;
    margin-right: 20px;
+   opacity: 35%;
 
   }
   .subtitle-for-yellow1{

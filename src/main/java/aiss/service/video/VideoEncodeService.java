@@ -63,7 +63,7 @@ public class VideoEncodeService
 		picture.setTimeBase(framerate);
 		
 		// Example Video Generation
-		int duration = 1; // 1s
+		int duration = 60; // 60s
 		int framesToWrite = (int) (duration / framerate.getDouble());
 		
 		final MediaPacket packet = MediaPacket.make();
@@ -79,12 +79,12 @@ public class VideoEncodeService
 			}
 		}
 		
+		BufferedImage frame = new BufferedImage(videoWidth, videoHeight, BufferedImage.TYPE_3BYTE_BGR);
+		fillBufferedImageData(frame, rgbArray, videoWidth, videoHeight);
+		
 		// Write Example Video
 		for (int i = 0; i < framesToWrite; i++) 
 		{
-			BufferedImage frame = new BufferedImage(videoWidth, videoHeight, BufferedImage.TYPE_3BYTE_BGR);
-			fillBufferedImageData(frame, rgbArray, videoWidth, videoHeight);
-			
 			// Convert from RGB to YUV420P
 			if (converter == null)
 				converter = MediaPictureConverterFactory.createConverter(frame, picture);

@@ -10,7 +10,7 @@ public class VideoEncodeServiceTest {
 	@Test
 	public void testVideoEncode() throws Exception
 	{
-		VideoEncodeService.Encode("testvideo.mp4");
+		VideoEncodeService.Encode("temp/testvideo.mp4");
 		assertTrue(true);
 	}
 	

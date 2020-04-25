@@ -27,7 +27,7 @@ public class GooglePhotosMediaItemCreateController extends HttpServlet{
                 MediaItemResource miResource = new MediaItemResource(accessToken);
                 NewMediaItemResult MIResult = miResource.createMediaItem(MBD, "montajeMoovid");
                 if(MIResult!=null) {
-                	log.info("Files according to filters obtained");
+                	log.info("File created and uploaded succesfully");
                     req.setAttribute("MediaItems", MIResult);
                 }else {
                 	log.info("File was not created");

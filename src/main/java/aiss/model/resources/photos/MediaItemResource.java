@@ -39,7 +39,7 @@ public class MediaItemResource {
 		return list;
 	}
 
-	public  Collection<MediaItem> searchMediaItem(Filters[] filters){
+	public  Collection<MediaItem> searchMediaItem(Filters filters){
 		ClientResource cr = null;
 		MediaItem [] list = null;
 		try {

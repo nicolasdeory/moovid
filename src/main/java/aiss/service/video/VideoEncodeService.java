@@ -23,11 +23,7 @@ public class VideoEncodeService
 	static final Integer defaultFps = 30;
 	static final Rational framerate = Rational.make(1, defaultFps);
 	
-	static final Integer videoWidth = 1920;
-	static final Integer videoHeight = 1080;
-	
-	
-	public static void Encode(String filePath/*, BufferedImage[] frames*/) throws IOException, InterruptedException
+	public static void Encode(String filePath, int videoWidth, int videoHeight, FrameGenerator frames) throws IOException, InterruptedException
 	{
 		log.info("Encoding new video");
 		long startTime = System.nanoTime(); // stopwatch
@@ -63,40 +59,37 @@ public class VideoEncodeService
 		picture.setTimeBase(framerate);
 		
 		// Example Video Generation
-		int duration = 60; // 60s
-		int framesToWrite = (int) (duration / framerate.getDouble());
 		
 		final MediaPacket packet = MediaPacket.make();
 		
-		// Generate red color array
-		int[] rgbArray = new int[videoWidth*videoHeight];
-		for (int y = 0; y < videoHeight; y++)
-		{
-			for (int x = 0; x < videoWidth; x++)
-			{
-				int idx = y*videoWidth + x;
-				rgbArray[idx] = 0xff0000;
-			}
-		}
-		
-		BufferedImage frame = new BufferedImage(videoWidth, videoHeight, BufferedImage.TYPE_3BYTE_BGR);
-		fillBufferedImageData(frame, rgbArray, videoWidth, videoHeight);
-		
 		// Write Example Video
-		for (int i = 0; i < framesToWrite; i++) 
+		int frameCounter = 0;
+		while(frames.hasNext())
 		{
+			// Get next frame
+			Frame frame = frames.next();
+			BufferedImage frameImg = frame.getData();
 			// Convert from RGB to YUV420P
 			if (converter == null)
-				converter = MediaPictureConverterFactory.createConverter(frame, picture);
-			converter.toPicture(picture, frame, i);
+				converter = MediaPictureConverterFactory.createConverter(frameImg, picture);
 			
-			// Encode frame
-			do 
+			for (int i = 0; i < frame.getDuration(); i++)
 			{
-				encoder.encode(packet, picture);
-				if (packet.isComplete())
-					muxer.write(packet, false);
-			} while (packet.isComplete());
+				converter.toPicture(picture, frameImg, frameCounter);
+				// Encode frame
+				do 
+				{
+					encoder.encode(packet, picture);
+					if (packet.isComplete())
+						muxer.write(packet, false);
+				} while (packet.isComplete());
+				frameCounter++;
+				if (frameCounter % 30 == 0)
+				{
+					log.info("Encoding: " + frameCounter + " / " + frames.getTotalDuration());
+				}
+			}
+			
 		}
 		
 		// Flush encoder

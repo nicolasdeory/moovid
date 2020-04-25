@@ -1,6 +1,8 @@
 package aiss.controller.photos;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -8,26 +10,27 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import aiss.model.photos.mediaitem.MediaItem;
+import aiss.model.photos.mediaitem.NewMediaItemResult;
 import aiss.model.resources.photos.MediaItemResource;
 
-public class GooglePhotosMediaItemGetController extends HttpServlet{
-	
-	private static final Logger log = Logger.getLogger(GooglePhotosMediaItemGetController.class.getName());
+public class GooglePhotosMediaItemCreateController extends HttpServlet{
+
+	private static final Logger log = Logger.getLogger(GooglePhotosMediaItemCreateController.class.getName());
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        String id = req.getParameter("mediaItemId");
-        if (id != null && !"".equals(id)) {
+        String MBDString = req.getParameter("media-binary-data");
+        InputStream MBD = new ByteArrayInputStream(MBDString.getBytes());
+        if (MBD != null && !"".equals(MBD)) {
             String accessToken = (String) req.getSession().getAttribute("GooglePhotos-token");
             if (accessToken != null && !"".equals(accessToken)) {
                 MediaItemResource miResource = new MediaItemResource(accessToken);
-                MediaItem MI = miResource.getMediaItem(id);
-                if(MI!=null) {
-                	log.info("File with id '" + id + "' obtained");
-                    req.setAttribute("MediaItem", MI);
+                NewMediaItemResult MIResult = miResource.createMediaItem(MBD, "montajeMoovid");
+                if(MIResult!=null) {
+                	log.info("Files according to filters obtained");
+                    req.setAttribute("MediaItems", MIResult);
                 }else {
-                	log.info("File " + id + " could not be found!");
+                	log.info("File was not created");
                 	req.getRequestDispatcher("/AuthController/GooglePhotos").forward(req, resp);
                 }
                 
@@ -36,9 +39,13 @@ public class GooglePhotosMediaItemGetController extends HttpServlet{
                 req.getRequestDispatcher("/AuthController/GooglePhotos").forward(req, resp);
             }
         } else {
-            log.warning("Invalid id for obtain!");
+            log.warning("No file to upload");
             req.getRequestDispatcher("/googlePhotosFileList").forward(req, resp);
         }
     }
-
+    
+	@Override
+	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+		doGet(req, resp);
+	}
 }

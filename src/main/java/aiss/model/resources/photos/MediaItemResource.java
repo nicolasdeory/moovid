@@ -52,17 +52,16 @@ public class MediaItemResource {
 		return Arrays.asList(list);
 	}
 	
-	public  NewMediaItemResult createMediaItem(String ficheromedia, String nombreMontaje){
+	public  NewMediaItemResult createMediaItem(InputStream ficheromedia, String nombreMontaje){
 		//2 pasos, primero subir el archivo a Google Servers, segundo colocarlo en Google Photos
 		ClientResource cr1 = null;
 		ClientResource cr2 = null;
 		NewMediaItemResult resultMediaItem = null;
 		try {
 			//Subir el archivo a Google Servers (Se obtiene uploadToken)
-			InputStream inputStream = new FileInputStream(ficheromedia);
 			cr1 = new ClientResource("https://photoslibrary.googleapis.com/v1/uploads" + "?access_token=" + access_token);
 			cr1.setEntityBuffering(true);
-			String uploadToken = cr1.post(inputStream,String.class);
+			String uploadToken = cr1.post(ficheromedia,String.class);
 			//Meter el archivo en Google Photos
 			cr2 = new ClientResource(uri + ":batchCreate" + "?access_token=" + access_token);
 			cr2.setEntityBuffering(true);
@@ -71,8 +70,6 @@ public class MediaItemResource {
 			resultMediaItem = cr2.post(NMI, NewMediaItemResult.class);
 		} catch (ResourceException re){
 			System.out.println("Error when creating the MediaItem");
-		} catch (FileNotFoundException ex) {
-			System.out.println("File not found");
 		}
 		return resultMediaItem;
 	}

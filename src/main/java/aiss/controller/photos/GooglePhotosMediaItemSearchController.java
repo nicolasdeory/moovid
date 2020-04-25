@@ -15,11 +15,11 @@ import aiss.model.photos.filter.*;
 
 public class GooglePhotosMediaItemSearchController extends HttpServlet{
 	
-	private static final Logger log = Logger.getLogger(GooglePhotosMediaItemGetController.class.getName());
+	private static final Logger log = Logger.getLogger(GooglePhotosMediaItemSearchController.class.getName());
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        Filters[] flts = req.getParameter("filters");
+        Filters flts = req.getParameter("filters");
         if (flts != null && !"".equals(flts)) {
             String accessToken = (String) req.getSession().getAttribute("GooglePhotos-token");
             if (accessToken != null && !"".equals(accessToken)) {
@@ -42,4 +42,6 @@ public class GooglePhotosMediaItemSearchController extends HttpServlet{
             req.getRequestDispatcher("/googlePhotosFileList").forward(req, resp);
         }
     }
+    
+    
 }

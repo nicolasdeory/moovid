@@ -19,25 +19,31 @@ import aiss.model.photos.mediaitem.SimpleMediaItem;
 
 public class MediaItemResource {
 
+	private final String access_token;
 	private static String uri = "https://photoslibrary.googleapis.com/v1/mediaItems";
 	
-	public static MediaItem getMediaItem(String mediaItemId){
+	public MediaItemResource(String access_token) {
+		super();
+		this.access_token = access_token;
+	}
+
+	public  MediaItem getMediaItem(String mediaItemId){
 		ClientResource cr = null;
 		MediaItem list = null;
 		try {
-			cr = new ClientResource(uri + "/" + mediaItemId);
+			cr = new ClientResource(uri + "/" + mediaItemId + "?access_token=" + access_token);
 			list = cr.get(MediaItem.class);
 		} catch (ResourceException re){
 			System.out.println("Error when retrieving the media item: " + cr.getResponse().getStatus());
 		}
 		return list;
 	}
-	
-	public static Collection<MediaItem> searchMediaItem(Filters[] filters){
+
+	public  Collection<MediaItem> searchMediaItem(Filters[] filters){
 		ClientResource cr = null;
 		MediaItem [] list = null;
 		try {
-			cr = new ClientResource(uri + ":search");
+			cr = new ClientResource(uri + ":search" + "?access_token=" + access_token);
 			cr.setEntityBuffering(true);
 			list = cr.post(filters, MediaItem[].class);
 		} catch (ResourceException re){
@@ -46,7 +52,7 @@ public class MediaItemResource {
 		return Arrays.asList(list);
 	}
 	
-	public static NewMediaItemResult createMediaItem(String ficheromedia, String nombreMontaje){
+	public  NewMediaItemResult createMediaItem(String ficheromedia, String nombreMontaje){
 		//2 pasos, primero subir el archivo a Google Servers, segundo colocarlo en Google Photos
 		ClientResource cr1 = null;
 		ClientResource cr2 = null;
@@ -54,11 +60,11 @@ public class MediaItemResource {
 		try {
 			//Subir el archivo a Google Servers (Se obtiene uploadToken)
 			InputStream inputStream = new FileInputStream(ficheromedia);
-			cr1 = new ClientResource("https://photoslibrary.googleapis.com/v1/uploads");
+			cr1 = new ClientResource("https://photoslibrary.googleapis.com/v1/uploads" + "?access_token=" + access_token);
 			cr1.setEntityBuffering(true);
 			String uploadToken = cr1.post(inputStream,String.class);
 			//Meter el archivo en Google Photos
-			cr2 = new ClientResource(uri + ":batchCreate");
+			cr2 = new ClientResource(uri + ":batchCreate" + "?access_token=" + access_token);
 			cr2.setEntityBuffering(true);
 			SimpleMediaItem SMI = new SimpleMediaItem(uploadToken,nombreMontaje);
 			NewMediaItem NMI = new NewMediaItem(SMI);

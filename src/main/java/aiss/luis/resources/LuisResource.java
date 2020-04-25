@@ -1,15 +1,11 @@
 package aiss.luis.resources;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -38,7 +34,8 @@ public class LuisResource {
 		Sentiment sent = Sentiment.valueOf(query.get("prediction").get("sentiment").get("label").textValue());
 		switch(tipo) {
 		case CreateMontage:
-			MontageCreateIntent mcr = new MontageCreateIntent();
+			List<LocalDate> ls_date = retrieveDateRange(entities);
+			MontageCreateIntent mcr = new MontageCreateIntent(sent, ls, ls_date.get(0), ls_date.get(1));
 			return mcr;
 		case MontageThemeIntent:
 			MontageThemeIntent mth = new MontageThemeIntent(sent, ls);
@@ -104,6 +101,40 @@ public class LuisResource {
 		}
 		return ls;
 	}
+	
+	private static List<LocalDate> retrieveDateRange(JsonNode nodo) {
+		List<LocalDate> res = new ArrayList<LocalDate>();
+		String start = "";
+		String end = "";
+		if (nodo.has("datetimeV2") || (nodo.has("DateRange") && !nodo.get("DateRange").elements().next().isNull())) {
+			String tipo = nodo.findValue("type").textValue();
+			JsonNode resolution = nodo.findValue("resolution");
+			
+			if (tipo.equals("daterange")) {
+				start = resolution.elements().next().get("start").textValue();
+				end = resolution.elements().next().get("end").textValue();
+				
+			}
+			
+			else if (tipo.equals("date")) {
+				start = resolution.elements().next().get("value").textValue();
+				end = resolution.elements().next().get("value").textValue();
+			}
+			
+			else {
+				end = LocalDate.now().toString();
+				start = LocalDate.now().minusWeeks(2).toString();
+			}
+		}
+		
+		else {
+			end = LocalDate.now().toString();
+			start = LocalDate.now().minusWeeks(2).toString();
+		}
+		res.add(LocalDate.parse(start));
+		res.add(LocalDate.parse(end));
+		return res;
+	}
 	/*
 	public static void main(String[] args) {
 		 String content = "";
@@ -113,7 +144,7 @@ public class LuisResource {
 		        JsonNode query = new ObjectMapper().readTree(content);
 		        JsonNode entities = query.get("prediction").get("entities");
 		        Intent in = retrieveIntent(content);
-		        System.out.println("ekere");
+		        System.out.println("test");
 		        
 		    } 
 		    catch (IOException e) 

@@ -1,7 +1,5 @@
 package aiss.luis.model.classes;
 
-import java.time.LocalDate;
-
 import aiss.luis.model.enumerates.IntentType;
 import aiss.luis.model.enumerates.Sentiment;
 

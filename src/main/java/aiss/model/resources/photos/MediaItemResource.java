@@ -15,7 +15,6 @@ import aiss.model.photos.mediaitem.NewMediaItem;
 import aiss.model.photos.mediaitem.NewMediaItemResult;
 import aiss.model.photos.mediaitem.SimpleMediaItem;
 
-//Va static pq si no tendria que crearse un objeto MediaItemResource. Preguntar duda al doño (pq va estatico?)
 
 public class MediaItemResource {
 

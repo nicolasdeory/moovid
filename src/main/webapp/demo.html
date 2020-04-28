@@ -23,10 +23,11 @@
                 <div class="subtitle-for-yellow1">
                     Pulse el botón de la API que desea probar
                 </div>
-                <a href="info.html" class="button3">LUIS</a>
-                <a href="info.html" class="button3">SPOTIFY</a>
-                <a href="info.html" class="button3">PHOTOS</a>
+                <a id="luisbutton" onclick="luisAPI()" class="button3">LUIS</a>
+                <a id="spotifybutton" onclick="spotifyAPI()" class="button3">SPOTIFY</a>
+                <a id="photosbutton" onclick="photosAPI()" class="button3">PHOTOS</a>
             </div>
+            <script src="buttonscript.js"></script>
         </div>
 
         <div class="col-yellow2">
@@ -36,7 +37,7 @@
             </div>
             <div class="text-container">
                 <div class="text-yellow">
-                    <span>
+                    <span id="result">
                     gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
                     fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
                     gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg

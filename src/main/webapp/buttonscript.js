@@ -7,7 +7,8 @@ function spotifyAPI(){
 }
 
 function photosAPI(){
-    document.getElementById("result").innerHTML = "HAS HECHO CLICK EN EL BOTÓN DE GOOGLE PHOTOS";
+    document.getElementById("result").innerHTML = onSignIn(googleUser);
+
 }
 
 function onSignIn(googleUser) {

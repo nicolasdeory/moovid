@@ -1,0 +1,9 @@
+{	
+    "GooglePhotos": { 
+        "tokenUrl": "https://www.googleapis.com/oauth2/v4/token",
+        "clientId": "186255327720-v4o9771ktk9ibndv5i8i92hvupgb1arm.apps.googleusercontent.com",
+        "clientSecret": "oYi43eh2YJtnCNJMYnXJprpq",
+        "authorizationFormUrl": "https://accounts.google.com/o/oauth2/v2/auth",
+        "scopes": ["https://www.googleapis.com/auth/photoslibrary"]
+    }
+}		

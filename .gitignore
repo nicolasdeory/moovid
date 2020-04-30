@@ -23,3 +23,5 @@
 hs_err_pid*
 
 /target/
+
+src/main/resources/WEB-INF/OAuthConfig.json

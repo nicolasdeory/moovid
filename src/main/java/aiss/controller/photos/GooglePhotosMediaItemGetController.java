@@ -37,7 +37,7 @@ public class GooglePhotosMediaItemGetController extends HttpServlet{
             }
         } else {
             log.warning("Invalid id for obtain!");
-            req.getRequestDispatcher("/pruebaGoogle").forward(req, resp); //la url puede modificarse
+            req.getRequestDispatcher("/pruebagoogle").forward(req, resp); //la url puede modificarse
         }
     }
 }

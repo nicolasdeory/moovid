@@ -40,7 +40,7 @@ public class GooglePhotosMediaItemCreateController extends HttpServlet{
             }
         } else {
             log.warning("No file to upload");
-            req.getRequestDispatcher("/googlePhotosFileList").forward(req, resp); //la url puede modificarse
+            req.getRequestDispatcher("/pruebagoogle").forward(req, resp); //la url puede modificarse
         }
     }
     

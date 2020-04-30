@@ -40,7 +40,7 @@ public class GooglePhotosMediaItemSearchController extends HttpServlet{
             }
         } else {
             log.warning("Invalid filters!");
-            req.getRequestDispatcher("/pruebaGoogle").forward(req, resp); //la url puede modificarse
+            req.getRequestDispatcher("/pruebagoogle").forward(req, resp); //la url puede modificarse
         }
     }
     

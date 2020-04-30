@@ -18,7 +18,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>GooglePhotosMediaItemCreateController</servlet-name>
-        <url-pattern>/pruebaGoogle</url-pattern> <!-- aun no sabemos la URL -->
+        <url-pattern>/pruebagoogle</url-pattern> <!-- aun no sabemos la URL -->
     </servlet-mapping>
     
     <servlet>
@@ -27,7 +27,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>GooglePhotosMediaItemGetController</servlet-name>
-        <url-pattern>/pruebaGoogle</url-pattern> <!-- aun no sabemos la URL -->
+        <url-pattern>/pruebagoogle</url-pattern> <!-- aun no sabemos la URL -->
     </servlet-mapping>
     
     <servlet>
@@ -36,7 +36,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>GooglePhotosMediaItemSearchController</servlet-name>
-        <url-pattern>/pruebaGoogle</url-pattern> <!-- aun no sabemos la URL -->
+        <url-pattern>/pruebagoogle</url-pattern> <!-- aun no sabemos la URL -->
     </servlet-mapping>
 	
 	<welcome-file-list>
@@ -87,7 +87,7 @@
         </init-param>
         <init-param>
             <param-name>onSuccess</param-name>
-            <param-value>redirect:/pruebaGoogle</param-value> <!-- aun no sabemos la URL -->
+            <param-value>redirect:/pruebagoogle</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>

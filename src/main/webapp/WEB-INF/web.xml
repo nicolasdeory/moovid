@@ -11,13 +11,14 @@
 		<servlet-name>HelloWorld</servlet-name>
 		<url-pattern>/helloworld</url-pattern>
 	</servlet-mapping>
+	
 	<servlet>
         <servlet-name>GooglePhotosMediaItemCreateController</servlet-name>
         <servlet-class>aiss.controller.photos.GooglePhotosMediaItemCreateController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>GooglePhotosMediaItemCreateController</servlet-name>
-        <url-pattern>/googleDriveFileList</url-pattern> <!-- aun no sabemos la URL -->
+        <url-pattern>/pruebaGoogle</url-pattern> <!-- aun no sabemos la URL -->
     </servlet-mapping>
     
     <servlet>
@@ -26,7 +27,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>GooglePhotosMediaItemGetController</servlet-name>
-        <url-pattern>/googleDriveFileList</url-pattern> <!-- aun no sabemos la URL -->
+        <url-pattern>/pruebaGoogle</url-pattern> <!-- aun no sabemos la URL -->
     </servlet-mapping>
     
     <servlet>
@@ -35,7 +36,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>GooglePhotosMediaItemSearchController</servlet-name>
-        <url-pattern>/googleDriveFileList</url-pattern> <!-- aun no sabemos la URL -->
+        <url-pattern>/pruebaGoogle</url-pattern> <!-- aun no sabemos la URL -->
     </servlet-mapping>
 	
 	<welcome-file-list>
@@ -86,7 +87,7 @@
         </init-param>
         <init-param>
             <param-name>onSuccess</param-name>
-            <param-value>redirect:/googleDriveFileList</param-value> <!-- aun no sabemos la URL -->
+            <param-value>redirect:/pruebaGoogle</param-value> <!-- aun no sabemos la URL -->
         </init-param>
     </servlet>
     <servlet-mapping>

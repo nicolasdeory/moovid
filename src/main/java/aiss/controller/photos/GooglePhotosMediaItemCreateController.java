@@ -20,12 +20,12 @@ public class GooglePhotosMediaItemCreateController extends HttpServlet{
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String MBDString = req.getParameter("media-binary-data");
-        InputStream MBD = new ByteArrayInputStream(MBDString.getBytes());
-        if (MBD != null && !"".equals(MBD)) {
+        InputStream mediaBinaryData = new ByteArrayInputStream(MBDString.getBytes());
+        if (mediaBinaryData != null && !"".equals(mediaBinaryData)) {
             String accessToken = (String) req.getSession().getAttribute("GooglePhotos-token");
             if (accessToken != null && !"".equals(accessToken)) {
                 MediaItemResource miResource = new MediaItemResource(accessToken);
-                NewMediaItemResult MIResult = miResource.createMediaItem(MBD, "montajeMoovid");
+                NewMediaItemResult MIResult = miResource.createMediaItem(mediaBinaryData, "montajeMoovid");
                 if(MIResult!=null) {
                 	log.info("File created and uploaded succesfully");
                     req.setAttribute("MediaItems", MIResult);
@@ -40,7 +40,7 @@ public class GooglePhotosMediaItemCreateController extends HttpServlet{
             }
         } else {
             log.warning("No file to upload");
-            req.getRequestDispatcher("/googlePhotosFileList").forward(req, resp);
+            req.getRequestDispatcher("/googlePhotosFileList").forward(req, resp); //la url puede modificarse
         }
     }
     

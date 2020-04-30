@@ -19,7 +19,8 @@ public class GooglePhotosMediaItemSearchController extends HttpServlet{
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        Filters flts = req.getParameter("filters");
+    	String fltsstr = req.getParameter("filters");
+        Filters flts = null;
         if (flts != null && !"".equals(flts)) {
             String accessToken = (String) req.getSession().getAttribute("GooglePhotos-token");
             if (accessToken != null && !"".equals(accessToken)) {
@@ -39,7 +40,7 @@ public class GooglePhotosMediaItemSearchController extends HttpServlet{
             }
         } else {
             log.warning("Invalid filters!");
-            req.getRequestDispatcher("/googlePhotosFileList").forward(req, resp);
+            req.getRequestDispatcher("/pruebaGoogle").forward(req, resp); //la url puede modificarse
         }
     }
     

@@ -12,6 +12,33 @@
 		<url-pattern>/helloworld</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+        <servlet-name>GooglePhotosMediaItemCreateController</servlet-name>
+        <servlet-class>aiss.controller.photos.GooglePhotosMediaItemCreateController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GooglePhotosMediaItemCreateController</servlet-name>
+        <url-pattern>/skere1</url-pattern> <!-- aun no sabemos la URL -->
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>GooglePhotosMediaItemGetController</servlet-name>
+        <servlet-class>aiss.controller.photos.GooglePhotosMediaItemGetController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GooglePhotosMediaItemGetController</servlet-name>
+        <url-pattern>/PhotosGet</url-pattern> <!-- aun no sabemos la URL -->
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>GooglePhotosMediaItemSearchController</servlet-name>
+        <servlet-class>aiss.controller.photos.GooglePhotosMediaItemSearchController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GooglePhotosMediaItemSearchController</servlet-name>
+        <url-pattern>/skere2</url-pattern> <!-- aun no sabemos la URL -->
+    </servlet-mapping>
+	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
@@ -34,42 +61,38 @@
   			initiation servlet could be	/AuthController/X, and the url-pattern of the callback
   			 servlet must be /oauth2callback/X.
   -->
-  <!--    Spotify example -->
-  
-  <!--  
-  <servlet>
-    <description></description>
-    <display-name>SpotifyAuthController</display-name>
-    <servlet-name>SpotifyAuthController</servlet-name>
-    <servlet-class>aiss.controller.oauth.GenericAuthController</servlet-class>
-    <init-param>
-    	<param-name>provider</param-name>
-    	<param-value>Spotify</param-value>
-    </init-param>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>SpotifyAuthController</servlet-name>
-    <url-pattern>/AuthController/Spotify</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>SpotifyOAuth2Callback</display-name>
-    <servlet-name>SpotifyOAuth2Callback</servlet-name>
-    <servlet-class>aiss.controller.oauth.OAuth2Callback</servlet-class>
-    <init-param>
-    	<param-name>provider</param-name>
-    	<param-value>Spotify</param-value>
-    </init-param>
-    <init-param>
-    	<param-name>onSuccess</param-name>
-    	<param-value>close</param-value>
-    </init-param>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>SpotifyOAuth2Callback</servlet-name>
-    <url-pattern>/oauth2callback/Spotify</url-pattern>
-  </servlet-mapping>
-  
-  -->
+  <!--   GooglePhotos oAuth2 servlets    -->
+    <!-- GooglePhotosAuthController-->
+    <servlet>
+        <description/>
+        <servlet-name>GooglePhotosAuthController</servlet-name>
+        <servlet-class>aiss.controller.oauth.GenericAuthController</servlet-class>
+        <init-param>
+            <param-name>provider</param-name>
+            <param-value>GooglePhotos</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GooglePhotosAuthController</servlet-name>
+        <url-pattern>/AuthController/GooglePhotos</url-pattern>
+    </servlet-mapping>
+    <!--GooglePhotosOAuth2Callback-->
+    <servlet>
+        <description/>
+        <servlet-name>GooglePhotosOAuth2Callback</servlet-name>
+        <servlet-class>aiss.controller.oauth.OAuth2Callback</servlet-class>
+        <init-param>
+            <param-name>provider</param-name>
+            <param-value>GooglePhotos</param-value>
+        </init-param>
+        <init-param>
+            <param-name>onSuccess</param-name>
+            <param-value>redirect:/PhotosGet</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GooglePhotosOAuth2Callback</servlet-name>
+        <url-pattern>/oauth2callback/GooglePhotos</url-pattern> 
+    </servlet-mapping>
 
 </web-app>

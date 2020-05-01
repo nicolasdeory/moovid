@@ -1,7 +1,5 @@
 package aiss.model.resources.photos;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collection;
@@ -11,6 +9,7 @@ import org.restlet.resource.ResourceException;
 
 import aiss.model.photos.filter.Filters;
 import aiss.model.photos.mediaitem.MediaItem;
+import aiss.model.photos.mediaitem.MediaItems;
 import aiss.model.photos.mediaitem.NewMediaItem;
 import aiss.model.photos.mediaitem.NewMediaItemResult;
 import aiss.model.photos.mediaitem.SimpleMediaItem;
@@ -25,6 +24,22 @@ public class MediaItemResource {
 		super();
 		this.access_token = access_token;
 	}
+	
+	public MediaItems getMediaItems() {
+        ClientResource cr = null;
+        MediaItems mediaItems = null;
+        try {
+            cr = new ClientResource(uri + "?access_token=" + access_token);
+            String result = cr.get(String.class);
+            mediaItems = cr.get(MediaItems.class);
+
+        } catch (ResourceException re) {
+            System.out.println("Error when retrieving all files: " + cr.getResponse().getStatus());
+        }
+
+        return mediaItems;
+
+    }
 
 	public  MediaItem getMediaItem(String mediaItemId){
 		ClientResource cr = null;

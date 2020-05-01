@@ -18,7 +18,7 @@
 
 </head>
 
-<% String controller = null; %>
+<% String controller = "/PhotosList"; %>
 
 <c:if test="${not empty mediaItemId}">
     <% controller = "/PhotosGet";%>
@@ -39,7 +39,7 @@
                 </div>
                 <a id="luisbutton" onclick="luisAPI()" class="button3">LUIS</a>
                 <a id="spotifybutton" onclick="spotifyAPI()" class="button3">SPOTIFY</a>
-                <a id="photosbutton" href="/PhotosGet?mediaItemId=AD3_zO-0KFlYVkSHtToK1b5NVEc18sLHNo0U80CEqTBWciT8LC46oXbjm4QVdtGJoDnnCtvoQ1rnXJr1nOzLZMZ_bn2-aHljYA" onclick="photosAPI()" class="button3">PHOTOS</a>
+                <a id="photosbutton" href="/PhotosList" class="button3">PHOTOS</a>
             </div>
             <script src="buttonscript.js"></script>
         </div>

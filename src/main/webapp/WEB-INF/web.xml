@@ -22,6 +22,15 @@
     </servlet-mapping>
     
     <servlet>
+        <servlet-name>GooglePhotosMediaItemListController</servlet-name>
+        <servlet-class>aiss.controller.photos.GooglePhotosMediaItemListController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GooglePhotosMediaItemListController</servlet-name>
+        <url-pattern>/PhotosList</url-pattern> <!-- aun no sabemos la URL -->
+    </servlet-mapping>
+    
+    <servlet>
         <servlet-name>GooglePhotosMediaItemGetController</servlet-name>
         <servlet-class>aiss.controller.photos.GooglePhotosMediaItemGetController</servlet-class>
     </servlet>
@@ -87,7 +96,7 @@
         </init-param>
         <init-param>
             <param-name>onSuccess</param-name>
-            <param-value>redirect:/PhotosGet</param-value>
+            <param-value>redirect:/PhotosList</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>

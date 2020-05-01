@@ -27,7 +27,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>GooglePhotosMediaItemGetController</servlet-name>
-        <url-pattern>/pruebagoogle</url-pattern> <!-- aun no sabemos la URL -->
+        <url-pattern>/PhotosGet</url-pattern> <!-- aun no sabemos la URL -->
     </servlet-mapping>
     
     <servlet>
@@ -87,7 +87,7 @@
         </init-param>
         <init-param>
             <param-name>onSuccess</param-name>
-            <param-value>redirect:/pruebagoogle</param-value>
+            <param-value>redirect:/PhotosGet</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>

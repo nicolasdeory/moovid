@@ -126,7 +126,7 @@ public class GooglePhotosMediaItemSearchController extends HttpServlet{
 		ContentCategory[] excluded = new ContentCategory[excludedList.size()];
 		includedList.toArray(included);
 		excludedList.toArray(excluded);
-		ContentFilter contentFilter = new ContentFilter(included,excluded)
+		ContentFilter contentFilter = new ContentFilter(included,excluded);
 		
 		//Creacion de MediaTypeFilter (solo 1 parametro, mediatypes)
 		String elementos_mediatypes = parametrosMediaTypeFilter.split(":")[1].trim();

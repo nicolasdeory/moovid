@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html lang="es">
 
 <head>
@@ -17,6 +18,12 @@
 
 </head>
 
+<% String controller = null; %>
+
+<c:if test="${not empty mediaItemId}">
+    <% controller = "/PhotosGet";%>
+</c:if>
+
 <body>
     <img class="bg" src="images/background.png" />
 
@@ -32,7 +39,7 @@
                 </div>
                 <a id="luisbutton" onclick="luisAPI()" class="button3">LUIS</a>
                 <a id="spotifybutton" onclick="spotifyAPI()" class="button3">SPOTIFY</a>
-                <a id="photosbutton" href="/pruebagoogle?mediaItemId=AD3_zO-0KFlYVkSHtToK1b5NVEc18sLHNo0U80CEqTBWciT8LC46oXbjm4QVdtGJoDnnCtvoQ1rnXJr1nOzLZMZ_bn2-aHljYA" class="button3">PHOTOS</a>
+                <a id="photosbutton" href="/PhotosGet?mediaItemId=AD3_zO-0KFlYVkSHtToK1b5NVEc18sLHNo0U80CEqTBWciT8LC46oXbjm4QVdtGJoDnnCtvoQ1rnXJr1nOzLZMZ_bn2-aHljYA" onclick="photosAPI()" class="button3">PHOTOS</a>
             </div>
             <script src="buttonscript.js"></script>
         </div>

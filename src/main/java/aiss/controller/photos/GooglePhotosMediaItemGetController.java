@@ -26,6 +26,7 @@ public class GooglePhotosMediaItemGetController extends HttpServlet{
                 if(MI!=null) {
                 	log.info("File with id '" + id + "' obtained");
                     req.setAttribute("MediaItem", MI);
+                    req.getRequestDispatcher("demo.jsp").forward(req, resp);
                 }else {
                 	log.info("File " + id + " could not be found!");
                 	req.getRequestDispatcher("/AuthController/GooglePhotos").forward(req, resp);
@@ -36,7 +37,7 @@ public class GooglePhotosMediaItemGetController extends HttpServlet{
                 req.getRequestDispatcher("/AuthController/GooglePhotos").forward(req, resp);
             }
         } else {
-            log.warning("Invalid id for obtain!");
+            log.warning("No ID yet");
             req.getRequestDispatcher("error.html").forward(req, resp); //la url puede modificarse
         }
     }

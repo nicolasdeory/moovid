@@ -7,7 +7,7 @@ function spotifyAPI(){
 }
 
 function photosAPI(){
-    document.getElementById("result").innerHTML = onSignIn(googleUser);
+    document.getElementById("result").innerHTML = requestScope.mediaItem.filename;
 
 }
 

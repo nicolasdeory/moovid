@@ -8,8 +8,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class SpotifyResource {
 
-	private static String getRecommendationsURI(List<String> artistsID, String danceability, String energy,
-			String instrumentalness, String tempo, String valence) {
+	public static String getRecommendationsURI(List<String> artistsID, String danceability, String energy,
+			String tempo, String valence) {
 		String uri = "https://api.spotify.com/v1/recommendations?";
 		uri += "limit=1";
 		uri += "&seed_artists=";
@@ -17,26 +17,32 @@ public class SpotifyResource {
 			uri += id + ",";
 		uri = uri.substring(0, uri.length() - 1);
 		if (danceability.equals("true"))
-		uri += "&target_danceability=" + danceability;
+		uri += "&target_danceability=0.9";
 		if (!energy.equals("none"))
-			if (energy.equals(""))
-			uri += "&target_energy=" + energy;
-		if (!instrumentalness.equals("none"))
-			uri += "&target_instrumentalness=" + instrumentalness;
+			if (energy.equals("highenergy"))
+				uri += "&target_energy=0.8";
+			else
+				uri += "&target_energy=0.2";
 		if (!tempo.equals("none"))
-			uri += "&target_tempo=";
-		if (!valence.contentEquals("none"))
-			uri += "&target_valence=" + valence; 
+			if (tempo.equals("fastpaced"))
+				uri += "&target_tempo=0.8";
+			else
+				uri += "&target_tempo=0.2";
+		if (!valence.equals("none"))
+			if (valence.equals("happy"))
+				uri += "&target_valence=0.8";
+			else
+				uri += "&target_valence=0.2";
 		return uri;
 	}
 	
-	private static String getArtistURI(String artist) {
+	public static String getArtistURI(String artist) {
 		String uri = "https://api.spotify.com/v1/search?q=";
 		uri += artist + "&type=artist";
 		return uri;
 	}
 	
-	private static String getSearch(String json) {
+	public static String getSearch(String json) {
 		JsonNode query = null;
 		try {
 			query = new ObjectMapper().readTree(json);
@@ -50,7 +56,7 @@ public class SpotifyResource {
 		return res;
 	}
 	
-	private static String getArtistId(String json){
+	public static String getArtistId(String json){
 		JsonNode query = null;
 		try {
 			query = new ObjectMapper().readTree(json);

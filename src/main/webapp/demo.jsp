@@ -49,39 +49,52 @@
                 <div class="title-inside-yellow">RESPONSE</div>
                 <div class="black-line"></div>
             </div>
-            <div class="text-container">
-                <div class="text-yellow">
-                    <span id="result">
-                    gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
-                    fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
-                    gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
-                    fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
-                    gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
-                    fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
-                    gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
-                    fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
-                    gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
-                    fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
-                    gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
-                    fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
-                    gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
-                    fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
-                    gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
-                    fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
-                    gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
-                    fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
-                    gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
-                    fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
-                    gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
-                    fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
-                    gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
-                    fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
-                    gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
-                    fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
-                    gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
-                </span>
-                </div>
-            </div>
+            <c:choose>
+    			<c:when test="${not empty mediaItems}">
+        			<div class="text-container">
+                		<div class="text-yellow">
+                    		<span id="result">
+                    		
+                			</span>
+                		</div>
+            		</div>
+    			</c:when>    
+    			<c:otherwise>
+        			<div class="text-container">
+                		<div class="text-yellow">
+                    		<span id="result">
+                    		gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
+                    		fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
+                    		gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
+                    		fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
+                    		gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
+                    		fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
+                    		gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
+                    		fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
+                    		gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
+                    		fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
+                    		gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
+                    		fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
+                    		gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
+                    		fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
+                    		gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
+                    		fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
+                    		gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
+                    		fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
+                    		gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
+                    		fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
+                    		gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
+                    		fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
+                    		gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
+                    		fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
+                    		gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
+                    		fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
+                    		gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
+                			</span>
+                		</div>
+            		</div> 
+    			</c:otherwise>
+			</c:choose>
         </div>
 
     </div>

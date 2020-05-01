@@ -38,7 +38,7 @@ public class SpotifyGetNameController extends HttpServlet{
 				uri_artist += artist + "&type=artist";
 				ClientResource cr_ar = new ClientResource(uri_artist);
 				String json_artist = cr_ar.get(String.class);
-				id.add(SpotifyResource.getArtist(json_artist));
+				id.add(SpotifyResource.getArtistFromJson(json_artist));
 			}
 			String uri_search = "https://api.spotify.com/v1/recommendations?";
 			uri_search += "limit=1";
@@ -46,6 +46,7 @@ public class SpotifyGetNameController extends HttpServlet{
 			for (Artist artist : id)
 				uri_search += artist.getId() + ",";
 			uri_search = uri_search.substring(0, uri_search.length() - 1);
+			//TODO: dejarlo en el resource como antes
 			if (danceability.equals("true"))
 				uri_search += "&target_danceability=0.9";
 			if (energy.equals("highenergy"))
@@ -62,7 +63,7 @@ public class SpotifyGetNameController extends HttpServlet{
 				uri_search += "&target_valence=0.2";
 			ClientResource cr_sr = new ClientResource(uri_search);
 			String json_song = cr_sr.get(String.class);
-			Song song = SpotifyResource.getSong(json_song);
+			Song song = SpotifyResource.getSongFromJson(json_song);
 			request.setAttribute("song", song.toString());
 			request.getRequestDispatcher("/.jsp").forward(request, response);
 			

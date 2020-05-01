@@ -8,22 +8,24 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class SpotifyResource {
 
-	private static String getRecommendationsURI(List<String> artistsID, Integer limit, Double danceability, Double energy,
-			Double instrumentalness, Double tempo, Double valence) {
+	private static String getRecommendationsURI(List<String> artistsID, String danceability, String energy,
+			String instrumentalness, String tempo, String valence) {
 		String uri = "https://api.spotify.com/v1/recommendations?";
-		uri += "limit=" + limit;
+		uri += "limit=1";
 		uri += "&seed_artists=";
 		for (String id : artistsID)
 			uri += id + ",";
 		uri = uri.substring(0, uri.length() - 1);
+		if (danceability.equals("true"))
 		uri += "&target_danceability=" + danceability;
-		if (energy != -1.0)
+		if (!energy.equals("none"))
+			if (energy.equals(""))
 			uri += "&target_energy=" + energy;
-		if (instrumentalness != -1.0)
+		if (!instrumentalness.equals("none"))
 			uri += "&target_instrumentalness=" + instrumentalness;
-		if (tempo != -1.0)
+		if (!tempo.equals("none"))
 			uri += "&target_tempo=";
-		if (valence != -1.0)
+		if (!valence.contentEquals("none"))
 			uri += "&target_valence=" + valence; 
 		return uri;
 	}

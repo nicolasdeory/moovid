@@ -23,7 +23,7 @@ public class Song {
 	}
 	
 	public String toString() {
-		return this.artist + "%20" + this.name;
+		return this.artist + " - " + this.name;
 	}
 	
 }

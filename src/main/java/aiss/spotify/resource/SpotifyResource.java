@@ -78,6 +78,7 @@ public class SpotifyResource {
 			JsonNode cancion = query.get("tracks").elements().next();
 			String artist = cancion.get("artists").elements().next().get("name").textValue();
 			String name = cancion.get("name").textValue();
+			name.replaceAll("%20", " ");
 			Song res = new Song(artist, name);
 			log.log(Level.FINEST, "Successfully obtained Song object from JSON: " + res);
 			return res;
@@ -145,6 +146,10 @@ public class SpotifyResource {
 		if (!isAuthorized()) authorize();
 		log.log(Level.FINE, "Searching recommendations at endpoint: " + uri);
 		ClientResource cr_sr = new ClientResource(uri);
+		ChallengeResponse chres = new ChallengeResponse(
+				ChallengeScheme.HTTP_OAUTH_BEARER);
+		chres.setRawValue(token.getAccessToken());
+		cr_sr.getRequest().setChallengeResponse(chres);
 		return cr_sr.get(String.class);
 	}
 }

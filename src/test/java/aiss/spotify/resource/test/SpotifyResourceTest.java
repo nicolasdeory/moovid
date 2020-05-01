@@ -19,7 +19,7 @@ public class SpotifyResourceTest {
 	public void testGetArtistIds() throws Exception{
 		if (!SpotifyResource.isAuthorized())
 			SpotifyResource.authorize();
-		List<Artist> art = SpotifyResource.getArtistIds("zedd,savant");
+		List<Artist> art = SpotifyResource.getArtistIds("Zedd,Savant");
 		assertEquals(art.get(0).getId(),"2qxJFvFYMEDqd7ui6kSAcq");
 		assertEquals(art.get(1).getId(),"5RBdF1pJSLF3ugc2Y2PoB8");
 	}
@@ -28,15 +28,15 @@ public class SpotifyResourceTest {
 	public void testGetRecommendations() throws Exception{
 		if (!SpotifyResource.isAuthorized())
 			SpotifyResource.authorize();
-		List<Artist> art = SpotifyResource.getArtistIds("savant");
+		List<Artist> art = SpotifyResource.getArtistIds("Virtual Riot");
 		String danceability = "false";
 		String energy = "highenergy";
 		String tempo = "none";
-		String valence = "happy";
+		String valence = "sad";
 		String json = SpotifyResource.getRecommendations(art, danceability,
 				energy, tempo, valence);
 		Song song = SpotifyResource.getSongFromJson(json);
-		System.out.println(song);
+		assertEquals(song.toString(), "Virtual Riot - Continue");
 	}
 	
 }

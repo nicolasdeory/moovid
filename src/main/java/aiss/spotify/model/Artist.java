@@ -16,4 +16,11 @@ public class Artist {
 	public void setId(String id) {
 		this.id = id;
 	}
+
+	@Override
+	public String toString() {
+		return "Artist [id=" + id + "]";
+	}
+	
+	
 }

@@ -5,6 +5,11 @@ public class ContentFilter{
 	private ContentCategory[] includedContentCategories;
 	private ContentCategory[] excludedContentCategories;
 	
+	public ContentFilter(ContentCategory[] includedContentCategories, ContentCategory[] excludedContentCategories) {
+		super();
+		this.includedContentCategories = includedContentCategories;
+		this.excludedContentCategories = excludedContentCategories;
+	}
 	public ContentCategory[] getIncludedContentCategories() {
 		return includedContentCategories;
 	}

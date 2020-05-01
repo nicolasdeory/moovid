@@ -4,6 +4,10 @@ public class FeatureFilter{
 	
 	private Feature[] includedFeatures;
 	
+	public FeatureFilter(Feature[] includedFeatures) {
+		super();
+		this.includedFeatures = includedFeatures;
+	}
 	public Feature[] getIncludedFeatures() {
 		return includedFeatures;
 	}

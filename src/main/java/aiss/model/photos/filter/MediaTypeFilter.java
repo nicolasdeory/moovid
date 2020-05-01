@@ -4,6 +4,10 @@ public class MediaTypeFilter{
 	
 	private MediaType[] mediaTypes;
 	
+	public MediaTypeFilter(MediaType[] mediaTypes) {
+		super();
+		this.mediaTypes = mediaTypes;
+	}
 	public MediaType[] getMediaTypes() {
 		return mediaTypes;
 	}

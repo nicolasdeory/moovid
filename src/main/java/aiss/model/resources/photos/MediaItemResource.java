@@ -40,6 +40,23 @@ public class MediaItemResource {
         return mediaItems;
 
     }
+	
+	public String getMediaItemsString() {
+        ClientResource cr = null;
+        MediaItems mediaItems = null;
+        String result = null;
+        try {
+            cr = new ClientResource(uri + "?access_token=" + access_token);
+            result = cr.get(String.class);
+            mediaItems = cr.get(MediaItems.class);
+
+        } catch (ResourceException re) {
+            System.out.println("Error when retrieving all files: " + cr.getResponse().getStatus());
+        }
+
+        return result;
+
+    }
 
 	public  MediaItem getMediaItem(String mediaItemId){
 		ClientResource cr = null;

@@ -17,7 +17,6 @@
     <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 
 </head>
-
 <% String controller = "/PhotosList"; %>
 
 <c:if test="${not empty mediaItemId}">
@@ -35,7 +34,7 @@
             </div>
             <div class="col-content middle">
                 <div class="subtitle-for-yellow1">
-                    Pulse el botón de la API que desea probar
+                    Press the API button you desire to try
                 </div>
                 <a id="luisbutton" onclick="luisAPI()" class="button3">LUIS</a>
                 <a id="spotifybutton" onclick="spotifyAPI()" class="button3">SPOTIFY</a>
@@ -50,12 +49,12 @@
                 <div class="black-line"></div>
             </div>
             <c:choose>
-    			<c:when test="${not empty mediaItems}">
+    			<c:when test="${not empty cajademo}">
         			<div class="text-container">
                 		<div class="text-yellow">
                     		<span id="result">
-                    		
-                			</span>
+                    		<c:out value="${requestScope.cajademo}"/>
+                    		</span>
                 		</div>
             		</div>
     			</c:when>    

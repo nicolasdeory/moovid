@@ -23,5 +23,12 @@ public class MediaItems implements Serializable{
 		this.nextPageToken = nextPageToken;
 	}
 	
+	@Override
+	public String toString() {
+		return "MediaItems [items=" + items + ", nextPageToken=" + nextPageToken + "]";
+	}
+	
+	
+	
 	
 }

@@ -21,10 +21,10 @@ public class GooglePhotosMediaItemListController extends HttpServlet{
     	log.info("token is: " + accessToken);
     	if (accessToken != null && !"".equals(accessToken)) {
     		MediaItemResource miResource = new MediaItemResource(accessToken);
-            MediaItems MIs = miResource.getMediaItems();
+            String MIs = miResource.getMediaItemsString();
             if(MIs!=null) {
                 log.info("Files obtained");
-                req.setAttribute("MediaItems", MIs);
+                req.setAttribute("cajademo", MIs);
                 req.getRequestDispatcher("/demo.jsp").forward(req, resp);
             }else {
                 log.info("Files could not be found!");

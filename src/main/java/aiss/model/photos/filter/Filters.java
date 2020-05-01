@@ -9,6 +9,16 @@ public class Filters {
 	private Boolean includeArchivedMedia;
 	private Boolean excludeNonAppCreatedData;
 	
+	public Filters(DateFilter dateFilter, ContentFilter contentFilter, MediaTypeFilter mediaTypeFilter,
+			FeatureFilter featureFilter, Boolean includeArchivedMedia, Boolean excludeNonAppCreatedData) {
+		super();
+		this.dateFilter = dateFilter;
+		this.contentFilter = contentFilter;
+		this.mediaTypeFilter = mediaTypeFilter;
+		this.featureFilter = featureFilter;
+		this.includeArchivedMedia = includeArchivedMedia;
+		this.excludeNonAppCreatedData = excludeNonAppCreatedData;
+	}
 	public DateFilter getDateFilter() {
 		return dateFilter;
 	}

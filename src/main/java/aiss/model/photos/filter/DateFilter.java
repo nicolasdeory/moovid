@@ -7,6 +7,11 @@ public class DateFilter{
 	private Date[] dates;
 	private DateRange[] ranges;
 	
+	public DateFilter(Date[] dates, DateRange[] ranges) {
+		super();
+		this.dates = dates;
+		this.ranges = ranges;
+	}
 	public Date[] getDates() {
 		return dates;
 	}

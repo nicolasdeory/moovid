@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import aiss.model.photos.filter.ContentCategory;
 import aiss.model.photos.filter.ContentFilter;
+import aiss.model.photos.filter.Date;
+import aiss.model.photos.filter.DateFilter;
+import aiss.model.photos.filter.DateRange;
 import aiss.model.photos.filter.Feature;
 import aiss.model.photos.filter.FeatureFilter;
 import aiss.model.photos.filter.Filters;
@@ -62,6 +65,38 @@ public class GooglePhotosMediaItemSearchController extends HttpServlet{
 		String includeArchivedMediastr = parametrosFilters[4].trim();
 		String excludeNonAppCreatedDatastr = parametrosFilters[5].trim();
 		//Creacion de DateFilter (consta de 2 parametros, dates y ranges)
+		String[] datesstr = parametrosDateFilter[0].split(":")[1].split("|");
+		String[] dateRangesstr = parametrosDateFilter[1].split(":")[1].split("|");
+		List<Date> datesList = new ArrayList<Date>();
+		List<DateRange> dateRangesList= new ArrayList<DateRange>();
+		for(String datestr:datesstr) {
+			String splits[] = datestr.split(".");
+			Integer day = Integer.valueOf(splits[0].trim());
+			Integer month = Integer.valueOf(splits[1].trim());
+			Integer year = Integer.valueOf(splits[2].trim());
+			Date date = new Date(year,month,day);
+			datesList.add(date);
+		}
+		for(String dateRangestr:dateRangesstr) {
+			String[] dates = dateRangestr.split("-");
+			String[] date1str = dates[0].trim().split(".");
+			String[] date2str = dates[1].trim().split(".");
+			Integer day1 = Integer.valueOf(date1str[0].trim());
+			Integer month1 = Integer.valueOf(date1str[1].trim());
+			Integer year1 = Integer.valueOf(date1str[2].trim());
+			Integer day2 = Integer.valueOf(date2str[0].trim());
+			Integer month2 = Integer.valueOf(date2str[1].trim());
+			Integer year2 = Integer.valueOf(date2str[2].trim());
+			Date date1 = new Date(year1,month1,day1);
+			Date date2 = new Date(year2,month2,day2);
+			DateRange dateRange = new DateRange(date1,date2);
+			dateRangesList.add(dateRange);
+		}
+		Date[] dates = new Date[datesList.size()];
+		DateRange[] dateRanges = new DateRange[dateRangesList.size()];
+		datesList.toArray(dates);
+		dateRangesList.toArray(dateRanges);
+		DateFilter dateFilter = new DateFilter(dates,dateRanges);
 		
 		//Creacion de ContentFilter (consta de 2 parametros, included y excluded)
 		String includedstr = parametrosContentFilter[0].split(":")[1].trim();
@@ -153,10 +188,12 @@ public class GooglePhotosMediaItemSearchController extends HttpServlet{
 		
 		//Creacion de excludeNonAppCreatedData
 		Boolean excludeNonAppCreatedData = false;
-		if(excludeNonAppCreatedData.equals("true")) includeArchivedMedia = true;
+		if(excludeNonAppCreatedDatastr.equals("true")) excludeNonAppCreatedData = true;
 		
 		//Creacion de Filters
-		return null;
+		Filters filter = new Filters(dateFilter,contentFilter,mediaTypeFilter,featureFilter,
+				includeArchivedMedia,excludeNonAppCreatedData);
+		return filter;
 	}
     
     

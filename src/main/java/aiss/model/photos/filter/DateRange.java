@@ -1,12 +1,15 @@
 package aiss.model.photos.filter;
 
-import com.google.appengine.repackaged.com.google.type.Date;
-
 public class DateRange {
 
 	private Date startDate;
 	private Date endDate;
 	
+	public DateRange(Date startDate, Date endDate) {
+		super();
+		this.startDate = startDate;
+		this.endDate = endDate;
+	}
 	public Date getStartDate() {
 		return startDate;
 	}

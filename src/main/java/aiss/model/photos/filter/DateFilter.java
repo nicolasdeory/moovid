@@ -1,7 +1,5 @@
 package aiss.model.photos.filter;
 
-import com.google.appengine.repackaged.com.google.type.Date;
-
 public class DateFilter{
 	
 	private Date[] dates;

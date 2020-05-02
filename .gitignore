@@ -24,5 +24,9 @@ hs_err_pid*
 
 /target/
 
+
 # Api Keys
 /keys/
+
+src/main/resources/WEB-INF/OAuthConfig.json
+

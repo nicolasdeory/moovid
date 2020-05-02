@@ -1,4 +1,4 @@
-package aiss.luis.resources;
+package aiss.resources.luis;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -12,17 +12,17 @@ import org.restlet.resource.ClientResource;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import aiss.luis.model.classes.Intent;
-import aiss.luis.model.classes.MontageCreateIntent;
-import aiss.luis.model.classes.MontageThemeIntent;
-import aiss.luis.model.classes.MusicIntent;
-import aiss.luis.model.classes.SpecificThemeIntent;
-import aiss.luis.model.enumerates.IntentType;
-import aiss.luis.model.enumerates.MontageTheme;
-import aiss.luis.model.enumerates.MusicEnergy;
-import aiss.luis.model.enumerates.MusicMood;
-import aiss.luis.model.enumerates.MusicTempo;
-import aiss.luis.model.enumerates.Sentiment;
+import aiss.model.luis.classes.Intent;
+import aiss.model.luis.classes.MontageCreateIntent;
+import aiss.model.luis.classes.MontageThemeIntent;
+import aiss.model.luis.classes.MusicIntent;
+import aiss.model.luis.classes.SpecificThemeIntent;
+import aiss.model.luis.enumerates.IntentType;
+import aiss.model.luis.enumerates.MontageTheme;
+import aiss.model.luis.enumerates.MusicEnergy;
+import aiss.model.luis.enumerates.MusicMood;
+import aiss.model.luis.enumerates.MusicTempo;
+import aiss.model.luis.enumerates.Sentiment;
 
 public class LuisResource {
 

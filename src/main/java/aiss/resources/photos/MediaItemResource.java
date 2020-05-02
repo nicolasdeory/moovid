@@ -1,4 +1,4 @@
-package aiss.model.resources.photos;
+package aiss.resources.photos;
 
 import java.io.InputStream;
 import java.util.Arrays;

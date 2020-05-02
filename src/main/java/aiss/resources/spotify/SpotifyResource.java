@@ -1,4 +1,4 @@
-package aiss.spotify.resource;
+package aiss.resources.spotify;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -21,9 +21,9 @@ import org.restlet.resource.ResourceException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import aiss.spotify.model.AccessToken;
-import aiss.spotify.model.Artist;
-import aiss.spotify.model.Song;
+import aiss.model.spotify.AccessToken;
+import aiss.model.spotify.Artist;
+import aiss.model.spotify.Song;
 
 public class SpotifyResource {
 	

@@ -1,12 +1,12 @@
-package aiss.luis.model.classes;
+package aiss.model.luis.classes;
 
 import java.util.List;
 
-import aiss.luis.model.enumerates.IntentType;
-import aiss.luis.model.enumerates.MusicEnergy;
-import aiss.luis.model.enumerates.MusicMood;
-import aiss.luis.model.enumerates.MusicTempo;
-import aiss.luis.model.enumerates.Sentiment;
+import aiss.model.luis.enumerates.IntentType;
+import aiss.model.luis.enumerates.MusicEnergy;
+import aiss.model.luis.enumerates.MusicMood;
+import aiss.model.luis.enumerates.MusicTempo;
+import aiss.model.luis.enumerates.Sentiment;
 
 public class MusicIntent extends Intent{
 	protected List<String> author;

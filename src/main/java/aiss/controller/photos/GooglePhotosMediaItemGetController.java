@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import aiss.model.photos.mediaitem.MediaItem;
-import aiss.model.resources.photos.MediaItemResource;
+import aiss.resources.photos.MediaItemResource;
 
 public class GooglePhotosMediaItemGetController extends HttpServlet{
 	

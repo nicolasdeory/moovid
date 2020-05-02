@@ -22,7 +22,7 @@ import aiss.model.photos.filter.Filters;
 import aiss.model.photos.filter.MediaType;
 import aiss.model.photos.filter.MediaTypeFilter;
 import aiss.model.photos.mediaitem.MediaItem;
-import aiss.model.resources.photos.MediaItemResource;
+import aiss.resources.photos.MediaItemResource;
 
 public class GooglePhotosMediaItemSearchController extends HttpServlet{
 	

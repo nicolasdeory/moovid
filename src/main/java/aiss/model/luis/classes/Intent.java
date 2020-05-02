@@ -1,7 +1,7 @@
-package aiss.luis.model.classes;
+package aiss.model.luis.classes;
 
-import aiss.luis.model.enumerates.IntentType;
-import aiss.luis.model.enumerates.Sentiment;
+import aiss.model.luis.enumerates.IntentType;
+import aiss.model.luis.enumerates.Sentiment;
 
 public class Intent {
 

@@ -1,11 +1,11 @@
-package aiss.luis.model.classes;
+package aiss.model.luis.classes;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import aiss.luis.model.enumerates.IntentType;
-import aiss.luis.model.enumerates.MontageTheme;
-import aiss.luis.model.enumerates.Sentiment;
+import aiss.model.luis.enumerates.IntentType;
+import aiss.model.luis.enumerates.MontageTheme;
+import aiss.model.luis.enumerates.Sentiment;
 
 public class MontageCreateIntent extends Intent{
 	protected List<MontageTheme> themeEntities;

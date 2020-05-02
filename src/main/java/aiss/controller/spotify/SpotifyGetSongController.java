@@ -1,4 +1,4 @@
-package aiss.spotify.controller;
+package aiss.controller.spotify;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.restlet.resource.ClientResource;
 
-import aiss.spotify.model.Artist;
-import aiss.spotify.model.Song;
-import aiss.spotify.resource.SpotifyResource;
+import aiss.model.spotify.Artist;
+import aiss.model.spotify.Song;
+import aiss.resources.spotify.SpotifyResource;
 
 
 public class SpotifyGetSongController extends HttpServlet{

@@ -1,107 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-	version="2.5">
-	<servlet>
-		<servlet-name>HelloWorld</servlet-name>
-		<servlet-class>aiss.HelloWorldServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>HelloWorld</servlet-name>
-		<url-pattern>/helloworld</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-        <servlet-name>GooglePhotosMediaItemCreateController</servlet-name>
-        <servlet-class>aiss.controller.photos.GooglePhotosMediaItemCreateController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>GooglePhotosMediaItemCreateController</servlet-name>
-        <url-pattern>/PhotosCreate</url-pattern> <!-- aun no sabemos la URL -->
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>GooglePhotosMediaItemListController</servlet-name>
-        <servlet-class>aiss.controller.photos.GooglePhotosMediaItemListController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>GooglePhotosMediaItemListController</servlet-name>
-        <url-pattern>/PhotosList</url-pattern> <!-- aun no sabemos la URL -->
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>GooglePhotosMediaItemGetController</servlet-name>
-        <servlet-class>aiss.controller.photos.GooglePhotosMediaItemGetController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>GooglePhotosMediaItemGetController</servlet-name>
-        <url-pattern>/PhotosGet</url-pattern> <!-- aun no sabemos la URL -->
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>GooglePhotosMediaItemSearchController</servlet-name>
-        <servlet-class>aiss.controller.photos.GooglePhotosMediaItemSearchController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>GooglePhotosMediaItemSearchController</servlet-name>
-        <url-pattern>/PhotosSearch</url-pattern> <!-- aun no sabemos la URL -->
-    </servlet-mapping>
-	
-	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
-	</welcome-file-list>
-	
-	<!--  OAUTH SERVLETS 
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+  <servlet>
+    <servlet-name>HelloWorld</servlet-name>
+    <servlet-class>aiss.HelloWorldServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>HelloWorld</servlet-name>
+    <url-pattern>/helloworld</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>GooglePhotosMediaItemCreateController</servlet-name>
+    <servlet-class>aiss.controller.photos.GooglePhotosMediaItemCreateController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GooglePhotosMediaItemCreateController</servlet-name>
+    <url-pattern>/PhotosCreate</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>GooglePhotosMediaItemListController</servlet-name>
+    <servlet-class>aiss.controller.photos.GooglePhotosMediaItemListController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GooglePhotosMediaItemListController</servlet-name>
+    <url-pattern>/PhotosList</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>GooglePhotosMediaItemGetController</servlet-name>
+    <servlet-class>aiss.controller.photos.GooglePhotosMediaItemGetController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GooglePhotosMediaItemGetController</servlet-name>
+    <url-pattern>/PhotosGet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>GooglePhotosMediaItemSearchController</servlet-name>
+    <servlet-class>aiss.controller.photos.GooglePhotosMediaItemSearchController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GooglePhotosMediaItemSearchController</servlet-name>
+    <url-pattern>/PhotosSearch</url-pattern>
+  </servlet-mapping>
+  <!-- Spotify -->
+  <servlet>
+    <servlet-name>SpotifyDemoController</servlet-name>
+    <servlet-class>aiss.controller.demo.SpotifyDemoController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SpotifyDemoController</servlet-name>
+    <url-pattern>/spotifydemo</url-pattern>
+  </servlet-mapping>
   
-  	For each OAuth 2.0 service, you need to create two servlets: one for the initiation 
-  	and another for the callback. After sucess the token for the provider will be available
-  	in the session scope under the name <provider>-token. E.g.: Spotify-token.
-  	
-  	Those servlets support 2 parameters:
-  	 - provider: which is mandatory and specifies the configuration from the OAuthConfig.json file which
-  	    will be applied.
-  	 - onSuccess: which is optional specifies the behaviour of the servlet after an successful 
-  	 	authorization. If you specify close as the value of the parameter, the page will close. If you
-  	 	specify redirect:XXXX, the page will be redirected to XXXX.  
-  	
-  	WARNING: The url-patterns of all the servlets mus be disjoint. 
-  			Our recommendation is that if you expecify X as the provider, the url-pattern of the 
-  			initiation servlet could be	/AuthController/X, and the url-pattern of the callback
-  			 servlet must be /oauth2callback/X.
-  -->
-  <!--   GooglePhotos oAuth2 servlets    -->
-    <!-- GooglePhotosAuthController-->
-    <servlet>
-        <description/>
-        <servlet-name>GooglePhotosAuthController</servlet-name>
-        <servlet-class>aiss.controller.oauth.GenericAuthController</servlet-class>
-        <init-param>
-            <param-name>provider</param-name>
-            <param-value>GooglePhotos</param-value>
-        </init-param>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>GooglePhotosAuthController</servlet-name>
-        <url-pattern>/AuthController/GooglePhotos</url-pattern>
-    </servlet-mapping>
-    <!--GooglePhotosOAuth2Callback-->
-    <servlet>
-        <description/>
-        <servlet-name>GooglePhotosOAuth2Callback</servlet-name>
-        <servlet-class>aiss.controller.oauth.OAuth2Callback</servlet-class>
-        <init-param>
-            <param-name>provider</param-name>
-            <param-value>GooglePhotos</param-value>
-        </init-param>
-        <init-param>
-            <param-name>onSuccess</param-name>
-            <param-value>redirect:/PhotosList</param-value>
-        </init-param>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>GooglePhotosOAuth2Callback</servlet-name>
-        <url-pattern>/oauth2callback/GooglePhotos</url-pattern> 
-    </servlet-mapping>
-
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <description></description>
+    <servlet-name>GooglePhotosAuthController</servlet-name>
+    <servlet-class>aiss.controller.oauth.GenericAuthController</servlet-class>
+    <init-param>
+      <param-name>provider</param-name>
+      <param-value>GooglePhotos</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GooglePhotosAuthController</servlet-name>
+    <url-pattern>/AuthController/GooglePhotos</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <servlet-name>GooglePhotosOAuth2Callback</servlet-name>
+    <servlet-class>aiss.controller.oauth.OAuth2Callback</servlet-class>
+    <init-param>
+      <param-name>provider</param-name>
+      <param-value>GooglePhotos</param-value>
+    </init-param>
+    <init-param>
+      <param-name>onSuccess</param-name>
+      <param-value>redirect:/PhotosList</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GooglePhotosOAuth2Callback</servlet-name>
+    <url-pattern>/oauth2callback/GooglePhotos</url-pattern>
+  </servlet-mapping>
 </web-app>

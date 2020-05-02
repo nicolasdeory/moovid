@@ -1,6 +1,7 @@
 package aiss.spotify.resource;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -61,7 +62,7 @@ public class SpotifyResource {
 	public static void authorize(){
        ClientResource cr1 = null;
         try {
-        	String keys = Files.readString(Paths.get("./keys/SpotifyKey.txt"));
+            String keys = Files.readAllLines(Paths.get("./keys/SpotifyKey.txt")).get(0);
         	String[] split = keys.split(":");
             cr1 = new ClientResource("https://accounts.spotify.com/api/token");
             Form form = new Form();

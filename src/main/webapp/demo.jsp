@@ -8,7 +8,10 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="mystyle.css">
     <link rel="icon" type="image/png" href="images/Moovid logo color.png">
-
+	<script
+	  src="https://code.jquery.com/jquery-3.5.0.min.js"
+	  integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
+	  crossorigin="anonymous"></script>
     <meta charset="utf-8">
     <meta name="google-signin-client_id"
         content="719553712189-o30q99ddl6293f6p5qrde7eak1a2u02b.apps.googleusercontent.com">
@@ -62,33 +65,7 @@
         			<div class="text-container">
                 		<div class="text-yellow">
                     		<span id="result">
-                    		gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
-                    		fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
-                    		gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
-                    		fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
-                    		gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
-                    		fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
-                    		gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
-                    		fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
-                    		gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
-                    		fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
-                    		gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
-                    		fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
-                    		gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
-                    		fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
-                    		gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
-                    		fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
-                    		gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
-                    		fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
-                    		gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
-                    		fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
-                    		gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
-                    		fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
-                    		gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
-                    		fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
-                    		gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
-                    		fgnbfewrgfdbnvfrewgfbvnvferwgfbngfrgnbgrgnbvgfrtegbngrgnbgrtgnbgtghngr
-                    		gfbrfvbferegfbngfrewegfbvngfrtgnbvrtegfnbgfrtghfngrteghfnbgtrghnbtgghrtg
+                    		
                 			</span>
                 		</div>
             		</div> 

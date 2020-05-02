@@ -1,12 +1,23 @@
-function luisAPI() {
-    document.getElementById("result").innerHTML = "HAS HECHO CLICK EN EL BOTÓN DE LUIS";
-  }
+$.ready(() => 
+{
+	function luisAPI() {
+	    document.getElementById("result").innerHTML = "HAS HECHO CLICK EN EL BOTÓN DE LUIS";
+	  }
 
-function spotifyAPI(){
-    document.getElementById("result").innerHTML = "HAS HECHO CLICK EN EL BOTÓN DE SPOTIFY";
-}
+	function spotifyAPI(){
+		$.get( "/demo/spotify")
+			  .done(function(data) {
+				$("#result").text(data);
+			  })
+			  .fail(function() {
+			    $("#result").text("Error obteniendo la respuesta para la API de Spotify");
+			  });
+	}
 
-function photosAPI(){
-    document.getElementById("result").innerHTML = "HAS HECHO CLICK EN EL BOTÓN DE PHOTOS";
+	function photosAPI(){
+	    document.getElementById("result").innerHTML = "HAS HECHO CLICK EN EL BOTÓN DE PHOTOS";
 
-}
+	}
+	
+});
+

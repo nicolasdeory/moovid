@@ -18,7 +18,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>GooglePhotosMediaItemCreateController</servlet-name>
-        <url-pattern>/skere1</url-pattern> <!-- aun no sabemos la URL -->
+        <url-pattern>/PhotosCreate</url-pattern> <!-- aun no sabemos la URL -->
     </servlet-mapping>
     
     <servlet>
@@ -45,7 +45,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>GooglePhotosMediaItemSearchController</servlet-name>
-        <url-pattern>/skere2</url-pattern> <!-- aun no sabemos la URL -->
+        <url-pattern>/PhotosSearch</url-pattern> <!-- aun no sabemos la URL -->
     </servlet-mapping>
 	
 	<welcome-file-list>

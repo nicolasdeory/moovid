@@ -1,6 +1,12 @@
 package aiss.spotify.resource;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -51,12 +57,15 @@ public class SpotifyResource {
 	public static void authorize(){
        ClientResource cr1 = null;
         try {
+        	//String keys = Files.readString(Paths.get("/aiss-project-template/keys/SpotifyKey.txt"));
+        	String keys = "e3e7195d0d294ee18a9154414f0cd36e:f3c5a5f240724e53b682b04aeca8a87a";
+        	String[] split = keys.split(":");
             cr1 = new ClientResource("https://accounts.spotify.com/api/token");
             Form form = new Form();
             form.set("grant_type", "client_credentials");
             Representation repr = form.getWebRepresentation();
             ChallengeResponse chres = new ChallengeResponse(
-            				ChallengeScheme.HTTP_BASIC,"e3e7195d0d294ee18a9154414f0cd36e", "f3c5a5f240724e53b682b04aeca8a87a");
+            				ChallengeScheme.HTTP_BASIC,split[0], split[1]);
             cr1.getRequest().setChallengeResponse(chres);
             cr1.setEntityBuffering(true);
             cr1.setMethod(Method.POST);

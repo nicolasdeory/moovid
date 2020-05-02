@@ -7,9 +7,9 @@ import java.util.logging.Logger;
 
 import org.junit.Test;
 
-import aiss.spotify.model.Artist;
-import aiss.spotify.model.Song;
-import aiss.spotify.resource.SpotifyResource;
+import aiss.model.spotify.Artist;
+import aiss.model.spotify.Song;
+import aiss.resources.spotify.SpotifyResource;
 
 public class SpotifyResourceTest {
 	

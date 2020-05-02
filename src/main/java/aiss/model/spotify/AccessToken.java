@@ -1,4 +1,4 @@
-package aiss.spotify.model;
+package aiss.model.spotify;
 
 import java.time.LocalDateTime;
 

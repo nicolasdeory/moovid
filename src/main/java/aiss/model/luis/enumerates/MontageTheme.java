@@ -1,4 +1,4 @@
-package aiss.luis.model.enumerates;
+package aiss.model.luis.enumerates;
 
 public enum MontageTheme {
 	animals, fashion, landmarks, receipts, weddings,

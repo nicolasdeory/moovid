@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import aiss.model.photos.mediaitem.NewMediaItemResult;
-import aiss.model.resources.photos.MediaItemResource;
+import aiss.resources.photos.MediaItemResource;
 
 public class GooglePhotosMediaItemCreateController extends HttpServlet{
 

@@ -1,20 +1,20 @@
-package aiss.luis.model.classes;
+package aiss.model.luis.classes;
 
 import java.util.List;
 
-import aiss.luis.model.enumerates.IntentType;
-import aiss.luis.model.enumerates.MontageTheme;
-import aiss.luis.model.enumerates.Sentiment;
+import aiss.model.luis.enumerates.IntentType;
+import aiss.model.luis.enumerates.MontageTheme;
+import aiss.model.luis.enumerates.Sentiment;
 
-public class SpecificThemeIntent extends Intent{
+public class MontageThemeIntent extends Intent{
 	protected List<MontageTheme> themeEntities;
 	
-	public SpecificThemeIntent() {
-		super(IntentType.SpecificTheme);
+	public MontageThemeIntent() {
+		super(IntentType.MontageThemeIntent);
 	}
 
-	public SpecificThemeIntent(Sentiment sentiment, List<MontageTheme> themeEntities) {
-		super(IntentType.SpecificTheme, sentiment);
+	public MontageThemeIntent(Sentiment sentiment, List<MontageTheme> themeEntities) {
+		super(IntentType.MontageThemeIntent, sentiment);
 		this.themeEntities = themeEntities;
 	}
 	
@@ -42,7 +42,7 @@ public class SpecificThemeIntent extends Intent{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		SpecificThemeIntent other = (SpecificThemeIntent) obj;
+		MontageThemeIntent other = (MontageThemeIntent) obj;
 		if (themeEntities == null) {
 			if (other.themeEntities != null)
 				return false;

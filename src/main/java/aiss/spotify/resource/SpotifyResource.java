@@ -1,7 +1,11 @@
 package aiss.spotify.resource;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -57,8 +61,7 @@ public class SpotifyResource {
 	public static void authorize(){
        ClientResource cr1 = null;
         try {
-        	//String keys = Files.readString(Paths.get("/aiss-project-template/keys/SpotifyKey.txt"));
-        	String keys = "e3e7195d0d294ee18a9154414f0cd36e:f3c5a5f240724e53b682b04aeca8a87a";
+        	String keys = Files.readString(Paths.get("./keys/SpotifyKey.txt"));
         	String[] split = keys.split(":");
             cr1 = new ClientResource("https://accounts.spotify.com/api/token");
             Form form = new Form();
@@ -75,7 +78,7 @@ public class SpotifyResource {
             token.setCreationTimestamp(LocalDateTime.now());
             log.log(Level.INFO, "Successfully obtained Spotify access token: "
             		+ token.getAccessToken());
-        } catch (ResourceException re){
+        } catch (ResourceException | IOException re){
         	log.log(Level.WARNING, "Error authorizing Spotify");
         }
     }

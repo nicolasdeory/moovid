@@ -18,6 +18,7 @@
     <meta name="google-signin-client_id" content="719553712189-o30q99ddl6293f6p5qrde7eak1a2u02b.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+    <script src="buttonscript.js"></script>
 
 </head>
 <% String controller = "/PhotosList"; %>
@@ -39,11 +40,10 @@
                 <div class="subtitle-for-yellow1">
                     Press the API button you desire to try
                 </div>
-                <a id="luisbutton" onclick="luisAPI()" class="button3">LUIS</a>
-                <a id="spotifybutton" onclick="spotifyAPI()" class="button3">SPOTIFY</a>
+                <a id="luisbutton" class="button3">LUIS</a>
+                <a id="spotifybutton" class="button3">SPOTIFY</a>
                 <a id="photosbutton" href="/PhotosList" class="button3">PHOTOS</a>
             </div>
-            <script src="buttonscript.js"></script>
         </div>
 
         <div class="col-yellow2">

@@ -1,4 +1,4 @@
-$.ready(() => 
+$(document).ready(() => 
 {
 	// LUIS
 	function luisAPI() {
@@ -8,7 +8,7 @@ $.ready(() =>
 	function spotifyAPI(){
 		$.get( "/demo/spotify")
 			  .done(function(data) {
-				$("#result").text(data);
+				$("#result").text(JSON.stringify(data));
 			  })
 			  .fail(function() {
 			    $("#result").text("Error obteniendo la respuesta para la API de Spotify");
@@ -19,6 +19,9 @@ $.ready(() =>
 	    document.getElementById("result").innerHTML = "HAS HECHO CLICK EN EL BOTÓN DE PHOTOS";
 
 	}
+	
+	$("#spotifybutton").click(()=>spotifyAPI());
+	$("#luisbutton").click(()=>luisAPI());
 	
 });
 

@@ -26,7 +26,7 @@ hs_err_pid*
 
 
 # Api Keys
-/keys/
+src/main/resources/SpotifyKey.txt
 
 src/main/resources/WEB-INF/OAuthConfig.json
 

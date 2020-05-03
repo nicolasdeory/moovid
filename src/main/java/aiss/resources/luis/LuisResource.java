@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import org.restlet.resource.ClientResource;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -23,8 +26,17 @@ import aiss.model.luis.enumerates.Sentiment;
 
 public class LuisResource {
 
+	public static String getQueryPrediction(String message) {
+		String uri = "https://westus.api.cognitive.microsoft.com/"
+				+ "luis/prediction/v3.0/apps/b9e1fc9e-e095-4050-8786-ca9d2c7034de/"
+				+ "slots/staging/predict?subscription-key=8e8e367a952f4a15aff9a3d36a272063&verbose=false"
+				+ "&show-all-intents=true&log=true&query=\"";
+		uri += message + "\"";
+		ClientResource cr = new ClientResource(uri);
+		return cr.get(String.class);
+	}
 	
-	public static Intent retrieveIntent(String json) throws IOException {
+	public static Intent getIntentFromJson(String json) throws IOException {
 		JsonNode query = new ObjectMapper().readTree(json);
 		JsonNode entities = query.get("prediction").get("entities");
 		IntentType tipo = IntentType.valueOf
@@ -118,40 +130,24 @@ public class LuisResource {
 			
 			else if (tipo.equals("date")) {
 				start = resolution.elements().next().get("value").textValue();
-				end = resolution.elements().next().get("value").textValue();
+				end = start;
 			}
 			
-			else {
+			else if (nodo.has("other-day")){
 				end = LocalDate.now().toString();
 				start = LocalDate.now().minusWeeks(2).toString();
 			}
 		}
-		
-		else {
-			end = LocalDate.now().toString();
-			start = LocalDate.now().minusWeeks(2).toString();
+		if(!end.equals("") && !start.equals("")) {
+			res.add(LocalDate.parse(start));
+			res.add(LocalDate.parse(end));
 		}
-		res.add(LocalDate.parse(start));
-		res.add(LocalDate.parse(end));
+		else {
+			res.add(null);
+			res.add(null);
+		}
+		
 		return res;
 	}
-	/*
-	public static void main(String[] args) {
-		 String content = "";
-		    try
-		    {
-		        content = new String ( Files.readAllBytes( Paths.get("C:/Users/anton/Desktop/file.txt") ) );
-		        JsonNode query = new ObjectMapper().readTree(content);
-		        JsonNode entities = query.get("prediction").get("entities");
-		        Intent in = retrieveIntent(content);
-		        System.out.println("test");
-		        
-		    } 
-		    catch (IOException e) 
-		    {
-		        e.printStackTrace();
-		    }
-		    
-		}
-	*/
+	
 }

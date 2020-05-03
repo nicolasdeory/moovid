@@ -1,12 +1,20 @@
 package aiss.resources.spotify;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import org.restlet.data.ChallengeResponse;
 import org.restlet.data.ChallengeScheme;
@@ -15,8 +23,10 @@ import org.restlet.data.Method;
 import org.restlet.representation.Representation;
 import org.restlet.resource.ClientResource;
 import org.restlet.resource.ResourceException;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.api.client.util.IOUtils;
 
 import aiss.model.spotify.AccessToken;
 import aiss.model.spotify.Artist;
@@ -51,12 +61,18 @@ public class SpotifyResource {
 	public static void authorize(){
        ClientResource cr1 = null;
         try {
+        	String path = "SpotifyKey.txt";
+        	log.info(path);
+        	InputStream is = SpotifyResource.class.getClassLoader().getResourceAsStream(path);
+            String keys = new BufferedReader(new InputStreamReader(is))
+            		.lines().parallel().collect(Collectors.joining("\n"));
+        	String[] split = keys.split(":");
             cr1 = new ClientResource("https://accounts.spotify.com/api/token");
             Form form = new Form();
             form.set("grant_type", "client_credentials");
             Representation repr = form.getWebRepresentation();
             ChallengeResponse chres = new ChallengeResponse(
-            				ChallengeScheme.HTTP_BASIC,"e3e7195d0d294ee18a9154414f0cd36e", "f3c5a5f240724e53b682b04aeca8a87a");
+            				ChallengeScheme.HTTP_BASIC,split[0].trim(), split[1].trim());
             cr1.getRequest().setChallengeResponse(chres);
             cr1.setEntityBuffering(true);
             cr1.setMethod(Method.POST);
@@ -67,7 +83,7 @@ public class SpotifyResource {
             log.log(Level.INFO, "Successfully obtained Spotify access token: "
             		+ token.getAccessToken());
         } catch (ResourceException re){
-        	log.log(Level.WARNING, "Error authorizing Spotify");
+        	log.log(Level.WARNING, "Error authorizing Spotify " + re);
         }
     }
 	

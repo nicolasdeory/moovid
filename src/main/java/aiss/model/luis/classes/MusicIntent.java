@@ -13,8 +13,8 @@ public class MusicIntent extends Intent{
 	protected MusicMood mood;
 	protected MusicTempo tempo;
 	protected MusicEnergy energy;
-	protected Boolean danceable;
-	
+	protected Boolean danceable; // Danceable is True or **NONE**, not true or false!
+	// TODO: ADD GENRE
 	public MusicIntent() {
 		super(IntentType.MusicDescription);
 		this.mood = MusicMood.none;

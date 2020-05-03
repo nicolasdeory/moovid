@@ -173,6 +173,7 @@ a.button3:hover{
     color:#222;
     border-color:#222;
     background-color:  #ddaf53;
+    cursor: pointer;
 }
 
 

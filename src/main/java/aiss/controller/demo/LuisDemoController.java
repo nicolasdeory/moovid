@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.restlet.ext.jackson.JacksonRepresentation;
 
-import aiss.luis.model.classes.Intent;
-import aiss.luis.resources.LuisResource;
+import aiss.model.luis.classes.Intent;
+import aiss.resources.luis.LuisResource;
 
 /**
  * Servlet implementation class LUISDemoController

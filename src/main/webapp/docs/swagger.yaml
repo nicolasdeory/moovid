@@ -1,0 +1,160 @@
+swagger: '2.0'
+info:
+  description: This is the documentation for the Moovid API. It provides some basic endpoints for taking advantage of some of the services offered in the webapp.
+  version: 1.0.0
+  title: Moovid API
+  # put the contact info for your development or API team
+  contact:
+    email: deorynicolas@gmail.com
+
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+
+host: moovid-271019.appspot.com
+basePath: /api
+
+# tags are used for organizing operations
+tags:
+- name: music
+  description: Endpoints related to retrieving music tracks
+- name: other
+  description: Miscellaneous operations
+
+paths:
+  /songs:
+    get:
+      tags:
+      - music
+      summary: returns songs currently stored in the server
+      operationId: getSongs
+      description: |
+        Returns all the cached songs in the server, that can be downloaded
+        without any additional requests.
+      produces:
+      - application/json
+      responses:
+        200:
+          description: returns songs cached in server
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Song'
+  /getsong:
+    get:
+      tags:
+      - music
+      summary: returns song info
+      operationId: searchInventory
+      description: |
+        Returns info for the given song id, including mp3 download link.
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: id
+        description: pass the id of the song to download
+        required: true
+        type: string
+      responses:
+        200:
+          description: song info
+          schema:
+            $ref: '#/definitions/Song'
+        400:
+          description: id wasn't provided or is invalid
+        404:
+          description: couldn't find a song with the given id
+  /searchsongs:
+    post:
+      tags:
+      - music
+      summary: search songs by their audio features
+      operationId: searchSongs
+      description: |
+        Returns a list of songs that match the given audio seeds as
+        closely as possible. If the song is cached in the server,
+        it returns the download link as well.
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: audioFeatures
+        description: |
+          Audio features to search for. Properties are optional.
+        schema:
+          $ref: '#/definitions/AudioFeatures'
+      responses:
+        200:
+          description: ok
+        400:
+          description: invalid input
+  /requestdownload:
+    post:
+      tags:
+      - music
+      summary: request a download link for a song
+      operationId: requestDownload
+      description: |
+        Requests a download link for a song. If the endpoint returns 202 Accepted,
+        periodically poll /getsong and the song will eventually be returned.
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: songId
+        description: id for the song the user requests to download
+        type: string
+      responses:
+        202:
+          description: request received, downloading song
+        400:
+          description: invalid input, object invalid
+        409:
+          description: an existing item already exists
+definitions:
+  Song:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: WrHJGNdE7-
+        name:
+          type: string
+          example: Skyharbor - Trayus
+        downloadlink:
+          type: string
+          format: url
+          example: /api/songs/WrHJGNdE7-.mp3
+  AudioFeatures:
+      description: If a property is omitted, it won't be taken into account during search
+      type: object
+      properties:
+        authors:
+          type: array
+          items:
+            type: string
+            example: Zedd
+        mood:
+          type: string
+          enum: [happy, sad]
+        tempo:
+          type: string
+          enum: [fastpaced, slowpaced]
+        energy:
+          type: string
+          enum: [highenergy, lowenergy]
+        danceable:
+          type: boolean
+          enum: [true]
+        genre:
+          type: string
+          example: edm

@@ -2,8 +2,8 @@ package aiss.controller.demo;
 
 import java.util.List;
 
-import aiss.spotify.model.Artist;
-import aiss.spotify.model.Song;
+import aiss.model.spotify.Artist;
+import aiss.model.spotify.Song;
 
 public class SpotifyDemo {
 	private List<Artist> artists;

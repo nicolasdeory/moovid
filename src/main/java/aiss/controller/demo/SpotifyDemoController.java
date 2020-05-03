@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.restlet.ext.jackson.JacksonRepresentation;
 
-import aiss.spotify.model.Artist;
-import aiss.spotify.model.Song;
-import aiss.spotify.resource.SpotifyResource;
+import aiss.model.spotify.Artist;
+import aiss.model.spotify.Song;
+import aiss.resources.spotify.SpotifyResource;
 
 /**
  * Servlet implementation class SpotifyDemoController

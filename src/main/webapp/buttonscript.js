@@ -2,7 +2,13 @@ $(document).ready(() =>
 {
 	// LUIS
 	function luisAPI() {
-	    document.getElementById("result").innerHTML = "HAS HECHO CLICK EN EL BOTÓN DE LUIS";
+		$.get( "/demo/luis")
+		  .done(function(data) {
+			$("#result").text(JSON.stringify(data));
+		  })
+		  .fail(function() {
+		    $("#result").text("Error obteniendo la respuesta para la API de Spotify");
+		  });
 	  }
 
 	function spotifyAPI(){

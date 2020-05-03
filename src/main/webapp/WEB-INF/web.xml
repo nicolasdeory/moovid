@@ -49,6 +49,15 @@
     <servlet-name>SpotifyDemoController</servlet-name>
     <url-pattern>/demo/spotify</url-pattern>
   </servlet-mapping>
+  <!-- LUIS -->
+  <servlet>
+    <servlet-name>LuisDemoController</servlet-name>
+    <servlet-class>aiss.controller.demo.LuisDemoController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LuisDemoController</servlet-name>
+    <url-pattern>/demo/luis</url-pattern>
+  </servlet-mapping>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>

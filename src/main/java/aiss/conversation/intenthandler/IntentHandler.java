@@ -1,4 +1,4 @@
-package aiss.conversation;
+package aiss.conversation.intenthandler;
 
 import java.util.List;
 
@@ -8,5 +8,5 @@ import aiss.conversation.Context;
 
 public interface IntentHandler 
 {
-	List<ChatQueryResponse> handleInput(Intent intent, Context context);
+	List<ChatQueryResponse> makeResponse();
 }

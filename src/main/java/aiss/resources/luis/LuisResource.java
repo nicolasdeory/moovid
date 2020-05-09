@@ -26,7 +26,12 @@ import aiss.model.luis.enumerates.Sentiment;
 
 public class LuisResource {
 
-	public static String getQueryPrediction(String message) {
+	public static Intent getIntentFromQuery(String query) throws IOException
+	{
+		return getIntentFromJson(getQueryPrediction(query));
+	}
+	
+	private static String getQueryPrediction(String message) {
 		String uri = "https://westus.api.cognitive.microsoft.com/"
 				+ "luis/prediction/v3.0/apps/b9e1fc9e-e095-4050-8786-ca9d2c7034de/"
 				+ "slots/staging/predict?subscription-key=8e8e367a952f4a15aff9a3d36a272063&verbose=false"
@@ -36,7 +41,7 @@ public class LuisResource {
 		return cr.get(String.class);
 	}
 	
-	public static Intent getIntentFromJson(String json) throws IOException {
+	private static Intent getIntentFromJson(String json) throws IOException {
 		JsonNode query = new ObjectMapper().readTree(json);
 		JsonNode entities = query.get("prediction").get("entities");
 		IntentType tipo = IntentType.valueOf

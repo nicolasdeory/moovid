@@ -44,17 +44,33 @@
 		<responses>Por supuesto.<ret/>¿Sobre qué te apetece hacer el montaje?</responses>
 		<response>¡Claro!<ret/>¿Quieres que te haga el montaje sobre algo en específico?</response>
 		<response>Enseguida.<ret/>¿Tienes alguna preferencia sobre lo que quieras ver en el montaje?</response>
-		<response>Perfecto.<ret/>¿Quieres que haga el montaje sobre algo en concreto? </response>
+		<response>Perfecto.<ret/>¿Quieres que haga el montaje sobre algo en concreto?</response>
 		<response>Cuéntame sobre qué quieres hacer el montaje.</response>
 		<response>Sin problema.<ret/>¿Sobre qué te hago el montaje?</response>
+	</phraselist>
+	<phraselist name="montage-indicate-theme">
+		<responses>Cuéntame sobre qué quieres que te haga el montaje.</responses>
+		<response>Indícame sobre qué quieres hacer el montaje</response>
+		<response>¿Sobre qué hago el montaje?</response>
+		<response>¿Sobre qué quieres el montaje?</response>
+		<response>¿Qué tipo de fotos quieres que te incluya en el montaje?</response>
+		<response>Cuéntame, ¿sobre qué quieres que te haga el montaje?</response>
 	</phraselist>
 	<phraselist name="montage-ask-music">
 		<response>Me parece bien.<ret/>¿Quieres algún tipo de música en concreto?</response>
 		<response>¿Te apetece escuchar algún tipo de música en especial?</response>
 		<response>Vale 😊<ret/>¿Tienes alga preferencia sobre lo que quieras ver en el montaje?</response>
 		<response>Me parece perfecto.<ret/>¿Te pongo algún tipo de música, o te la elijo yo?</response>
-		<response>Alto y claro.<ret/></response>
+		<response>Alto y claro.<ret/>¿Elijo yo la música, o quieres algún género en concreto?</response>
 		<response>Bien. ¿Prefieres que elija yo la música, o quieres algún tipo en concreto?</response>
+	</phraselist>
+	<phraselist name="montage-indicate-music">
+		<responses>A ver, ¿qué tipo de música quieres?</responses>
+		<response>Cuéntame qué tipo de musica quieres que ponga.</response>
+		<response>¿Qué tipo de musica quieres que ponga?</response>
+		<response>Dime, ¿qué clase de música quieres que salga?</response>
+		<response>¿Qué tipo de música quieres? 🤔<ret/>¿Tranquilita, animada, de pop...?</response>
+		<response>Vale, dime qué tipo de música quieres que ponga.</response>
 	</phraselist>
 	<phraselist name="montage-start-processing">
 		<response>¡Estupendo!<ret/>Espera un momentito. No cierres esta pestaña.</response>

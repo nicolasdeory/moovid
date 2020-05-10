@@ -1,12 +1,19 @@
 package aiss.controller.main;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.restlet.ext.jackson.JacksonRepresentation;
+
+import aiss.controller.demo.SpotifyDemo;
+import aiss.conversation.Context;
+import aiss.conversation.IntentHandlerFactory;
+import aiss.conversation.intenthandler.IntentHandler;
 import aiss.model.luis.classes.Intent;
 import aiss.resources.luis.LuisResource;
 
@@ -28,11 +35,17 @@ public class ChatQueryController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		String query = request.getParameter("query");
 		Intent intent = LuisResource.getIntentFromQuery(query);
-		// TODO: Based on intent, execute the appropiate handler via reflection.
-		// Send chat query response here.
+		Context sessionContext = (Context)request.getSession().getAttribute("context");
+		IntentHandler handler = IntentHandlerFactory.fromIntent(intent, sessionContext);
+		// Generate chat response
+		ChatQueryResponse chatResponse = handler.generateResponse();
+		String chatJson = new JacksonRepresentation<ChatQueryResponse>(chatResponse).getText();
+		response.setContentType("application/json");
+		// Send chat query response
+		response.getWriter().append(chatJson);
+		
 	}
 
 	/**

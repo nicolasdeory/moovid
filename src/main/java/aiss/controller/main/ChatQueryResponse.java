@@ -1,31 +1,40 @@
 package aiss.controller.main;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import aiss.conversation.Context;
 
 public class ChatQueryResponse 
 {
-	ChatQueryResponseType responseType; // finish, loading, waitforinput
-	String message;
-	List<String> imageLinks;
-	String songLink;
+	List<String> messages;
+	ChatQueryResponseType responseType;
+	Integer jobId;
+	Context context;
 	
-	public static ChatQueryResponse createChatResponse(String message)
+	public static ChatQueryResponse createBasic()
 	{
-		ChatQueryResponse response = new ChatQueryResponse();
-		response.setResponseType(ChatQueryResponseType.Basic);
-		response.setMessage(message);
+		return new ChatQueryResponse(ChatQueryResponseType.Basic);
 	}
 	
-	public ChatQueryResponse() {
-		//
+	public static ChatQueryResponse createWaitForInput()
+	{
+		return new ChatQueryResponse(ChatQueryResponseType.WaitForInput);
 	}
 	
-	public String getSongLink() {
-		return songLink;
+	public static ChatQueryResponse createVideoGeneration(String jobId)
+	{
+		return new ChatQueryResponse(ChatQueryResponseType.VideoGeneration);
 	}
-
-	public void setSongLink(String songLink) {
-		this.songLink = songLink;
+	
+	public void addChatMessage(String message)
+	{
+		messages.add(message);
+	}
+	
+	private ChatQueryResponse(ChatQueryResponseType type) {
+		this.responseType = type;
+		this.messages = new ArrayList<String>();
 	}
 
 	public ChatQueryResponseType getResponseType() {
@@ -35,22 +44,25 @@ public class ChatQueryResponse
 	public void setResponseType(ChatQueryResponseType responseType) {
 		this.responseType = responseType;
 	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	public List<String> getImageLinks() {
-		return imageLinks;
-	}
-
-	public void setImageLinks(List<String> imageLinks) {
-		this.imageLinks = imageLinks;
-	}
 	
-	public 
+	public Context getContext() {
+		return context;
+	}
+
+	public void setContext(Context context) {
+		this.context = context;
+	}
+
+	public List<String> getMessages() {
+		return messages;
+	}
+
+	public Integer getJobId() {
+		return jobId;
+	}
+
+	public void setJobId(Integer jobId) {
+		this.jobId = jobId;
+	}
+
 }

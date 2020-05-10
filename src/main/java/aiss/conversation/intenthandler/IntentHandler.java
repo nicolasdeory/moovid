@@ -8,5 +8,5 @@ import aiss.conversation.Context;
 
 public interface IntentHandler 
 {
-	List<ChatQueryResponse> makeResponse();
+	ChatQueryResponse generateResponse();
 }

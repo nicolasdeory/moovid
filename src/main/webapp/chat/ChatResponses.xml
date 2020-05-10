@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phrasefile language="es-ES">
-	<phraselist name="start-conversation">
+	<phraselist name="start-conversation"> <!-- This goes in the client, not here. TODO: Add error strings as well --> 
 		<response>¿Qué tal?<ret>¿Preparado para hacer un montaje? ¡Pídemelo!</response>
 		<response>Hola 😊<ret>¿Te apetece hacer algún montaje? ¡Venga, adelante!</response>
 		<response>¿Listo para hacer montajes? ¡Adelante!<ret></response>
@@ -64,7 +64,7 @@
 		<response>¡Allá vamos!<ret>No cierres la pestaña mientras te hago el montaje.</response>
 		<response>Estupendo 🤩<ret>Te voy montando el vídeo. Por favor, ¡no cierres la pestaña!</response>
 	</phraselist>
-	<phraselist name="montage-done">
+	<phraselist name="montage-done"> <!-- TODO: Move to client -->
 		<response>¡Listo! 🤩🤩</response>
 		<response>Aquí lo tienes 😍😍</response>
 		<response>Ahí lo llevas 😍 Espero que te guste.</response>
@@ -105,6 +105,18 @@
 		<response>No hay problema. Volvemos al principio.</response>
 		<response>Lo cancelo. Empecemos desde el principio.</response>
 	</phraselist>
+	<phraselist name="cancel-nothing">
+		<response>Pero si todavía no hemos hecho nada.</response>
+		<response>Bueno, no habíamos empezado nada todavía.</response>
+		<response>Cancelo. Aunque no hay nada que cancelar 😂</response>
+		<response>Vale, aunque no habíamos hecho nada todavía.</response>
+		<response>Vale 🤔</response>
+	</phraselist>
+	<phraselist name="ok"> <!-- In response to NO, for example -->
+		<response>Vale.</response>
+		<response>De acuerdo.</response>
+		<response>Ok 👍</response>
+	</phraselist>
 	<phraselist name="unexpected-intent"> <!-- When we weren't expecting that intent from the user -->
 		<response>Vale.</response>
 		<response>Perfecto.</response>
@@ -117,7 +129,7 @@
 		<response>😎</response>
 		<response>😊</response>
 	</phraselist>
-	<phraselist name="did-you-want-montage"> <!-- When we weren't expecting that intent from the user -->
+	<phraselist name="did-you-want-montage"> <!-- When we weren't expecting montage theme or song from the user -->
 		<response>Perdona, ¿querías que te hiciera un montaje?</response>
 		<response>A ver, vale. ¿Querías hacer un montaje?</response>
 		<response>A ver, me he liado.<ret>¿Quieres hacer un montaje?</response>

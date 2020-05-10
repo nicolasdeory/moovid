@@ -41,7 +41,7 @@ public class ChatResponseSupplier {
 		String content = phrase.toString();
 		
 		// Get the separate messages
-		String[] messages = content.replace("\n", "").split("<ret>");
+		String[] messages = content.replace("\n", "").split("<ret/>");
 		
 		return messages;
 		

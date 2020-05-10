@@ -19,11 +19,8 @@ public class GenericHandler extends BaseIntentHandler {
 	public ChatQueryResponse generateResponse() {
 		List<ChatQueryResponse> l = new ArrayList<>();
 		String[] chatStrings = ChatResponseSupplier.getLocalizedResponse(key);
-		ChatQueryResponse chatResp = ChatQueryResponse.createBasic();
-		for(String chat : chatStrings)
-		{
-			chatResp.addChatMessage(chat);
-		}
+		ChatQueryResponse chatResp = ChatQueryResponse.createBasic(context);
+		chatResp.addChatMessages(chatStrings);
 		
 		return chatResp;
 	}

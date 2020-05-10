@@ -12,19 +12,22 @@ public class ChatQueryResponse
 	Integer jobId;
 	Context context;
 	
-	public static ChatQueryResponse createBasic()
+	/**
+	 * Creates a basic query response with null context and no extra data
+	 */
+	public static ChatQueryResponse createBasic(Context context)
 	{
-		return new ChatQueryResponse(ChatQueryResponseType.Basic);
+		return new ChatQueryResponse(ChatQueryResponseType.Basic, context);
 	}
 	
-	public static ChatQueryResponse createWaitForInput()
+	public static ChatQueryResponse createWaitForInput(Context context)
 	{
-		return new ChatQueryResponse(ChatQueryResponseType.WaitForInput);
+		return new ChatQueryResponse(ChatQueryResponseType.WaitForInput, context);
 	}
 	
 	public static ChatQueryResponse createVideoGeneration(String jobId)
 	{
-		return new ChatQueryResponse(ChatQueryResponseType.VideoGeneration);
+		return new ChatQueryResponse(ChatQueryResponseType.VideoGeneration,null);
 	}
 	
 	public void addChatMessage(String message)
@@ -32,7 +35,16 @@ public class ChatQueryResponse
 		messages.add(message);
 	}
 	
-	private ChatQueryResponse(ChatQueryResponseType type) {
+	public void addChatMessages(String[] messageArray)
+	{
+		for(String message : messageArray) 
+		{
+			this.messages.add(message);
+		}
+	}
+	
+	private ChatQueryResponse(ChatQueryResponseType type, Context context) {
+		this.context = context;
 		this.responseType = type;
 		this.messages = new ArrayList<String>();
 	}

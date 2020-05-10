@@ -14,9 +14,17 @@ public class IntentHandlerFactory {
 //		case CommunicationConfirm:
 //			return new CancelIntentHandler(intent, context);
 		case CreateMontage:
-			return new CancelIntentHandler(intent, context);
+			return new CreateMontageHandler(intent, context);
 		case DecideForMe:
-			return new DecideForMeHandler(intent, context);
+			if(context.getContextType().equals(ContextType.MontageTheme)
+				|| context.getContextType().equals(ContextType.MontageMusic))
+			{
+				return new Creta(intent, context);
+			} else 
+			{
+				
+			}
+			
 		case Greeting:
 			return new GenericHandler("hello-intent", intent, context);
 		case MontageThemeIntent:

@@ -34,12 +34,45 @@ public class CreateMontageHandler extends BaseIntentHandler {
 	
 	public static ChatQueryREsponse
 	
-	public static ChatQueryResponse generateMontage(Intent intt, Context ctx)
+	public static ChatQueryResponse generateMontage(Intent intt, Context context)
 	{
+		Context ctx;
+		if (context == null)
+		{
+			Context ctx = new Context();
+			// TODO: set date here
+			ctx.setContext(ContextType.MontageTheme);
+			ChatQueryResponse resp = ChatQueryResponse.createWaitForInput(ctx);
+			resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-ask-theme"));
+			return resp;
+		}
+		else if (context.getContextType().equals(ContextType.MontageTheme))
+		{
+			Context ctx = new Context();
+			ctx.setContext(ContextType.MontageMusic);
+			ChatQueryResponse resp = ChatQueryResponse.createWaitForInput(ctx);
+			resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-ask-music"));
+			return resp;
+		}
+		else if (context.getContextType().equals(ContextType.MontageMusic))
+		{
+			return generateMontage(this.intent, this.context);
+		}
+		
 		// 
 		ChatQueryResponse resp = ChatQueryResponse.createVideoGeneration(jobId)
 		resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-start-processing"));
 		return resp;
+	}
+	
+	public static ChatQueryResponse withTheme(Intent intent, Context context)
+	{
+		
+	}
+	
+	public static ChatQueryResponse withMusic(Intent intent, Context context) 
+	{
+		
 	}
 	
 	

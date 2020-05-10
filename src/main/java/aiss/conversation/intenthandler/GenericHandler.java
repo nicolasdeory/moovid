@@ -12,23 +12,14 @@ import aiss.model.luis.classes.Intent;
  * Handler for basic chat responses without context (E.g. Hello, Thanks)
  *
  */
-public class GenericHandler extends BaseIntentHandler {
+public class GenericHandler {
 
-	private String key;
-	@Override
-	public ChatQueryResponse generateResponse() {
-		List<ChatQueryResponse> l = new ArrayList<>();
+	public static ChatQueryResponse generateResponse(String key, Context context) {
 		String[] chatStrings = ChatResponseSupplier.getLocalizedResponse(key);
 		ChatQueryResponse chatResp = ChatQueryResponse.createBasic(context);
 		chatResp.addChatMessages(chatStrings);
-		
+		chatResp.getContext().setPreviousState(key);
 		return chatResp;
-	}
-	
-	public GenericHandler(String key, Intent intent, Context context)
-	{
-		super(intent, context);
-		this.key = key;
 	}
 
 }

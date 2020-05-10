@@ -7,17 +7,29 @@ import aiss.model.luis.classes.MusicIntent;
 import aiss.model.luis.enumerates.MontageTheme;
 
 public class Context {
-	private ContextType context;
+	private ContextType contextType;
 	private List<MontageTheme> themeEntities;
 	private LocalDate start;
 	private LocalDate end;
 	private MusicIntent music;
 	private boolean waitingForInput;
-	public ContextType getContextType() {
-		return context;
+	String previousState = "";
+	
+	
+	
+	public String getPreviousState() {
+		return previousState;
 	}
-	public void setContext(ContextType context) {
-		this.context = context;
+	public void setPreviousState(String previousState) {
+		this.previousState = previousState;
+	}
+	
+	public ContextType getContextType() {
+		return contextType;
+	}
+	
+	public void setContextType(ContextType context) {
+		this.contextType = context;
 	}
 	public List<MontageTheme> getThemeEntities() {
 		return themeEntities;

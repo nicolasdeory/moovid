@@ -5,10 +5,9 @@ import aiss.conversation.ChatResponseSupplier;
 import aiss.conversation.Context;
 import aiss.model.luis.classes.Intent;
 
-public class CancelIntentHandler extends BaseIntentHandler {
+public class CancelIntentHandler {
 
-	@Override
-	public ChatQueryResponse generateResponse() {
+	public static ChatQueryResponse generateResponse(Intent intent, Context context) {
 		ChatQueryResponse resp = ChatQueryResponse.createBasic(null);
 		if (context == null)
 		{
@@ -19,11 +18,6 @@ public class CancelIntentHandler extends BaseIntentHandler {
 			resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("cancel"));
 		}
 		return resp;
-	}
-	
-	public CancelIntentHandler(Intent intent, Context context)
-	{
-		super(intent, context);
 	}
 
 }

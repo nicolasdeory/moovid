@@ -176,8 +176,6 @@ a.button3:hover{
     cursor: pointer;
 }
 
-
-
 .title-container{
     display: flex;
     margin: 30px 20px  20px  20px;
@@ -211,31 +209,104 @@ a.button3:hover{
     text-align: center;
     font-weight: 600;
     color: #2b2b2b;
-  }
-  .text-yellow {
-    background-color: #FFD85A;
-    color: black;
-    overflow-y: auto;
-    word-wrap: wrap;
-    padding: 10px;
-    margin: 0 20px;
-}
-.text-yellow span{
-    overflow-wrap: break-word;
 }
 
-  .col-content{
+
+.col-content{
     display: flex;
     flex-direction: column;
-  }
-  .col-content.middle{
+}
+.col-content.middle{
       justify-content: center;
       align-items: center;
       height: calc(100% - 120px);
 
-  }
-  .text-container {
+}
+
+
+
+*::-webkit-scrollbar{
+    width: 5px;
+}
+
+*::-webkit-scrollbar-track{
+    background: #f1f1f1;
+}
+
+*::-webkit-scrollbar-thumb{
+    background: #aaa;
+}
+
+*::-webkit-scrollbar-thumb:hover{
+    background: #555;
+}
+
+.chat-container {
     display: flex;
     flex-direction: column; 
-    height: calc(100% - 120px);
+    height: calc(100% - 140px);
+    flex: 1;
+    overflow-y: scroll;
 }
+
+.chat-right{
+    display: flex;
+    margin-right: 10px;
+}
+
+.chat-right .sp{
+    flex:1;
+}
+.chat-left{
+    display: flex;
+    margin-left: 10px;
+}
+
+.chat-left .sp{
+    flex:1;
+}
+
+.chat-container .msg{
+    background: #f8f8f8;
+    padding: 10px;
+    border-radius: 50px;
+    margin: 10px 0px;
+}
+
+.msg p{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.chat-container .msg p{
+    word-break: break-all;
+    font-size: 15px;
+}
+
+
+.chat-container .msg-right{
+    background: #FFE694;
+}
+
+.chat-footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 60px;
+    position: relative;
+}
+.chat-footer textarea{
+    display: block;
+    flex: 1;
+    width: 100%;
+    height: 45px;
+    border-radius: 60px;
+    margin: 5px;
+    outline: none;
+    font-size: 17px;
+    padding-left: 30px;
+    padding-right: 30px;
+    color: #2b2b2b;
+    resize: none;
+    padding-top: 10px;
+}
+

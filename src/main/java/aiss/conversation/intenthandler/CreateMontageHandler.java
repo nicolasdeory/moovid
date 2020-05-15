@@ -34,36 +34,53 @@ public class CreateMontageHandler extends BaseIntentHandler {
 	
 	public static ChatQueryREsponse
 	
-	public static ChatQueryResponse generateMontage(Intent intt, Context context)
+	public static ChatQueryResponse generateMontage(Intent intt, Context context, String type)
 	{
-		Context ctx;
-		if (context == null)
+		switch (type)
 		{
-			Context ctx = new Context();
-			// TODO: set date here
-			ctx.setContext(ContextType.MontageTheme);
-			ChatQueryResponse resp = ChatQueryResponse.createWaitForInput(ctx);
-			resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-ask-theme"));
-			return resp;
-		}
-		else if (context.getContextType().equals(ContextType.MontageTheme))
-		{
-			Context ctx = new Context();
-			ctx.setContext(ContextType.MontageMusic);
-			ChatQueryResponse resp = ChatQueryResponse.createWaitForInput(ctx);
-			resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-ask-music"));
-			return resp;
-		}
-		else if (context.getContextType().equals(ContextType.MontageMusic))
-		{
-			return generateMontage(this.intent, this.context);
+			case "CreateMontage":
+				break;
+			case "CreateMontage":
+				break;
+			case "CreateMontage":
+				break;
+			case "CreateMontage":
+				break;
+			case "CreateMontage":
+				break;
+			case "CreateMontage":
+				break;
 		}
 		
-		// 
-		ChatQueryResponse resp = ChatQueryResponse.createVideoGeneration(jobId)
-		resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-start-processing"));
-		return resp;
 	}
+	
+//	Context ctx;
+//	if (context == null)
+//	{
+//		ctx = new Context();
+//		// TODO: set date here
+//		ctx.setContext(ContextType.MontageTheme);
+//		ChatQueryResponse resp = ChatQueryResponse.createWaitForInput(ctx);
+//		resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-ask-theme"));
+//		return resp;
+//	}
+//	else if (context.getContextType().equals(ContextType.MontageTheme))
+//	{
+//		ctx = new Context();
+//		ctx.setContext(ContextType.MontageMusic);
+//		ChatQueryResponse resp = ChatQueryResponse.createWaitForInput(ctx);
+//		resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-ask-music"));
+//		return resp;
+//	}
+//	else if (context.getContextType().equals(ContextType.MontageMusic))
+//	{
+//		return generateMontage(this.intent, this.context);
+//	}
+//	
+//	// 
+//	ChatQueryResponse resp = ChatQueryResponse.createVideoGeneration(jobId)
+//	resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-start-processing"));
+//	return resp;
 	
 	public static ChatQueryResponse withTheme(Intent intent, Context context)
 	{

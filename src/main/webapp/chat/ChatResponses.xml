@@ -56,6 +56,14 @@
 		<response>¿Qué tipo de fotos quieres que te incluya en el montaje?</response>
 		<response>Cuéntame, ¿sobre qué quieres que te haga el montaje?</response>
 	</phraselist>
+	<phraselist name="montage-first-theme-not-music">
+		<responses>¡Vamos por partes!<ret/>¿Quieres elegir el tema del montaje o te elijo yo?</responses>
+		<response>Vale, solo por confirmar.<ret/>¿Quieres que te elija yo las fotos para el montaje, o quieres hacer el montage sobre algo en especial?</response>
+		<response>Antes de ponernos con la música, ¿quieres hacer el montaje sobre algo en especial?</response>
+		<response>Vale. Antes de eso...<ret/>¿Te escojo yo las fotos del montaje o lo quieres hacer sobre un tema en especial?</response>
+		<response>¡Vamos paso por paso!<ret/>¿Quieres elegir el tema de las fotos para el montaje, o te escojo yo?</response>
+		<response>Antes de eso...<ret/>Cuéntame, ¿quieres el montaje con alguna temática, o te escojo yo?</response>
+	</phraselist>
 	<phraselist name="montage-ask-music">
 		<response>Me parece bien.<ret/>¿Quieres algún tipo de música en concreto?</response>
 		<response>¿Te apetece escuchar algún tipo de música en especial?</response>

@@ -72,10 +72,18 @@
 		<response>¿Qué tipo de música quieres? 🤔<ret/>¿Tranquilita, animada, de pop...?</response>
 		<response>Vale, dime qué tipo de música quieres que ponga.</response>
 	</phraselist>
+	<phraselist name="montage-login">
+		<response>¡Estupendo!<ret/>Antes de crear el vídeo, necesito acceso a tus fotos.<ret/>Inicia sesión en Google Photos, por favor.</response>
+		<response>Perfecto 😎<ret/>Enseguida te hago el vídeo.<ret/>Primero necesito que inicies sesión en Google Photos, por favor.</response>
+		<response>Claro 😊<ret/>Necesito primero que inicies sesión en Google Photos para poder acceder a tu biblioteca de fotos. </response>
+		<response>A tu servicio.<ret/>¡Primero necesito acceso a tus fotos! Inicia sesión con Google Photos, por favor.</response>
+		<response>¡Allá vamos!<ret/>Inicia sesión con Google Photos para que pueda acceder a tus fotos, por favor.</response>
+		<response>Estupendo 🤩<ret/>Por favor, inicia primero sesión en Google Photos para poder acceder a tus fotos.</response>
+	</phraselist>
 	<phraselist name="montage-start-processing">
 		<response>¡Estupendo!<ret/>Espera un momentito. No cierres esta pestaña.</response>
 		<response>Perfecto 😎<ret/>Enseguida te monto el vídeo. No cierres esta pestaña, por favor.</response>
-		<response>Me parece genial 😊<ret/> ¿Tienes alga preferencia sobre lo que quieras ver en el montaje?</response>
+		<response>Me parece genial 😊<ret/>Espera unos minutos. ¡No cierres la pestaña!</response>
 		<response>A tu servicio.<ret/>Espera un momento. No cierres la pestaña.</response>
 		<response>¡Allá vamos!<ret/>No cierres la pestaña mientras te hago el montaje.</response>
 		<response>Estupendo 🤩<ret/>Te voy montando el vídeo. Por favor, ¡no cierres la pestaña!</response>

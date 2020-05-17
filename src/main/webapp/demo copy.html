@@ -18,6 +18,7 @@
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
     <script src="buttonscript.js"></script>
+    <script src="chat.js"></script>
 
 </head>
 <% String controller = "/PhotosList"; %>
@@ -86,8 +87,9 @@
                     </div>
                 </div>
             </div>
-            <div class="chat-footer">
-                <textarea placeholder="Escribe aquí"></textarea>
+            <script src="chat.js"></script>
+            <div class="chat-footer" >
+                <input type="text" placeholder="Escribe aquí" id="chatbox" onkeypress="Presionar()"></input>
             </div>
         </div>
 

@@ -11,11 +11,11 @@ public class JobManager {
 	public static void initialize() 
 	{
 		queue = new LinkedList<>();
-		Runnable runnable = () -> {
-		    queueLoop();
-		};
-
-		Thread thread = new Thread(runnable);
+		Thread thread = new Thread(new Runnable() {
+		    public void run() {
+		        queueLoop();
+		    }
+		});
 		thread.start();
 	}
 	

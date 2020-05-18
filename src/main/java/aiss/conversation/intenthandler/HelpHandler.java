@@ -15,18 +15,18 @@ import aiss.model.luis.classes.Intent;
  */
 public class HelpHandler {
 
-	public static ChatQueryResponse generateResponse(Context context) {
+	public static ChatQueryResponse generateResponse(Intent intent, Context context) {
 		if (context.getContextType().equals(ContextType.MontageTheme))
 		{
-			return GenericHandler.generateResponse("help-theme", context);
+			return GenericHandler.generateResponse(intent, "help-theme", context);
 		}
 		else if (context.getContextType().equals(ContextType.MontageMusic))
 		{
-			return GenericHandler.generateResponse("help-music", context);
+			return GenericHandler.generateResponse(intent, "help-music", context);
 		}
 		else 
 		{
-			return GenericHandler.generateResponse("help-general", context);
+			return GenericHandler.generateResponse(intent, "help-general", context);
 		}
 	}
 

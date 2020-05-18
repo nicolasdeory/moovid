@@ -14,9 +14,9 @@ import aiss.model.luis.classes.Intent;
  */
 public class GenericHandler {
 
-	public static ChatQueryResponse generateResponse(String key, Context context) {
+	public static ChatQueryResponse generateResponse(Intent intent, String key, Context context) {
 		String[] chatStrings = ChatResponseSupplier.getLocalizedResponse(key);
-		ChatQueryResponse chatResp = ChatQueryResponse.createBasic(context);
+		ChatQueryResponse chatResp = ChatQueryResponse.createBasic(intent, context);
 		chatResp.addChatMessages(chatStrings);
 		chatResp.getContext().setPreviousState(key);
 		return chatResp;

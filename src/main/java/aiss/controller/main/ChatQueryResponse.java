@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import aiss.conversation.Context;
+import aiss.model.luis.classes.Intent;
 
 public class ChatQueryResponse 
 {
@@ -11,23 +12,24 @@ public class ChatQueryResponse
 	ChatQueryResponseType responseType;
 	Integer jobId;
 	Context context;
+	Intent topIntent;
 	
 	/**
 	 * Creates a basic query response with null context and no extra data
 	 */
-	public static ChatQueryResponse createBasic(Context context)
+	public static ChatQueryResponse createBasic(Intent topIntent, Context context)
 	{
-		return new ChatQueryResponse(ChatQueryResponseType.Basic, context);
+		return new ChatQueryResponse(ChatQueryResponseType.Basic, topIntent, context);
 	}
 	
-	public static ChatQueryResponse createWaitForInput(Context context)
+	public static ChatQueryResponse createWaitForInput(Intent topIntent, Context context)
 	{
-		return new ChatQueryResponse(ChatQueryResponseType.WaitForInput, context);
+		return new ChatQueryResponse(ChatQueryResponseType.WaitForInput, topIntent, context);
 	}
 	
-	public static ChatQueryResponse createVideoGeneration(String jobId)
+	public static ChatQueryResponse createVideoGeneration(Intent topIntent, String jobId)
 	{
-		return new ChatQueryResponse(ChatQueryResponseType.VideoGeneration,null);
+		return new ChatQueryResponse(ChatQueryResponseType.VideoGeneration, topIntent, null);
 	}
 	
 	public void addChatMessage(String message)
@@ -43,9 +45,10 @@ public class ChatQueryResponse
 		}
 	}
 	
-	private ChatQueryResponse(ChatQueryResponseType type, Context context) {
+	private ChatQueryResponse(ChatQueryResponseType type, Intent intn, Context context) {
 		this.context = context;
 		this.responseType = type;
+		this.topIntent = intn;
 		this.messages = new ArrayList<String>();
 	}
 
@@ -76,5 +79,15 @@ public class ChatQueryResponse
 	public void setJobId(Integer jobId) {
 		this.jobId = jobId;
 	}
+
+	public Intent getTopIntent() {
+		return topIntent;
+	}
+
+	public void setTopIntent(Intent topIntent) {
+		this.topIntent = topIntent;
+	}
+	
+	
 
 }

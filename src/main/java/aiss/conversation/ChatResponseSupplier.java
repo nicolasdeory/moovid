@@ -52,7 +52,7 @@ public class ChatResponseSupplier {
 	{
 		random = new Random();
 		
-		String path = "webapp/chat/ChatResponses.xml";
+		String path = "ChatResponses.xml";
 		InputStream is = ChatResponseSupplier.class.getClassLoader().getResourceAsStream(path);
     	DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
     	DocumentBuilder dBuilder;
@@ -73,10 +73,15 @@ public class ChatResponseSupplier {
     	// Normalize document removing extra whitespace
     	doc.getDocumentElement().normalize();
     	
+    	// Initialize dictionary
+    	localization = new HashMap<>();
+    	
     	NodeList phraseLists = doc.getElementsByTagName("phraselist");
     	for (int i = 0; i < phraseLists.getLength(); i++) {
 			Node node = phraseLists.item(i);
 			String phraseListName = node.getAttributes().getNamedItem("name").getNodeValue();
+			//System.out.println(node.getChildNodes().toString());
+			//System.out.println(node.getChildNodes().item(0).getTextContent());
 			localization.put(phraseListName, node.getChildNodes());
 		}
 	}

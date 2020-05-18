@@ -97,6 +97,6 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ChatQueryController</servlet-name>
-    <url-pattern>/ChatQueryController</url-pattern>
+    <url-pattern>/chatquery</url-pattern>
   </servlet-mapping>
 </web-app>

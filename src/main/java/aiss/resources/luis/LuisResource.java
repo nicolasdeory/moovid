@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.restlet.resource.ClientResource;
 
@@ -23,15 +24,19 @@ import aiss.model.luis.enumerates.MusicEnergy;
 import aiss.model.luis.enumerates.MusicMood;
 import aiss.model.luis.enumerates.MusicTempo;
 import aiss.model.luis.enumerates.Sentiment;
+import aiss.resources.spotify.SpotifyResource;
+import jdk.internal.jline.internal.Log;
 
 public class LuisResource {
 
+	private static final Logger log = Logger.getLogger(LuisResource.class.getName());
+	
 	public static Intent getIntentFromQuery(String query) throws IOException
 	{
 		return getIntentFromJson(getQueryPrediction(query));
 	}
 	
-	private static String getQueryPrediction(String message) {
+	public static String getQueryPrediction(String message) {
 		String uri = "https://westus.api.cognitive.microsoft.com/"
 				+ "luis/prediction/v3.0/apps/b9e1fc9e-e095-4050-8786-ca9d2c7034de/"
 				+ "slots/staging/predict?subscription-key=8e8e367a952f4a15aff9a3d36a272063&verbose=false"
@@ -41,15 +46,19 @@ public class LuisResource {
 		return cr.get(String.class);
 	}
 	
-	private static Intent getIntentFromJson(String json) throws IOException {
+	public static Intent getIntentFromJson(String json) throws IOException {
 		JsonNode query = new ObjectMapper().readTree(json);
 		JsonNode entities = query.get("prediction").get("entities");
-		IntentType tipo = IntentType.valueOf
-				(query.get("prediction").get("topIntent").textValue());
+		String s = query.get("prediction").get("topIntent").textValue();
+		IntentType tipo = IntentType.valueOf(s);
 		JsonNode nodo_themes = entities.get("MontageTheme");
 		List<MontageTheme> ls = retrieveThemes(nodo_themes , new ArrayList<MontageTheme>());
-		Sentiment sent = Sentiment.valueOf(query.get("prediction").get("sentiment").get("label").textValue());
+		// Sentiment is unused anyway
+		Sentiment sent = null;
+		//String sentimentString = query.get("prediction").get("sentiment").get("label").textValue();
+		//Sentiment sent = Sentiment.valueOf(sentimentString);
 		
+		Intent intn;
 		switch(tipo) { // TODO: Add remaning intents
 		case CreateMontage:
 			List<LocalDate> ls_date = retrieveDateRange(entities);
@@ -86,6 +95,30 @@ public class LuisResource {
 		case SpecificTheme:
 			SpecificThemeIntent sth = new SpecificThemeIntent(sent, ls);
 			return sth;
+		case CommunicationCancel:
+			intn = new Intent(tipo);
+			return intn;
+		case CommunicationConfirm:
+			intn = new Intent(tipo);
+			return intn;
+		case DecideForMe:
+			intn = new Intent(tipo);
+			return intn;
+		case Greeting:
+			intn = new Intent(tipo);
+			return intn;
+		case Help:
+			intn = new Intent(tipo);
+			return intn;
+		case Insult:
+			intn = new Intent(tipo);
+			return intn;
+		case No:
+			intn = new Intent(tipo);
+			return intn;
+		case None:
+			intn = new Intent(tipo);
+			return intn;
 		default:
 			Intent in = new Intent(tipo, sent);
 			return in;

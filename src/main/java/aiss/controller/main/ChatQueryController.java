@@ -1,6 +1,8 @@
 package aiss.controller.main;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -35,13 +37,20 @@ public class ChatQueryController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String query = request.getParameter("query");
+		String query = request.getParameter("q");
 		Intent intent = LuisResource.getIntentFromQuery(query);
 		Context sessionContext = (Context)request.getSession().getAttribute("context");
-		IntentHandler handler = IntentHandlerFactory.fromIntent(intent, sessionContext);
+		// Discard context if it's too old (more than 10 minutes)
+		if (sessionContext != null &&
+				LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) - sessionContext.getTimestamp() > 60*10)
+			sessionContext = null;
+		
+		sessionContext = sessionContext == null ? new Context() : sessionContext;
+		ChatQueryResponse chatResponse = IntentHandlerFactory.fromIntent(intent, sessionContext);
+		sessionContext = chatResponse.getContext();
+		request.getSession().setAttribute("context", sessionContext);
 		// Generate chat response
-		// TODO: sesion context attach is logged in
-		ChatQueryResponse chatResponse = handler.generateResponse();
+		// TODO: sesion context attach is logged in if cookie is present
 		String chatJson = new JacksonRepresentation<ChatQueryResponse>(chatResponse).getText();
 		response.setContentType("application/json");
 		// Send chat query response

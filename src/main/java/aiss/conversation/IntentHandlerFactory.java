@@ -18,25 +18,25 @@ public class IntentHandlerFactory {
 		{
 		// HELP
 		case Help:
-			return HelpHandler.generateResponse(context);
+			return HelpHandler.generateResponse(intent, context);
 		// COMMUNICATION CANCEL
 		case CommunicationCancel:
 			return CancelIntentHandler.generateResponse(intent,context);
 		// COMMUNICATION CONFIRM
 		case CommunicationConfirm:
-			if(context.getPreviousState().equals("did-you-want-montage") || context.getContextType().equals(ContextType.MontageTheme))
+			if(context.previousStateEquals("did-you-want-montage") || context.getContextType().equals(ContextType.MontageTheme))
 			{
 				context = null;
 				return CreateMontageHandler.generateMontage(intent, context, "AskTheme");
 			}
-			else if (context.getPreviousState().equals("montage-ask-music") || context.getContextType().equals(ContextType.MontageMusic))
+			else if (context.previousStateEquals("montage-ask-music") || context.getContextType().equals(ContextType.MontageMusic))
 			{
 				context.setContextType(ContextType.MontageMusic);
 				return CreateMontageHandler.generateMontage(intent, context, "AskMusic");
 			}
 			else 
 			{
-				return UnexpectedIntentHandler.generateResponse(context);
+				return UnexpectedIntentHandler.generateResponse(intent, context);
 			}
 		// CREATE MONTAGE
 		case CreateMontage:
@@ -48,11 +48,11 @@ public class IntentHandlerFactory {
 				return CreateMontageHandler.generateMontage(intent, context, "DecideForMe");
 			} else 
 			{
-				return UnexpectedIntentHandler.generateResponse(context);
+				return UnexpectedIntentHandler.generateResponse(intent, context);
 			}
 		// GREETING	
 		case Greeting:
-			return GenericHandler.generateResponse("hello-intent", context);
+			return GenericHandler.generateResponse(intent, "hello-intent", context);
 		// MONTAGE THEME INTENT
 		case MontageThemeIntent:
 			if(weAreMakingMontage(context))
@@ -60,7 +60,7 @@ public class IntentHandlerFactory {
 				return CreateMontageHandler.generateMontage(intent, context, "MontageTheme");
 			} else 
 			{
-				return GenericHandler.generateResponse("did-you-want-montage", context);
+				return GenericHandler.generateResponse(intent, "did-you-want-montage", context);
 			}
 		// MUSIC DESCRIPTION
 		case MusicDescription:
@@ -69,11 +69,11 @@ public class IntentHandlerFactory {
 				return CreateMontageHandler.generateMontage(intent, context, "MusicDescription");
 			} else 
 			{
-				return GenericHandler.generateResponse("did-you-want-montage", context);
+				return GenericHandler.generateResponse(intent, "did-you-want-montage", context);
 			}
 		// NONE INTENT
 		case None:
-			return GenericHandler.generateResponse("unknown-intent", context);
+			return GenericHandler.generateResponse(intent, "unknown-intent", context);
 		// SPECIFIC THEME
 		case SpecificTheme:
 			if (weAreMakingMontage(context))
@@ -81,10 +81,10 @@ public class IntentHandlerFactory {
 				return CreateMontageHandler.generateMontage(intent, context, "MontageTheme");
 			} else 
 			{
-				return GenericHandler.generateResponse("did-you-want-montage", context);
+				return GenericHandler.generateResponse(intent, "did-you-want-montage", context);
 			}
 		case Insult:
-			return GenericHandler.generateResponse("insult", context);
+			return GenericHandler.generateResponse(intent, "insult", context);
 		case No:
 			if (weAreMakingMontage(context))
 			{
@@ -93,7 +93,7 @@ public class IntentHandlerFactory {
 			else
 			{
 				context = null;
-				return GenericHandler.generateResponse("ok", context);
+				return GenericHandler.generateResponse(intent, "ok", context);
 			}
 		default:
 			return null;

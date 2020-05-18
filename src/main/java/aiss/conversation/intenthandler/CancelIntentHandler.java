@@ -8,7 +8,7 @@ import aiss.model.luis.classes.Intent;
 public class CancelIntentHandler {
 
 	public static ChatQueryResponse generateResponse(Intent intent, Context context) {
-		ChatQueryResponse resp = ChatQueryResponse.createBasic(null);
+		ChatQueryResponse resp = ChatQueryResponse.createBasic(intent, null);
 		if (context == null)
 		{
 			resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("cancel-nothing"));

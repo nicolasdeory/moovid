@@ -1,12 +1,19 @@
 package aiss.conversation;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 import aiss.model.luis.classes.MusicIntent;
 import aiss.model.luis.enumerates.MontageTheme;
 
-public class Context {
+public class Context implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ContextType contextType;
 	private List<MontageTheme> themeEntities;
 	private LocalDate start;
@@ -16,6 +23,13 @@ public class Context {
 	String previousState = "";
 	private boolean isLoggedIn;
 	
+	private long timestamp;
+	
+	public Context()
+	{
+		this.timestamp = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
+		this.contextType = ContextType.None;
+	}
 	
 	public String getPreviousState() {
 		return previousState;
@@ -66,6 +80,24 @@ public class Context {
 	}
 	public void setLoggedIn(boolean isLoggedIn) {
 		this.isLoggedIn = isLoggedIn;
+	}
+	public long getTimestamp() {
+		return timestamp;
+	}
+	public void setTimestamp(long timestamp) {
+		this.timestamp = timestamp;
+	}
+	
+	public boolean previousStateEquals(String prevState)
+	{
+		return this.previousState != null && this.previousState.equals(prevState);
+	}
+
+	@Override
+	public String toString() {
+		return "Context [contextType=" + contextType + ", themeEntities=" + themeEntities + ", start=" + start
+				+ ", end=" + end + ", music=" + music + ", waitingForInput=" + waitingForInput + ", previousState="
+				+ previousState + ", isLoggedIn=" + isLoggedIn + ", timestamp=" + timestamp + "]";
 	}
 	
 	

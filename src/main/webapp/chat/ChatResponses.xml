@@ -161,6 +161,28 @@
 		<response>😎</response>
 		<response>😊</response>
 	</phraselist>
+	<phraselist name="unexpected-intent-in-theme"> <!-- When we weren't expecting that intent from the user -->
+		<response>No he entendido lo que me quieres decir.
+			<ret/>Indícame el tema sobre el que quieras hacer el montaje.
+			<ret/>Si prefieres que elija yo por ti, dímelo.</response>
+		<response>No te he entendido bien.
+			<ret/>Dime el tema sobre el que quieras hacer el montaje.
+			<ret/>Si prefieres que yo elija por ti, dímelo.</response>
+		<response>No he entendido lo que me quieres decir.
+			<ret/>Indícame el tema sobre el que quieras hacer el montaje.
+			<ret/>Si prefieres que elija yo por ti, dímelo.</response>
+	</phraselist>
+	<phraselist name="unexpected-intent-in-music"> <!-- When we weren't expecting that intent from the user -->
+		<response>No he entendido lo que me quieres decir.
+			<ret/>Indícame qué tipo de música quieres para el montaje.
+			<ret/>Si prefieres que elija yo por ti, dímelo.</response>
+		<response>No te he entendido bien.
+			<ret/>Dime qué tipo de música quieres para el montaje.
+			<ret/>Si prefieres que yo elija por ti, dímelo.</response>
+		<response>No he entendido lo que me quieres decir.
+			<ret/>Indícame qué tipo de música quieres para el montaje.
+			<ret/>Si prefieres que elija yo por ti, dímelo.</response>
+	</phraselist>
 	<phraselist name="did-you-want-montage"> <!-- When we weren't expecting montage theme or song from the user -->
 		<response>Perdona, ¿querías que te hiciera un montaje?</response>
 		<response>A ver, vale. ¿Querías hacer un montaje?</response>

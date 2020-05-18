@@ -1,101 +1,135 @@
 package aiss.conversation.intenthandler;
 
+import java.util.ArrayList;
+
 import aiss.controller.main.ChatQueryResponse;
 import aiss.conversation.ChatResponseSupplier;
 import aiss.conversation.Context;
 import aiss.conversation.ContextType;
 import aiss.model.luis.classes.Intent;
+import aiss.model.luis.classes.MontageCreateIntent;
+import aiss.model.luis.classes.MontageThemeIntent;
+import aiss.model.luis.classes.MusicIntent;
+import aiss.model.luis.enumerates.MontageTheme;
+import aiss.montage.JobManager;
+import aiss.montage.MontageJob;
 
-public class CreateMontageHandler extends BaseIntentHandler {
+public class CreateMontageHandler {
 
-	@Override
-	public ChatQueryResponse generateResponse() {
-		if (context == null)
-		{
-			Context ctx = new Context();
-			ctx.setContext(ContextType.MontageTheme);
-			ChatQueryResponse resp = ChatQueryResponse.createWaitForInput(ctx);
-			resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-ask-theme"));
-			return resp;
-		}
-		else if (context.getContextType().equals(ContextType.MontageTheme))
-		{
-			Context ctx = new Context();
-			ctx.setContext(ContextType.MontageMusic);
-			ChatQueryResponse resp = ChatQueryResponse.createWaitForInput(ctx);
-			resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-ask-music"));
-			return resp;
-		}
-		else if (context.getContextType().equals(ContextType.MontageMusic))
-		{
-			return generateMontage(this.intent, this.context);
-		}
-	}
-	
-	public static ChatQueryREsponse
-	
 	public static ChatQueryResponse generateMontage(Intent intt, Context context, String type)
 	{
 		switch (type)
 		{
 			case "CreateMontage":
-				break;
-			case "CreateMontage":
-				break;
-			case "CreateMontage":
-				break;
-			case "CreateMontage":
-				break;
-			case "CreateMontage":
-				break;
-			case "CreateMontage":
-				break;
+				return handleCreateMontage(intt, context);
+			case "AskTheme":
+				return handleAskTheme(intt, context);
+			case "AskMusic":
+				return handleAskMusic(intt, context);
+			case "DecideForMe":
+				return handleDecideForMe(intt, context);
+			case "MusicDescription":
+				return handleMusicDescription(intt, context);
+			case "MontageTheme":
+				return handleMontageTheme(intt, context);
+			default:
+				throw new UnsupportedOperationException();
 		}
 		
 	}
 	
-//	Context ctx;
-//	if (context == null)
-//	{
-//		ctx = new Context();
-//		// TODO: set date here
-//		ctx.setContext(ContextType.MontageTheme);
-//		ChatQueryResponse resp = ChatQueryResponse.createWaitForInput(ctx);
-//		resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-ask-theme"));
-//		return resp;
-//	}
-//	else if (context.getContextType().equals(ContextType.MontageTheme))
-//	{
-//		ctx = new Context();
-//		ctx.setContext(ContextType.MontageMusic);
-//		ChatQueryResponse resp = ChatQueryResponse.createWaitForInput(ctx);
-//		resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-ask-music"));
-//		return resp;
-//	}
-//	else if (context.getContextType().equals(ContextType.MontageMusic))
-//	{
-//		return generateMontage(this.intent, this.context);
-//	}
-//	
-//	// 
-//	ChatQueryResponse resp = ChatQueryResponse.createVideoGeneration(jobId)
-//	resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-start-processing"));
-//	return resp;
-	
-	public static ChatQueryResponse withTheme(Intent intent, Context context)
+	private static ChatQueryResponse handleCreateMontage(Intent intt, Context ctx) 
 	{
+		MontageCreateIntent intentMontage = (MontageCreateIntent)intt;
+		Context myContext = new Context();
+		ChatQueryResponse resp;
 		
-	}
-	
-	public static ChatQueryResponse withMusic(Intent intent, Context context) 
-	{
+		if (!ctx.isLoggedIn())
+		{
+			resp = ChatQueryResponse.createBasic(ctx);
+			resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-login"));
+			return resp;
+		}
 		
+		if (intentMontage.getThemeEntities() != null && intentMontage.getThemeEntities().size() > 0)
+		{
+			myContext.setThemeEntities(intentMontage.getThemeEntities());
+			myContext.setStart(intentMontage.getStart());
+			myContext.setEnd(intentMontage.getEnd());
+			myContext.setContextType(ContextType.MontageMusic);
+			resp = ChatQueryResponse.createWaitForInput(myContext);
+			resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-ask-music"));
+		}
+		else
+		{
+			myContext.setContextType(ContextType.MontageTheme);
+			resp = ChatQueryResponse.createWaitForInput(myContext);
+			resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-ask-theme"));
+		}
+		return resp;
 	}
 	
-	
-	public CreateMontageHandler(Intent intent, Context context)
+	private static ChatQueryResponse handleMontageTheme(Intent intt, Context ctx)
 	{
-		super(intent, context);
+		MontageThemeIntent intentMontage = (MontageThemeIntent)intt; // TODO: We should probably deprecate MontageTheme...
+		Context myContext = new Context();
+		ChatQueryResponse resp;
+		myContext.setContextType(ContextType.MontageMusic);
+		myContext.setThemeEntities(intentMontage.getThemeEntities());
+		resp = ChatQueryResponse.createWaitForInput(myContext);
+		resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-ask-music"));
+		return resp;
 	}
-
+	
+	private static ChatQueryResponse handleAskTheme(Intent intt, Context ctx)
+	{
+		ChatQueryResponse resp = ChatQueryResponse.createWaitForInput(ctx);
+		Context myContext = new Context();
+		myContext.setContextType(ContextType.MontageTheme);
+		resp = ChatQueryResponse.createWaitForInput(myContext);
+		resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-indicate-theme"));
+		return resp;
+	}
+	
+	private static ChatQueryResponse handleAskMusic(Intent intt, Context ctx)
+	{
+		ChatQueryResponse resp = ChatQueryResponse.createWaitForInput(ctx);
+		Context myContext = new Context();
+		myContext.setContextType(ContextType.MontageMusic);
+		resp = ChatQueryResponse.createWaitForInput(myContext);
+		resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-indicate-music"));
+		return resp;
+	}
+	
+	private static ChatQueryResponse handleDecideForMe(Intent intt, Context ctx)
+	{
+		ChatQueryResponse resp;
+		Context myContext = new Context();
+		if (ctx.getContextType().equals(ContextType.MontageTheme))
+		{
+			myContext.setThemeEntities(new ArrayList<MontageTheme>());
+			myContext.setContextType(ContextType.MontageMusic);
+			resp = ChatQueryResponse.createWaitForInput(myContext);
+			resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-ask-music"));
+		}
+		else if (ctx.getContextType().equals(ContextType.MontageMusic))
+		{
+			MontageJob job = MontageJob.of(myContext.getThemeEntities(), null, myContext.getStart(), myContext.getEnd());
+			JobManager.enqueueJob(job);
+			resp = ChatQueryResponse.createVideoGeneration(job.getUuid().toString());
+			resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-start-processing"));
+		}
+		return null;
+	}
+	
+	private static ChatQueryResponse handleMusicDescription(Intent intt, Context ctx)
+	{
+		MusicIntent musicIntent = (MusicIntent)intt;
+		MontageJob job = MontageJob.of(ctx.getThemeEntities(), musicIntent, ctx.getStart(), ctx.getEnd());
+		JobManager.enqueueJob(job);
+		ChatQueryResponse resp = ChatQueryResponse.createVideoGeneration(job.getUuid().toString());
+		resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-start-processing"));
+		return resp;
+	}
+	
 }

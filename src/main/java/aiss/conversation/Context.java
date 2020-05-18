@@ -14,7 +14,7 @@ public class Context {
 	private MusicIntent music;
 	private boolean waitingForInput;
 	String previousState = "";
-	
+	private boolean isLoggedIn;
 	
 	
 	public String getPreviousState() {
@@ -60,6 +60,12 @@ public class Context {
 	}
 	public void setWaitingForInput(boolean waitingForInput) {
 		this.waitingForInput = waitingForInput;
+	}
+	public boolean isLoggedIn() {
+		return isLoggedIn;
+	}
+	public void setLoggedIn(boolean isLoggedIn) {
+		this.isLoggedIn = isLoggedIn;
 	}
 	
 	

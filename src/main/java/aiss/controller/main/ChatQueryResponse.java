@@ -32,14 +32,14 @@ public class ChatQueryResponse
 	
 	public void addChatMessage(String message)
 	{
-		messages.add(message);
+		messages.add(message.trim());
 	}
 	
 	public void addChatMessages(String[] messageArray)
 	{
 		for(String message : messageArray) 
 		{
-			this.messages.add(message);
+			this.messages.add(message.trim());
 		}
 	}
 	

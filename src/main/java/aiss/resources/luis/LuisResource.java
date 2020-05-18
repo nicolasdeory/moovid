@@ -49,7 +49,8 @@ public class LuisResource {
 		JsonNode nodo_themes = entities.get("MontageTheme");
 		List<MontageTheme> ls = retrieveThemes(nodo_themes , new ArrayList<MontageTheme>());
 		Sentiment sent = Sentiment.valueOf(query.get("prediction").get("sentiment").get("label").textValue());
-		switch(tipo) {
+		
+		switch(tipo) { // TODO: Add remaning intents
 		case CreateMontage:
 			List<LocalDate> ls_date = retrieveDateRange(entities);
 			MontageCreateIntent mcr = new MontageCreateIntent(sent, ls, ls_date.get(0), ls_date.get(1));

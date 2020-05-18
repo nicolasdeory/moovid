@@ -24,19 +24,19 @@ public class IntentHandlerFactory {
 			return CancelIntentHandler.generateResponse(intent,context);
 		// COMMUNICATION CONFIRM
 		case CommunicationConfirm:
-			if(context.getPreviousState().equals("did-you-want-montage"))
+			if(context.getPreviousState().equals("did-you-want-montage") || context.getContextType().equals(ContextType.MontageTheme))
 			{
 				context = null;
 				return CreateMontageHandler.generateMontage(intent, context, "AskTheme");
 			}
-			else if (context.getPreviousState().equals("montage-ask-music"))
+			else if (context.getPreviousState().equals("montage-ask-music") || context.getContextType().equals(ContextType.MontageMusic))
 			{
 				context.setContextType(ContextType.MontageMusic);
 				return CreateMontageHandler.generateMontage(intent, context, "AskMusic");
 			}
 			else 
 			{
-				return GenericHandler.generateResponse("unexpected-intent", context);
+				return UnexpectedIntentHandler.generateResponse(context);
 			}
 		// CREATE MONTAGE
 		case CreateMontage:
@@ -48,7 +48,7 @@ public class IntentHandlerFactory {
 				return CreateMontageHandler.generateMontage(intent, context, "DecideForMe");
 			} else 
 			{
-				return GenericHandler.generateResponse("unexpected-intent", context);
+				return UnexpectedIntentHandler.generateResponse(context);
 			}
 		// GREETING	
 		case Greeting:

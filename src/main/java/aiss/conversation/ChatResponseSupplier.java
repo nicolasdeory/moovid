@@ -2,6 +2,9 @@ package aiss.conversation;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,9 +24,8 @@ import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-
-import aiss.resources.spotify.SpotifyResource;
 
 public class ChatResponseSupplier {
 	
@@ -105,7 +107,7 @@ public class ChatResponseSupplier {
     	Document doc;
     	try {
 			dBuilder = dbFactory.newDocumentBuilder();
-			doc = dBuilder.parse(is);			
+			doc = dBuilder.parse(new InputSource(new InputStreamReader(is, "UTF-8")));			
 		} catch (SAXException | IOException e) {
 			log.log(Level.SEVERE, "Error parsing ChatResponses XML file");
 			e.printStackTrace();

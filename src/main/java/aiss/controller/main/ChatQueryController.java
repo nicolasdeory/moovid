@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.restlet.data.CharacterSet;
 import org.restlet.ext.jackson.JacksonRepresentation;
 
 import aiss.controller.demo.SpotifyDemo;
@@ -53,9 +54,12 @@ public class ChatQueryController extends HttpServlet {
 		
 		// Generate chat response
 		// TODO: sesion context attach is logged in if cookie is present
-		String chatJson = new JacksonRepresentation<ChatQueryResponse>(chatResponse).getText();
+		JacksonRepresentation<ChatQueryResponse> chatqRepr = new JacksonRepresentation<ChatQueryResponse>(chatResponse);
+		chatqRepr.setCharacterSet(CharacterSet.UTF_8);
+		String chatJson = chatqRepr.getText();
 		response.setCharacterEncoding("UTF-8");
-		response.setContentType("application/json");
+		response.setContentType("application/json; charset=UTF-8");
+		System.out.println(chatJson);
 		// Send chat query response
 		response.getWriter().append(chatJson);
 		

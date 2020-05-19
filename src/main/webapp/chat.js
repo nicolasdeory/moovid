@@ -1,11 +1,29 @@
 function newEntry() {
   //if the message from the user isn't empty then run 
   if (document.getElementById("chatbox").value != "" ) {
-    //pulls the value from the chatbox ands sets it to lastUserMessage
     lastUserMessage = document.getElementById("chatbox").value;
-    //sets the chat box to be clear
     document.getElementById("chatbox").value = "";
-    //adds the value of the chatbox to the array messages
+
+    //hasta aqui guardo el mensaje en variable y reseteo. 
+
+
+    parentElement = document.getElementById("chat-container"); //el contenedor
+    childElement = document.createElement('div').classList.add("chat-right"); // el hijo
+    childElement2 = document.createElement('div').classList.add("sp");
+    userMsgContainer = document.createElement('div').classList.add("msg").classList.add("msg-right");
+    userMsg = document.createElement('p');
+    
+    // meter lastmsg en p
+
+    appendMsg = userMsgContainer.appendChild(userMsg);
+    appendContainter = childElement.appendChild(userMsgContainer);
+    appendChildElement2 = childElement.appendChild(childElement2);
+    appendChildElement = parentElement.appendChild(childElement);
+
+    
+
+    }
+
   }
 }
 
@@ -18,9 +36,5 @@ function keyPress(e) {
   if (key == 13 || key == 3) {
     //runs this function when enter is pressed
     newEntry();
-  }
-  if (key == 38) {
-    console.log('hi')
-      //document.getElementById("chatbox").value = lastUserMessage;
   }
 }

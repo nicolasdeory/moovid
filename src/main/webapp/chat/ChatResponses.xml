@@ -3,7 +3,7 @@
 	<phraselist name="start-conversation"> <!-- This goes in the client, not here. TODO: Add error strings as well --> 
 		<response>¿Qué tal?<ret/>¿Preparado para hacer un montaje? ¡Pídemelo!</response>
 		<response>Hola 😊<ret/>¿Te apetece hacer algún montaje? ¡Venga, adelante!</response>
-		<response>¿Listo para hacer montajes? ¡Adelante!<ret/></response>
+		<response>¿Listo para hacer montajes?<ret/>¡Adelante!</response>
 		<response>¿Qué tal?<ret/>Pídeme lo que necesites 😎</response>
 		<response>¡Buenas! 😄</response>
 		<response>¡Hola!<ret/>Espero poder ayudarte.</response>

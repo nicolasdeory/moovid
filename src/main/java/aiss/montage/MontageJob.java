@@ -66,11 +66,4 @@ public class MontageJob
 		this.end = end;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
 }

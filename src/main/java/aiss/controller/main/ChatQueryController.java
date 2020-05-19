@@ -47,15 +47,17 @@ public class ChatQueryController extends HttpServlet {
 		
 		sessionContext = sessionContext == null ? new Context() : sessionContext;
 		ChatQueryResponse chatResponse = IntentHandlerFactory.fromIntent(intent, sessionContext);
+		chatResponse.setQuery(query);
 		sessionContext = chatResponse.getContext();
 		request.getSession().setAttribute("context", sessionContext);
+		
 		// Generate chat response
 		// TODO: sesion context attach is logged in if cookie is present
 		String chatJson = new JacksonRepresentation<ChatQueryResponse>(chatResponse).getText();
+		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json");
 		// Send chat query response
 		response.getWriter().append(chatJson);
-		
 		
 	}
 

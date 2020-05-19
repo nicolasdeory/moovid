@@ -13,6 +13,7 @@ public class ChatQueryResponse
 	Integer jobId;
 	Context context;
 	Intent topIntent;
+	String query;
 	
 	/**
 	 * Creates a basic query response with null context and no extra data
@@ -87,6 +88,15 @@ public class ChatQueryResponse
 	public void setTopIntent(Intent topIntent) {
 		this.topIntent = topIntent;
 	}
+
+	public String getQuery() {
+		return query;
+	}
+
+	public void setQuery(String originalQuery) {
+		this.query = originalQuery;
+	}
+	
 	
 	
 

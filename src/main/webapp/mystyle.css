@@ -289,8 +289,9 @@ a.button3:hover{
     margin-right: 10px;
 }
 .chat-container .msg p{
-    word-break: break-all;
+    word-break: normal;
     font-size: 15px;
+    padding-left: 10px;
 }
 
 

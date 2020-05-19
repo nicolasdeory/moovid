@@ -21,7 +21,7 @@ public class GooglePhotosMediaItemListController extends HttpServlet{
     	log.info("token is: " + accessToken);
     	if (accessToken != null && !"".equals(accessToken)) {
     		MediaItemResource miResource = new MediaItemResource(accessToken);
-            String MIs = miResource.getMediaItemsString();
+    		MediaItems MIs = miResource.getMediaItems();
             if(MIs!=null) {
                 log.info("Files obtained");
                 req.setAttribute("cajademo", MIs);

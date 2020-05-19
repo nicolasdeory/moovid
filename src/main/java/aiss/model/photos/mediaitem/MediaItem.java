@@ -62,6 +62,13 @@ public class MediaItem {
 	public void setFilename(String filename) {
 		this.filename = filename;
 	}
+	@Override
+	public String toString() {
+		return "MediaItem [id=" + id + ", description=" + description + ", productUrl=" + productUrl + ", baseUrl="
+				+ baseUrl + ", mimeType=" + mimeType + ", filename=" + filename + "]";
+	}
+	
+	
 	
 	
 }

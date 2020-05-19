@@ -129,8 +129,8 @@ public class MediaItemResource {
 			ContentFilter = ContentFilter.substring(0, ContentFilter.length()-1);
 			ContentFilter = ContentFilter + ";excluded:,";
 			String MediaTypeFilter = "mediatypes:photo,";
-			String FeatureFilter = "features:none";
-			filtrostr = DateFilter + ContentFilter + MediaTypeFilter + FeatureFilter;
+			String FeatureFilter = "features:none,";
+			filtrostr = DateFilter + ContentFilter + MediaTypeFilter + FeatureFilter + "true,true";
 			Filters f = generadorDeFiltro(filtrostr);
 			cr = new ClientResource(uri + ":search" + "?access_token=" + access_token);
 			cr.setEntityBuffering(true);

@@ -40,7 +40,6 @@
     <servlet-name>GooglePhotosMediaItemSearchController</servlet-name>
     <url-pattern>/PhotosSearch</url-pattern>
   </servlet-mapping>
-  <!-- Spotify -->
   <servlet>
     <servlet-name>SpotifyDemoController</servlet-name>
     <servlet-class>aiss.controller.demo.SpotifyDemoController</servlet-class>
@@ -49,7 +48,6 @@
     <servlet-name>SpotifyDemoController</servlet-name>
     <url-pattern>/demo/spotify</url-pattern>
   </servlet-mapping>
-  <!-- LUIS -->
   <servlet>
     <servlet-name>LuisDemoController</servlet-name>
     <servlet-class>aiss.controller.demo.LuisDemoController</servlet-class>
@@ -91,5 +89,14 @@
     <servlet-name>GooglePhotosOAuth2Callback</servlet-name>
     <url-pattern>/oauth2callback/GooglePhotos</url-pattern>
   </servlet-mapping>
- 
+  <servlet>
+    <description></description>
+    <display-name>ChatQueryController</display-name>
+    <servlet-name>ChatQueryController</servlet-name>
+    <servlet-class>aiss.controller.main.ChatQueryController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ChatQueryController</servlet-name>
+    <url-pattern>/chatquery</url-pattern>
+  </servlet-mapping>
 </web-app>

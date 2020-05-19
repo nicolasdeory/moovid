@@ -268,6 +268,7 @@ a.button3:hover{
 .chat-left{
     display: flex;
     margin-left: 10px;
+    padding-left: 2px;
     word-break: break-all;
     max-width: 50%;
 }
@@ -278,10 +279,11 @@ a.button3:hover{
 
 .chat-container .msg{
     background: #f8f8f8;
-    padding: 2px;
+    padding-right: 4px;
     border-radius: 50px;
     margin: 5px;
     border-bottom-left-radius: 0px;
+    border-top-left-radius: 40px;
 }
 
 .msg p{
@@ -290,19 +292,20 @@ a.button3:hover{
 }
 .chat-container .msg p{
     word-break: normal;
-    font-size: 15px;
-    padding-left: 10px;
+    font-size: 12px;
 }
 
 
 .chat-container .msg-right{
     background: #FFE694;
+    border-radius: 50px;
     border-bottom-right-radius: 0px;
-    border-bottom-left-radius: 50px;
+    border-top-right-radius: 40px;
 }
 
 .chat-footer{
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     border-radius: 60px;
@@ -310,7 +313,7 @@ a.button3:hover{
     padding-left: 15px;
     padding-right: 15px;
 }
-.chat-footer input{
+.chat-footer .chatbot{
     display: block;
     flex: 1;
     width: 100%;
@@ -323,6 +326,27 @@ a.button3:hover{
     padding-left: 30px;
     padding-right: 30px;
     color: #2b2b2b;
+    font-family: 'Montserrat', sans-serif;
+
 }
+
+.chat-footer .send-button{
+    position: absolute;
+    display: block;
+    width: 90px;
+    height: 38px;
+    border-radius: 60px;
+    border-style: none;
+    outline: none;
+    font-size: 17px;
+    color: #2b2b2b;
+    background-color: #eee;
+    font-family: 'Montserrat', sans-serif;
+    cursor: pointer;
+    right: 23px;
+
+
+}
+
 
 

@@ -55,7 +55,7 @@ public class GooglePhotosMediaItemSearchController extends HttpServlet{
         }
     }
 
-	private Filters generadorDeFiltro(String fltsstr) {
+    public Filters generadorDeFiltro(String fltsstr) {
 		// Separacion de parametros necesarios
 		String[] parametrosFilters = fltsstr.split(",");
 		String[] parametrosDateFilter = parametrosFilters[0].split(";");
@@ -65,32 +65,40 @@ public class GooglePhotosMediaItemSearchController extends HttpServlet{
 		String includeArchivedMediastr = parametrosFilters[4].trim();
 		String excludeNonAppCreatedDatastr = parametrosFilters[5].trim();
 		//Creacion de DateFilter (consta de 2 parametros, dates y ranges)
-		String[] datesstr = parametrosDateFilter[0].split(":")[1].split("|");
-		String[] dateRangesstr = parametrosDateFilter[1].split(":")[1].split("|");
+		String datess = parametrosDateFilter[0].split(":")[1];
+		String[] datesstr = null;
+		if(datess.length()!=0) datesstr = parametrosDateFilter[0].split(":")[1].split("|");
+		String dateRangess = parametrosDateFilter[1].split(":")[1];
+		String[] dateRangesstr = null;
+		if(dateRangess.length()!=0) dateRangesstr = parametrosDateFilter[1].split(":")[1].split("|");
 		List<Date> datesList = new ArrayList<Date>();
 		List<DateRange> dateRangesList= new ArrayList<DateRange>();
-		for(String datestr:datesstr) {
-			String splits[] = datestr.split(".");
-			Integer day = Integer.valueOf(splits[0].trim());
-			Integer month = Integer.valueOf(splits[1].trim());
-			Integer year = Integer.valueOf(splits[2].trim());
-			Date date = new Date(year,month,day);
-			datesList.add(date);
+		if(datess.length()!=0) {
+			for(String datestr:datesstr) {
+				String splits[] = datestr.split(".");
+				Integer day = Integer.valueOf(splits[0].trim());
+				Integer month = Integer.valueOf(splits[1].trim());
+				Integer year = Integer.valueOf(splits[2].trim());
+				Date date = new Date(year,month,day);
+				datesList.add(date);
+			}
 		}
+		if(dateRangess.length()!=0) {
 		for(String dateRangestr:dateRangesstr) {
-			String[] dates = dateRangestr.split("-");
-			String[] date1str = dates[0].trim().split(".");
-			String[] date2str = dates[1].trim().split(".");
-			Integer day1 = Integer.valueOf(date1str[0].trim());
-			Integer month1 = Integer.valueOf(date1str[1].trim());
-			Integer year1 = Integer.valueOf(date1str[2].trim());
-			Integer day2 = Integer.valueOf(date2str[0].trim());
-			Integer month2 = Integer.valueOf(date2str[1].trim());
-			Integer year2 = Integer.valueOf(date2str[2].trim());
-			Date date1 = new Date(year1,month1,day1);
-			Date date2 = new Date(year2,month2,day2);
-			DateRange dateRange = new DateRange(date1,date2);
-			dateRangesList.add(dateRange);
+				String[] dates = dateRangestr.split("-");
+				String[] date1str = dates[0].trim().split(".");
+				String[] date2str = dates[1].trim().split(".");
+				Integer day1 = Integer.valueOf(date1str[0].trim());
+				Integer month1 = Integer.valueOf(date1str[1].trim());
+				Integer year1 = Integer.valueOf(date1str[2].trim());
+				Integer day2 = Integer.valueOf(date2str[0].trim());
+				Integer month2 = Integer.valueOf(date2str[1].trim());
+				Integer year2 = Integer.valueOf(date2str[2].trim());
+				Date date1 = new Date(year1,month1,day1);
+				Date date2 = new Date(year2,month2,day2);
+				DateRange dateRange = new DateRange(date1,date2);
+				dateRangesList.add(dateRange);
+			}
 		}
 		Date[] dates = new Date[datesList.size()];
 		DateRange[] dateRanges = new DateRange[dateRangesList.size()];

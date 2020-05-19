@@ -149,9 +149,8 @@ footer{
 
 a.button3{
     display:inline-block;
-    padding:0.4em 2.7em;
-    border:0.05em solid #222;
-    margin:0 0.3em 0.3em 0;
+    padding:0.1em;
+    border: 1px solid #222;
     box-sizing: border-box;
     text-decoration:none;
     text-transform:uppercase;
@@ -161,12 +160,14 @@ a.button3{
     background-color:  #FFD85A;
     text-align:center;
     transition: all 0.1s;
-    width: 70%;
+    width: 47%;
     height: auto;
-    font-size: 30px;
-    margin-top: 15px;
-    margin-bottom: 20px;
-    letter-spacing: 3px;
+    font-size: 13px;
+    letter-spacing: 2px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
 }
 
 a.button3:hover{
@@ -174,6 +175,12 @@ a.button3:hover{
     border-color:#222;
     background-color:  #ddaf53;
     cursor: pointer;
+}
+#gfotoslogo{
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    margin-left: 10px;
 }
 
 .title-container{
@@ -207,7 +214,7 @@ a.button3:hover{
     padding: 10px 20px  10px  10px;
     font-size: 14px;
     text-align: center;
-    font-weight: 600;
+    font-weight: 500;
     color: #2b2b2b;
 }
 
@@ -219,7 +226,7 @@ a.button3:hover{
 .col-content.middle{
       justify-content: center;
       align-items: center;
-      height: calc(100% - 120px);
+      height: calc(100% - 155px);
 
 }
 
@@ -299,6 +306,8 @@ a.button3:hover{
     align-items: center;
     border-radius: 60px;
     position: relative;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 .chat-footer input{
     display: block;
@@ -314,4 +323,5 @@ a.button3:hover{
     padding-right: 30px;
     color: #2b2b2b;
 }
+
 

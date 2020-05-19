@@ -58,7 +58,7 @@
                     		<span id="result">
                     		Prueba de que llega aqui
                     		Pulsa aqui para descargar la imagen de id = <c:out value="${requestScope.MediaItem.id}"/>
-              				<input type="button" onclick="window.location.href = '${requestScope.MediaItem.baseUrl}=d';">
+              				<input type="button" onclick="window.location.href = '${requestScope.MediaItem.baseUrl}=w1020-h720-d';">
                     		</span>
                 		</div>
             		</div>

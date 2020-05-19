@@ -37,11 +37,13 @@ public class LuisResource {
 	}
 	
 	public static String getQueryPrediction(String message) {
-		String uri = "https://westus.api.cognitive.microsoft.com/"
+		/*String uri = "https://westus.api.cognitive.microsoft.com/"
 				+ "luis/prediction/v3.0/apps/b9e1fc9e-e095-4050-8786-ca9d2c7034de/"
 				+ "slots/staging/predict?subscription-key=8e8e367a952f4a15aff9a3d36a272063&verbose=false"
 				+ "&show-all-intents=true&log=true&query=\"";
-		uri += message + "\"";
+		uri += message + "\"";*/
+		String uri = "https://westus.api.cognitive.microsoft.com/luis/prediction/v3.0/apps/b9e1fc9e-e095-4050-8786-ca9d2c7034de/slots/staging/predict?subscription-key=8e8e367a952f4a15aff9a3d36a272063&verbose=false&show-all-intents=true&log=true&query=";
+		uri += message;
 		ClientResource cr = new ClientResource(uri);
 		return cr.get(String.class);
 	}
@@ -105,6 +107,9 @@ public class LuisResource {
 			intn = new Intent(tipo);
 			return intn;
 		case Greeting:
+			intn = new Intent(tipo);
+			return intn;
+		case Thanks:
 			intn = new Intent(tipo);
 			return intn;
 		case Help:

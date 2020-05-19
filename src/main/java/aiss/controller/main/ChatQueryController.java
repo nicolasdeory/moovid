@@ -47,6 +47,7 @@ public class ChatQueryController extends HttpServlet {
 			sessionContext = null;
 		
 		sessionContext = sessionContext == null ? new Context() : sessionContext;
+		System.out.println(intent);
 		ChatQueryResponse chatResponse = IntentHandlerFactory.fromIntent(intent, sessionContext);
 		chatResponse.setQuery(query);
 		sessionContext = chatResponse.getContext();

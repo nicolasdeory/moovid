@@ -53,6 +53,9 @@ public class IntentHandlerFactory {
 		// GREETING	
 		case Greeting:
 			return GenericHandler.generateResponse(intent, "hello-intent", context);
+		// THANKS	
+		case Thanks:
+			return GenericHandler.generateResponse(intent, "thanks-intent", context);
 		// MONTAGE THEME INTENT
 		case MontageThemeIntent:
 			if(weAreMakingMontage(context))

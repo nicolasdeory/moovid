@@ -10,28 +10,43 @@ import java.util.logging.Logger;
 
 import com.github.kiulian.downloader.YoutubeDownloader;
 import com.github.kiulian.downloader.YoutubeException;
+import com.github.kiulian.downloader.model.Extension;
 import com.github.kiulian.downloader.model.YoutubeVideo;
 import com.github.kiulian.downloader.model.formats.AudioFormat;
-
-import ws.schild.jave.AudioAttributes;
-import ws.schild.jave.Encoder;
-import ws.schild.jave.EncoderException;
-import ws.schild.jave.EncodingAttributes;
-import ws.schild.jave.InputFormatException;
-import ws.schild.jave.MultimediaObject;
 
 public class YoutubeResource {
 	
 	private static final Logger log = Logger.getLogger(YoutubeResource.class.getName());
-	private static final String PATH = "../../../../../temp/music";
+	private static final String PATH = "./temp/music";
 	
-	public static String downloadVideo(String id) throws YoutubeException, IOException {
+	public static String downloadVideo(String id) {
+		return downloadVideo(id, 1);
+	}
+	
+	private static String downloadVideo(String id, int retry) {
+		if (retry == 4) {
+			log.log(Level.WARNING, "Couldnt download video with id (" + id + "): Reached maximum number of attempts");
+			return null;
+		}
 		YoutubeDownloader downloader = new YoutubeDownloader(); 
-		YoutubeVideo video = downloader.getVideo(id);
-
-		List<AudioFormat> audios = video.audioFormats();
+		YoutubeVideo video = null;
+		
+		try {
+			video = downloader.getVideo(id);
+		} catch (YoutubeException | IOException e1) {
+			log.log(Level.WARNING, "Error at video download with id (" + id + "): " + e1.getMessage());
+			log.log(Level.INFO, "Failed download attempt (" + retry + "/3)");
+			return downloadVideo(id, retry++);
+		}
+		
+		List<AudioFormat> audios = video.findAudioWithExtension(Extension.MP4);
+		if (audios.isEmpty()) {
+			log.log(Level.WARNING, "Error at video download with id (" + id + "): No audio files with .mp4 extension found");
+			log.log(Level.INFO, "Failed download attempt (" + retry + "/3)");
+			return downloadVideo(id, retry++);
+		}
+			
 		log.log(Level.FINER, "Number of available audio downloads: " + audios.size());
-		System.out.println("Formatos encontrados: " + audios.size());
 		AudioFormat f;
 		Comparator<AudioFormat> cmp = new Comparator<AudioFormat>() {
 			@Override
@@ -50,25 +65,18 @@ public class YoutubeResource {
 		else
 			f = audios.stream().max(cmp).get();
 		log.log(Level.FINER, "Chosen audio download with bitrate of: " + f.bitrate());
-		File outputDir = new File("PATH");
-		File file = video.download(f, outputDir);
+		
+		File outputDir = new File(PATH);
+		File file = null;
+		try {
+			file = video.download(f, outputDir);
+		} catch (IOException | YoutubeException e) {
+			log.log(Level.WARNING, "Error at file creation from video (" + video.details().title() + "): " + e.getMessage());
+			log.log(Level.INFO, "Failed download attempt (" + retry + "/3)");
+			return downloadVideo(id, retry++);
+		}
 		log.log(Level.INFO, "Succesfully downloaded song at " + PATH + " : " + video.details().title());
 		return file.getName();
 	}
 	
-	public static void convertMP3(String song) throws IllegalArgumentException, InputFormatException, EncoderException {
-		Encoder encoder = new Encoder();
-		File source = new File(PATH + song);
-		File target = new File(PATH + "target.mp3");
-		AudioAttributes audio = new AudioAttributes();
-		audio.setCodec("libmp3lame");
-		audio.setBitRate(128000);
-		audio.setChannels(2);
-		audio.setSamplingRate(44100);
-		EncodingAttributes attrs = new EncodingAttributes();
-		attrs.setFormat("mp3");
-		attrs.setAudioAttributes(audio);
-		encoder.encode(new MultimediaObject(source), target, attrs);
-		log.log(Level.INFO, "Succesfully endoced song to .mp3: " + song);
-	}
 }

@@ -23,7 +23,7 @@ public class SpotifyResourceTest {
 		assertEquals(art.get(0).getId(),"2qxJFvFYMEDqd7ui6kSAcq");
 		assertEquals(art.get(1).getId(),"5RBdF1pJSLF3ugc2Y2PoB8");
 	}
-	
+	/*
 	@Test
 	public void testGetRecommendations() throws Exception{
 		if (!SpotifyResource.isAuthorized())
@@ -38,5 +38,5 @@ public class SpotifyResourceTest {
 		Song song = SpotifyResource.getSongFromJson(json);
 		assertEquals(song.toString(), "Virtual Riot - Continue");
 	}
-	
+	*/
 }

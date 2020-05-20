@@ -23,8 +23,12 @@
 </head>
 <% String controller = "/PhotosList"; %>
 
-<c:if test="${not empty mediaItemId}">
+<c:if test="${not empty MediaItem}">
     <% controller = "/PhotosGet";%>
+</c:if>
+
+<c:if test="${not empty MediaItems}">
+    <% controller = "/PhotosSearch";%>
 </c:if>
 
 <body>
@@ -42,7 +46,7 @@
                 </div>
                 <a id="luisbutton" class="button3">LUIS</a>
                 <a id="spotifybutton" class="button3">SPOTIFY</a>
-                <a id="photosbutton" href="/PhotosSearch?inicio=2020-01-01&fin=2020-05-19&contents=documents,selfies,cityscapes" class="button3">PHOTOS</a>
+                <a id="photosbutton" href="/PhotosSearch?inicio=2020-01-01&fin=2020-05-19&contents=" class="button3">PHOTOS</a>
             </div>
         </div>
 
@@ -56,7 +60,7 @@
             		<div class="text-container">
                 		<div class="text-yellow">
                     		<span id="result">
-                    		Prueba de que llega aqui
+                    		Llega a Search
                     		Estos son los elementos que devuelve = <c:out value="${requestScope.MediaItems}"/>
               				<input type="button" onclick="window.location.href = '${requestScope.MediaItem.baseUrl}=w1020-h720-d';">
                     		</span>
@@ -67,7 +71,7 @@
             		<div class="text-container">
                 		<div class="text-yellow">
                     		<span id="result">
-                    		Prueba de que llega aqui
+                    		Llega a Get
                     		Pulsa aqui para descargar la imagen de id = <c:out value="${requestScope.MediaItem.id}"/>
               				<input type="button" onclick="window.location.href = '${requestScope.MediaItem.baseUrl}=w1020-h720-d';">
                     		</span>
@@ -78,6 +82,7 @@
         			<div class="text-container">
                 		<div class="text-yellow">
                     		<span id="result">
+                    		Llega a List
                     		<c:out value="${requestScope.cajademo}"/>
                     		</span>
                 		</div>

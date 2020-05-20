@@ -1,53 +1,37 @@
+
 package aiss.model.photos.mediaitem;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.HashMap;
+import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
 
-public class Photo implements Media{
-	private String cameraMake;
-	private String cameraModel;
-	private Float focalLength;
-	private Float apertureFNumber;
-	private Float isoEquivalent;
-	private String exposureTime;
-	
-	public String getCameraMake() {
-		return cameraMake;
+})
+public class Photo {
+
+    @JsonIgnore
+    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    @JsonAnySetter
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
+    }
+
+	@Override
+	public String toString() {
+		return "Photo [additionalProperties=" + additionalProperties + "]";
 	}
-	public void setCameraMake(String cameraMake) {
-		this.cameraMake = cameraMake;
-	}
-	public String getCameraModel() {
-		return cameraModel;
-	}
-	public void setCameraModel(String cameraModel) {
-		this.cameraModel = cameraModel;
-	}
-	public Float getFocalLength() {
-		return focalLength;
-	}
-	public void setFocalLength(Float focalLength) {
-		this.focalLength = focalLength;
-	}
-	public Float getApertureFNumber() {
-		return apertureFNumber;
-	}
-	public void setApertureFNumber(Float apertureFNumber) {
-		this.apertureFNumber = apertureFNumber;
-	}
-	public Float getIsoEquivalent() {
-		return isoEquivalent;
-	}
-	public void setIsoEquivalent(Float isoEquivalent) {
-		this.isoEquivalent = isoEquivalent;
-	}
-	public String getExposureTime() {
-		return exposureTime;
-	}
-	public void setExposureTime(String exposureTime) {
-		this.exposureTime = exposureTime;
-	}
-	
-	
+
+    
 }

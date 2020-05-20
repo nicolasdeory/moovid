@@ -131,10 +131,9 @@ public class MediaItemResource {
 			String MediaTypeFilter = "mediatypes:photo,";
 			String FeatureFilter = "features:none-favorites,";
 			filtrostr = DateFilter + ContentFilter + MediaTypeFilter + FeatureFilter + "true,false";
-			Filters f = generadorDeFiltro(filtrostr);
+			Filters filters = generadorDeFiltro(filtrostr);
 			cr = new ClientResource(uri + ":search" + "?access_token=" + access_token);
-			cr.setEntityBuffering(true);
-			list = cr.post(f, MediaItems.class);
+			list = cr.post(filters, MediaItems.class);
 		} catch (ResourceException re){
 			System.out.println("Error when retrieving the collections");
 		}

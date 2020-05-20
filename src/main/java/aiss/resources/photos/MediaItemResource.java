@@ -87,13 +87,13 @@ public class MediaItemResource {
 		MediaItems list = null;
 		try {
 			String filtrostr = "";
-			String DateFilter = "dates:;ranges:" + inicio.getDay() + "." + inicio.getMonth() + "." + inicio.getYear() +
-					"-" + fin.getDay() + "." + fin.getMonth() + "." + fin.getYear() + ",";
+			String DateFilter = "dates: ;ranges:" + inicio.getDay() + "/" + inicio.getMonth() + "/" + inicio.getYear() +
+					"-" + fin.getDay() + "/" + fin.getMonth() + "/" + fin.getYear() + ",";
 			String ContentFilter = "included:";
 			if(temas.equals(null) || temas.size()==0) {
 				ContentFilter= ContentFilter + "none-landscapes-receipts-cityscapes-landmarks-selfies-people-pets-weddings-"
 						+ "birthdays-documents-travel-animals-food-sport-night-performances-whiteboards-screenshots"
-						+ "-utility-arts-crafts-fashion-houses-gardens-flowers-holidays";
+						+ "-utility-arts-crafts-fashion-houses-gardens-flowers-holidays-";
 			}else {
 				for(ContentCategory cc : temas) {
 					if(cc.equals(ContentCategory.NONE)) ContentFilter = ContentFilter + "none-";
@@ -127,10 +127,10 @@ public class MediaItemResource {
 				}
 			}
 			ContentFilter = ContentFilter.substring(0, ContentFilter.length()-1);
-			ContentFilter = ContentFilter + ";excluded:,";
+			ContentFilter = ContentFilter + ";excluded: ,";
 			String MediaTypeFilter = "mediatypes:photo,";
-			String FeatureFilter = "features:none,";
-			filtrostr = DateFilter + ContentFilter + MediaTypeFilter + FeatureFilter + "true,true";
+			String FeatureFilter = "features:none-favorites,";
+			filtrostr = DateFilter + ContentFilter + MediaTypeFilter + FeatureFilter + "true,false";
 			Filters f = generadorDeFiltro(filtrostr);
 			cr = new ClientResource(uri + ":search" + "?access_token=" + access_token);
 			cr.setEntityBuffering(true);
@@ -163,7 +163,7 @@ public class MediaItemResource {
 		return resultMediaItem;
 	}
 	
-	public Filters generadorDeFiltro(String fltsstr) {
+	public static Filters generadorDeFiltro(String fltsstr) {
 		// Separacion de parametros necesarios
 		String[] parametrosFilters = fltsstr.split(",");
 		String[] parametrosDateFilter = parametrosFilters[0].split(";");
@@ -174,14 +174,17 @@ public class MediaItemResource {
 		String excludeNonAppCreatedDatastr = parametrosFilters[5].trim();
 		//Creacion de DateFilter (consta de 2 parametros, dates y ranges)
 		String datess = parametrosDateFilter[0].split(":")[1];
-		String[] datesstr = null;
-		if(datess.length()!=0) datesstr = parametrosDateFilter[0].split(":")[1].split("|");
+		String[] datesstr = {""};
+		if(!datess.equals(" ") && !datess.contains("|")) datesstr[0] = datess;
+		else if(!datess.equals(" ")) datesstr = datess.split("|");		
 		String dateRangess = parametrosDateFilter[1].split(":")[1];
-		String[] dateRangesstr = null;
-		if(dateRangess.length()!=0) dateRangesstr = parametrosDateFilter[1].split(":")[1].split("|");
+		String[] dateRangesstr = {""};
+		if(!dateRangess.equals(" ") && !dateRangess.contains("|")) dateRangesstr[0] = dateRangess;
+		else if(!dateRangess.equals(" ")) dateRangesstr = dateRangess.split("|");
+
 		List<Date> datesList = new ArrayList<Date>();
 		List<DateRange> dateRangesList= new ArrayList<DateRange>();
-		if(datess.length()!=0) {
+		if(!datess.equals(" ")) {
 			for(String datestr:datesstr) {
 				String splits[] = datestr.split(".");
 				Integer day = Integer.valueOf(splits[0].trim());
@@ -191,14 +194,14 @@ public class MediaItemResource {
 				datesList.add(date);
 			}
 		}
-		if(dateRangess.length()!=0) {
+		if(!dateRangess.equals(" ")) {
 		for(String dateRangestr:dateRangesstr) {
 				String[] dates = dateRangestr.split("-");
-				String[] date1str = dates[0].trim().split(".");
-				String[] date2str = dates[1].trim().split(".");
-				Integer day1 = Integer.valueOf(date1str[0].trim());
-				Integer month1 = Integer.valueOf(date1str[1].trim());
-				Integer year1 = Integer.valueOf(date1str[2].trim());
+				String[] date1splits = dates[0].split("/");
+				String[] date2str = dates[1].split("/");
+				Integer day1 = Integer.valueOf(date1splits[0].trim());
+				Integer month1 = Integer.valueOf(date1splits[1].trim());
+				Integer year1 = Integer.valueOf(date1splits[2].trim());
 				Integer day2 = Integer.valueOf(date2str[0].trim());
 				Integer month2 = Integer.valueOf(date2str[1].trim());
 				Integer year2 = Integer.valueOf(date2str[2].trim());
@@ -284,13 +287,13 @@ public class MediaItemResource {
 		List<MediaType> mediatypesList = new ArrayList<MediaType>();
 		if(elementos_mediatypes.contains("allmedia")) mediatypesList.add(MediaType.ALL_MEDIA);
 		if(elementos_mediatypes.contains("video")) mediatypesList.add(MediaType.VIDEO);
-		if(elementos_mediatypes.contains("photo")) mediatypesList.add(MediaType.ALL_MEDIA);
+		if(elementos_mediatypes.contains("photo")) mediatypesList.add(MediaType.PHOTO);
 		MediaType[] mediatypes = new MediaType[mediatypesList.size()];
 		mediatypesList.toArray(mediatypes);
 		MediaTypeFilter mediaTypeFilter = new MediaTypeFilter(mediatypes);
 		
 		//Creacion de FeatureFilter (solo 1 parametro, features)
-		String elementos_features = parametrosFeatureFilter.split(":")[1].trim();
+		String elementos_features = parametrosFeatureFilter.split(":")[1];
 		List<Feature> featuresList = new ArrayList<Feature>();
 		if(elementos_features.contains("none")) featuresList.add(Feature.NONE);
 		if(elementos_features.contains("favorites")) featuresList.add(Feature.FAVORITES);

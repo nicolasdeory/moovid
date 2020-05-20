@@ -50,13 +50,13 @@ public class GooglePhotosMediaItemSearchController extends HttpServlet{
         }
     }
 
-    private Date ParseoFecha(String fechaStr) {
+    private static Date ParseoFecha(String fechaStr) {
     	String[] splits = fechaStr.split("-");
     	Date res = new Date(Integer.valueOf(splits[0]),Integer.valueOf(splits[1]),Integer.valueOf(splits[2]));
     	return res;
     }
     
-    private List<ContentCategory> ParseoContenidos(String contenidosStr){
+    private static List<ContentCategory> ParseoContenidos(String contenidosStr){
     	List<ContentCategory> res = new ArrayList<ContentCategory>();
     	if(contenidosStr.contains("none")) res.add(ContentCategory.NONE);
 		if(contenidosStr.contains("landscapes")) res.add(ContentCategory.LANDSCAPES);

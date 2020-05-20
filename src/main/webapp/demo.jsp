@@ -42,7 +42,7 @@
                 </div>
                 <a id="luisbutton" class="button3">LUIS</a>
                 <a id="spotifybutton" class="button3">SPOTIFY</a>
-                <a id="photosbutton" href="/PhotosGet?mediaItemId=AD3_zO8uFO7DlpYx2k65zUqVpg7YUSmruMCJIXJISel4xOLYDJ3eQ9ORNtFpzl3R5XjGBXz2dY08Av9w4IJzWCT50lz8iBtd8A" class="button3">PHOTOS</a>
+                <a id="photosbutton" href="/PhotosSearch?inicio=2020-01-01&fin=2020-05-19&contents=documents,selfies,cityscapes" class="button3">PHOTOS</a>
             </div>
         </div>
 
@@ -52,6 +52,17 @@
                 <div class="black-line"></div>
             </div>
             <c:choose>
+            	<c:when test="${not empty MediaItems}">
+            		<div class="text-container">
+                		<div class="text-yellow">
+                    		<span id="result">
+                    		Prueba de que llega aqui
+                    		Estos son los elementos que devuelve = <c:out value="${requestScope.MediaItems}"/>
+              				<input type="button" onclick="window.location.href = '${requestScope.MediaItem.baseUrl}=w1020-h720-d';">
+                    		</span>
+                		</div>
+            		</div>
+            	</c:when>
             	<c:when test="${not empty MediaItem}">
             		<div class="text-container">
                 		<div class="text-yellow">

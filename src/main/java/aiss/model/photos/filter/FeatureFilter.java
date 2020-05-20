@@ -17,36 +17,30 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 })
 public class FeatureFilter {
 
-    @JsonProperty("includedFeatures")
-    private List<Feature> includedFeatures = null;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    @Override
+	public String toString() {
+		return "FeatureFilter [includedFeatures=" + includedFeatures + "]";
+	}
+
+	@JsonProperty("includedFeatures")
+    private List<String> includedFeatures = null;
 
     
     
-    public FeatureFilter(List<Feature> includedFeatures) {
+    public FeatureFilter(List<String> includedFeatures) {
 		super();
 		this.includedFeatures = includedFeatures;
 	}
 
 	@JsonProperty("includedFeatures")
-    public List<Feature> getIncludedFeatures() {
+    public List<String> getIncludedFeatures() {
         return includedFeatures;
     }
 
     @JsonProperty("includedFeatures")
-    public void setIncludedFeatures(List<Feature> includedFeatures) {
+    public void setIncludedFeatures(List<String> includedFeatures) {
         this.includedFeatures = includedFeatures;
     }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
 
 }

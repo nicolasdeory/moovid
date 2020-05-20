@@ -21,7 +21,14 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 })
 public class Filters {
 
-    @JsonProperty("contentFilter")
+    @Override
+	public String toString() {
+		return "Filters [contentFilter=" + contentFilter + ", dateFilter=" + dateFilter + ", featureFilter="
+				+ featureFilter + ", mediaTypeFilter=" + mediaTypeFilter + ", excludeNonAppCreatedData="
+				+ excludeNonAppCreatedData + ", includeArchivedMedia=" + includeArchivedMedia + "]";
+	}
+
+	@JsonProperty("contentFilter")
     private ContentFilter contentFilter;
     @JsonProperty("dateFilter")
     private DateFilter dateFilter;
@@ -33,8 +40,6 @@ public class Filters {
     private Boolean excludeNonAppCreatedData;
     @JsonProperty("includeArchivedMedia")
     private Boolean includeArchivedMedia;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     
     
@@ -109,14 +114,5 @@ public class Filters {
         this.includeArchivedMedia = includeArchivedMedia;
     }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
 
 }

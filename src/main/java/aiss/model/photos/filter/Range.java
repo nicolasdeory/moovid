@@ -17,12 +17,15 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 })
 public class Range {
 
-    @JsonProperty("startDate")
+    @Override
+	public String toString() {
+		return "Range [startDate=" + startDate + ", endDate=" + endDate + "]";
+	}
+
+	@JsonProperty("startDate")
     private StartDate startDate;
     @JsonProperty("endDate")
     private EndDate endDate;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     
     
@@ -50,16 +53,6 @@ public class Range {
     @JsonProperty("endDate")
     public void setEndDate(EndDate endDate) {
         this.endDate = endDate;
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
     }
 
 }

@@ -22,8 +22,6 @@ public class DateFilter {
     private List<Date> dates = null;
     @JsonProperty("ranges")
     private List<Range> ranges = null;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     
     
@@ -53,14 +51,12 @@ public class DateFilter {
         this.ranges = ranges;
     }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
+	@Override
+	public String toString() {
+		return "DateFilter [dates=" + dates + ", ranges=" + ranges + "]";
+	}
+    
+    
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
 
 }

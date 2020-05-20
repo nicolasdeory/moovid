@@ -18,50 +18,44 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 })
 public class ContentFilter {
 
-    @JsonProperty("includedContentCategories")
-    private List<ContentCategory> includedContentCategories = null;
+    @Override
+	public String toString() {
+		return "ContentFilter [includedContentCategories=" + includedContentCategories + ", excludedContentCategories="
+				+ excludedContentCategories + "]";
+	}
+
+	@JsonProperty("includedContentCategories")
+    private List<String> includedContentCategories = null;
     @JsonProperty("excludedContentCategories")
-    private List<ContentCategory> excludedContentCategories = null;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private List<String> excludedContentCategories = null;
 
     
     
-    public ContentFilter(List<ContentCategory> includedContentCategories,
-			List<ContentCategory> excludedContentCategories) {
+    public ContentFilter(List<String> includedContentCategories,
+			List<String> excludedContentCategories) {
 		super();
 		this.includedContentCategories = includedContentCategories;
 		this.excludedContentCategories = excludedContentCategories;
 	}
 
 	@JsonProperty("includedContentCategories")
-    public List<ContentCategory> getIncludedContentCategories() {
+    public List<String> getIncludedContentCategories() {
         return includedContentCategories;
     }
 
     @JsonProperty("includedContentCategories")
-    public void setIncludedContentCategories(List<ContentCategory> includedContentCategories) {
+    public void setIncludedContentCategories(List<String> includedContentCategories) {
         this.includedContentCategories = includedContentCategories;
     }
 
     @JsonProperty("excludedContentCategories")
-    public List<ContentCategory> getExcludedContentCategories() {
+    public List<String> getExcludedContentCategories() {
         return excludedContentCategories;
     }
 
     @JsonProperty("excludedContentCategories")
-    public void setExcludedContentCategories(List<ContentCategory> excludedContentCategories) {
+    public void setExcludedContentCategories(List<String> excludedContentCategories) {
         this.excludedContentCategories = excludedContentCategories;
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
     }
 
 }

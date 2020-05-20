@@ -17,36 +17,29 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 })
 public class MediaTypeFilter {
 
-    @JsonProperty("mediaTypes")
-    private List<MediaType> mediaTypes = null;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    @Override
+	public String toString() {
+		return "MediaTypeFilter [mediaTypes=" + mediaTypes + "]";
+	}
+
+	@JsonProperty("mediaTypes")
+    private List<String> mediaTypes = null;
 
     
     
-    public MediaTypeFilter(List<MediaType> mediaTypes) {
+    public MediaTypeFilter(List<String> mediaTypes) {
 		super();
 		this.mediaTypes = mediaTypes;
 	}
 
 	@JsonProperty("mediaTypes")
-    public List<MediaType> getMediaTypes() {
+    public List<String> getMediaTypes() {
         return mediaTypes;
     }
 
     @JsonProperty("mediaTypes")
-    public void setMediaTypes(List<MediaType> mediaTypes) {
+    public void setMediaTypes(List<String> mediaTypes) {
         this.mediaTypes = mediaTypes;
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
     }
 
 }

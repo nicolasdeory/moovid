@@ -18,14 +18,17 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 })
 public class StartDate {
 
-    @JsonProperty("day")
+    @Override
+	public String toString() {
+		return "StartDate [day=" + day + ", month=" + month + ", year=" + year + "]";
+	}
+
+	@JsonProperty("day")
     private Integer day;
     @JsonProperty("month")
     private Integer month;
     @JsonProperty("year")
     private Integer year;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     
     
@@ -65,15 +68,4 @@ public class StartDate {
     public void setYear(Integer year) {
         this.year = year;
     }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
 }

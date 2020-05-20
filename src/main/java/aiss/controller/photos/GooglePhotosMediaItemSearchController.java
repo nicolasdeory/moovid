@@ -26,7 +26,7 @@ public class GooglePhotosMediaItemSearchController extends HttpServlet{
     	String contentsstr = req.getParameter("contents");
     	Date inicio = ParseoFecha(iniciostr);
     	Date fin = ParseoFecha(finstr);
-    	List<ContentCategory> contenidos = ParseoContenidos(contentsstr);
+    	List<String> contenidos = ParseoContenidos(contentsstr);
         if (inicio != null && fin != null && contenidos != null) {
             String accessToken = (String) req.getSession().getAttribute("GooglePhotos-token");
             if (accessToken != null && !"".equals(accessToken)) {
@@ -56,35 +56,12 @@ public class GooglePhotosMediaItemSearchController extends HttpServlet{
     	return res;
     }
     
-    private static List<ContentCategory> ParseoContenidos(String contenidosStr){
-    	List<ContentCategory> res = new ArrayList<ContentCategory>();
-    	if(contenidosStr.contains("none")) res.add(ContentCategory.NONE);
-		if(contenidosStr.contains("landscapes")) res.add(ContentCategory.LANDSCAPES);
-		if(contenidosStr.contains("receipts")) res.add(ContentCategory.RECEIPTS);
-		if(contenidosStr.contains("cityscapes")) res.add(ContentCategory.CITYSCAPES);
-		if(contenidosStr.contains("landmarks")) res.add(ContentCategory.LANDMARKS);
-		if(contenidosStr.contains("selfies")) res.add(ContentCategory.SELFIES);
-		if(contenidosStr.contains("people")) res.add(ContentCategory.PEOPLE);
-		if(contenidosStr.contains("pets")) res.add(ContentCategory.PETS);
-		if(contenidosStr.contains("weddings")) res.add(ContentCategory.WEDDINGS);
-		if(contenidosStr.contains("birthdays")) res.add(ContentCategory.BIRTHDAYS);
-		if(contenidosStr.contains("documents")) res.add(ContentCategory.DOCUMENTS);
-		if(contenidosStr.contains("travel")) res.add(ContentCategory.TRAVEL);
-		if(contenidosStr.contains("animals")) res.add(ContentCategory.ANIMALS);
-		if(contenidosStr.contains("food")) res.add(ContentCategory.FOOD);
-		if(contenidosStr.contains("sport")) res.add(ContentCategory.SPORT);
-		if(contenidosStr.contains("night")) res.add(ContentCategory.NIGHT);
-		if(contenidosStr.contains("performances")) res.add(ContentCategory.PERFORMANCES);
-		if(contenidosStr.contains("whiteboards")) res.add(ContentCategory.WHITEBOARDS);
-		if(contenidosStr.contains("screenshots")) res.add(ContentCategory.SCREENSHOTS);
-		if(contenidosStr.contains("utility")) res.add(ContentCategory.UTILITY);
-		if(contenidosStr.contains("arts")) res.add(ContentCategory.ARTS);
-		if(contenidosStr.contains("crafts")) res.add(ContentCategory.CRAFTS);
-		if(contenidosStr.contains("fashion")) res.add(ContentCategory.FASHION);
-		if(contenidosStr.contains("houses")) res.add(ContentCategory.HOUSES);
-		if(contenidosStr.contains("gardens")) res.add(ContentCategory.GARDENS);
-		if(contenidosStr.contains("flowers")) res.add(ContentCategory.FLOWERS);
-		if(contenidosStr.contains("holidays")) res.add(ContentCategory.HOLIDAYS);
+    private static List<String> ParseoContenidos(String contenidosStr){
+    	List<String> res = new ArrayList<String>();
+    	String[] splits = contenidosStr.split("-");
+    	for(String s: splits) {
+    		res.add(s);
+    	}
     	return res;
     }
     

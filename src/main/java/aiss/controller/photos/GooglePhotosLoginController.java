@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import aiss.model.photos.mediaitem.MediaItems;
 import aiss.resources.photos.MediaItemResource;
 
-public class GooglePhotosMediaItemListController extends HttpServlet{
+public class GooglePhotosLoginController extends HttpServlet{
 	
 	private static final Logger log = Logger.getLogger(GooglePhotosMediaItemGetController.class.getName());
 
@@ -25,7 +25,7 @@ public class GooglePhotosMediaItemListController extends HttpServlet{
             if(MIs!=null) {
                 log.info("Files obtained");
                 req.setAttribute("cajademo", MIs);
-                req.getRequestDispatcher("/demo.jsp").forward(req, resp);
+                req.getRequestDispatcher("/").forward(req, resp);
             }else {
                 log.info("Files could not be found!");
                 req.getRequestDispatcher("/AuthController/GooglePhotos").forward(req, resp);

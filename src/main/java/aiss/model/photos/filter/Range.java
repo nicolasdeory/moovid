@@ -2,7 +2,6 @@
 package aiss.model.photos.filter;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -13,30 +12,44 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "mediaTypes"
+    "startDate",
+    "endDate"
 })
-public class MediaTypeFilter {
+public class Range {
 
-    @JsonProperty("mediaTypes")
-    private List<MediaType> mediaTypes = null;
+    @JsonProperty("startDate")
+    private StartDate startDate;
+    @JsonProperty("endDate")
+    private EndDate endDate;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     
     
-    public MediaTypeFilter(List<MediaType> mediaTypes) {
+    public Range(StartDate startDate, EndDate endDate) {
 		super();
-		this.mediaTypes = mediaTypes;
+		this.startDate = startDate;
+		this.endDate = endDate;
 	}
 
-	@JsonProperty("mediaTypes")
-    public List<MediaType> getMediaTypes() {
-        return mediaTypes;
+	@JsonProperty("startDate")
+    public StartDate getStartDate() {
+        return startDate;
     }
 
-    @JsonProperty("mediaTypes")
-    public void setMediaTypes(List<MediaType> mediaTypes) {
-        this.mediaTypes = mediaTypes;
+    @JsonProperty("startDate")
+    public void setStartDate(StartDate startDate) {
+        this.startDate = startDate;
+    }
+
+    @JsonProperty("endDate")
+    public EndDate getEndDate() {
+        return endDate;
+    }
+
+    @JsonProperty("endDate")
+    public void setEndDate(EndDate endDate) {
+        this.endDate = endDate;
     }
 
     @JsonAnyGetter

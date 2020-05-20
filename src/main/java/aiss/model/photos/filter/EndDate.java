@@ -2,7 +2,6 @@
 package aiss.model.photos.filter;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -13,30 +12,58 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "mediaTypes"
+    "day",
+    "month",
+    "year"
 })
-public class MediaTypeFilter {
+public class EndDate {
 
-    @JsonProperty("mediaTypes")
-    private List<MediaType> mediaTypes = null;
+    @JsonProperty("day")
+    private Integer day;
+    @JsonProperty("month")
+    private Integer month;
+    @JsonProperty("year")
+    private Integer year;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     
     
-    public MediaTypeFilter(List<MediaType> mediaTypes) {
+    public EndDate(Integer year, Integer month, Integer day) {
 		super();
-		this.mediaTypes = mediaTypes;
+		this.day = day;
+		this.month = month;
+		this.year = year;
 	}
 
-	@JsonProperty("mediaTypes")
-    public List<MediaType> getMediaTypes() {
-        return mediaTypes;
+	@JsonProperty("day")
+    public Integer getDay() {
+        return day;
     }
 
-    @JsonProperty("mediaTypes")
-    public void setMediaTypes(List<MediaType> mediaTypes) {
-        this.mediaTypes = mediaTypes;
+    @JsonProperty("day")
+    public void setDay(Integer day) {
+        this.day = day;
+    }
+
+    @JsonProperty("month")
+    public Integer getMonth() {
+        return month;
+    }
+
+    @JsonProperty("month")
+    public void setMonth(Integer month) {
+        this.month = month;
+    }
+
+    @JsonProperty("year")
+    public Integer getYear() {
+        return year;
+    }
+
+    @JsonProperty("year")
+    public void setYear(Integer year) {
+        this.year = year;
     }
 
     @JsonAnyGetter

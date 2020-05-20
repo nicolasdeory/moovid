@@ -2,8 +2,8 @@ package aiss.resources.photos;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.restlet.resource.ClientResource;
 import org.restlet.resource.ResourceException;
@@ -12,12 +12,14 @@ import aiss.model.photos.filter.ContentCategory;
 import aiss.model.photos.filter.ContentFilter;
 import aiss.model.photos.filter.Date;
 import aiss.model.photos.filter.DateFilter;
-import aiss.model.photos.filter.DateRange;
+import aiss.model.photos.filter.EndDate;
 import aiss.model.photos.filter.Feature;
 import aiss.model.photos.filter.FeatureFilter;
 import aiss.model.photos.filter.Filters;
 import aiss.model.photos.filter.MediaType;
 import aiss.model.photos.filter.MediaTypeFilter;
+import aiss.model.photos.filter.Range;
+import aiss.model.photos.filter.StartDate;
 import aiss.model.photos.mediaitem.MediaItem;
 import aiss.model.photos.mediaitem.MediaItems;
 import aiss.model.photos.mediaitem.NewMediaItem;
@@ -26,6 +28,8 @@ import aiss.model.photos.mediaitem.SimpleMediaItem;
 
 
 public class MediaItemResource {
+	
+	private static final Logger log = Logger.getLogger(MediaItemResource.class.getName());
 
 	private final String access_token;
 	private static String uri = "https://photoslibrary.googleapis.com/v1/mediaItems";
@@ -132,10 +136,12 @@ public class MediaItemResource {
 			String FeatureFilter = "features:none-favorites,";
 			filtrostr = DateFilter + ContentFilter + MediaTypeFilter + FeatureFilter + "true,false";
 			Filters filters = generadorDeFiltro(filtrostr);
+			System.out.println("INFORMACION: El filtro que se forma es: " + filters);
 			cr = new ClientResource(uri + ":search" + "?access_token=" + access_token);
 			list = cr.post(filters, MediaItems.class);
+			System.out.println("INFORMACION: La lista devuelta es: " + list );
 		} catch (ResourceException re){
-			System.out.println("Error when retrieving the collections");
+			System.out.println("INFORMACION: Error when retrieving the collections: " + re);
 		}
 		return list;
 	}
@@ -182,7 +188,7 @@ public class MediaItemResource {
 		else if(!dateRangess.equals(" ")) dateRangesstr = dateRangess.split("|");
 
 		List<Date> datesList = new ArrayList<Date>();
-		List<DateRange> dateRangesList= new ArrayList<DateRange>();
+		List<Range> dateRangesList= new ArrayList<Range>();
 		if(!datess.equals(" ")) {
 			for(String datestr:datesstr) {
 				String splits[] = datestr.split(".");
@@ -204,17 +210,13 @@ public class MediaItemResource {
 				Integer day2 = Integer.valueOf(date2str[0].trim());
 				Integer month2 = Integer.valueOf(date2str[1].trim());
 				Integer year2 = Integer.valueOf(date2str[2].trim());
-				Date date1 = new Date(year1,month1,day1);
-				Date date2 = new Date(year2,month2,day2);
-				DateRange dateRange = new DateRange(date1,date2);
+				StartDate date1 = new StartDate(year1,month1,day1);
+				EndDate date2 = new EndDate(year2,month2,day2);
+				Range dateRange = new Range(date1,date2);
 				dateRangesList.add(dateRange);
 			}
 		}
-		Date[] dates = new Date[datesList.size()];
-		DateRange[] dateRanges = new DateRange[dateRangesList.size()];
-		datesList.toArray(dates);
-		dateRangesList.toArray(dateRanges);
-		DateFilter dateFilter = new DateFilter(dates,dateRanges);
+		DateFilter dateFilter = new DateFilter(datesList,dateRangesList);
 		
 		//Creacion de ContentFilter (consta de 2 parametros, included y excluded)
 		String includedstr = parametrosContentFilter[0].split(":")[1].trim();
@@ -275,11 +277,7 @@ public class MediaItemResource {
 		if(excludedstr.contains("gardens")) excludedList.add(ContentCategory.GARDENS);
 		if(excludedstr.contains("flowers")) excludedList.add(ContentCategory.FLOWERS);
 		if(excludedstr.contains("holidays")) excludedList.add(ContentCategory.HOLIDAYS);
-		ContentCategory[] included = new ContentCategory[includedList.size()];
-		ContentCategory[] excluded = new ContentCategory[excludedList.size()];
-		includedList.toArray(included);
-		excludedList.toArray(excluded);
-		ContentFilter contentFilter = new ContentFilter(included,excluded);
+		ContentFilter contentFilter = new ContentFilter(includedList,excludedList);
 		
 		//Creacion de MediaTypeFilter (solo 1 parametro, mediatypes)
 		String elementos_mediatypes = parametrosMediaTypeFilter.split(":")[1].trim();
@@ -287,18 +285,14 @@ public class MediaItemResource {
 		if(elementos_mediatypes.contains("allmedia")) mediatypesList.add(MediaType.ALL_MEDIA);
 		if(elementos_mediatypes.contains("video")) mediatypesList.add(MediaType.VIDEO);
 		if(elementos_mediatypes.contains("photo")) mediatypesList.add(MediaType.PHOTO);
-		MediaType[] mediatypes = new MediaType[mediatypesList.size()];
-		mediatypesList.toArray(mediatypes);
-		MediaTypeFilter mediaTypeFilter = new MediaTypeFilter(mediatypes);
+		MediaTypeFilter mediaTypeFilter = new MediaTypeFilter(mediatypesList);
 		
 		//Creacion de FeatureFilter (solo 1 parametro, features)
 		String elementos_features = parametrosFeatureFilter.split(":")[1];
 		List<Feature> featuresList = new ArrayList<Feature>();
 		if(elementos_features.contains("none")) featuresList.add(Feature.NONE);
 		if(elementos_features.contains("favorites")) featuresList.add(Feature.FAVORITES);
-		Feature[] features = new Feature[featuresList.size()];
-		featuresList.toArray(features);
-		FeatureFilter featureFilter = new FeatureFilter(features);
+		FeatureFilter featureFilter = new FeatureFilter(featuresList);
 		
 		//Creacion de includeArchivedMedia 
 		Boolean includeArchivedMedia = false;
@@ -309,8 +303,8 @@ public class MediaItemResource {
 		if(excludeNonAppCreatedDatastr.equals("true")) excludeNonAppCreatedData = true;
 		
 		//Creacion de Filters
-		Filters filter = new Filters(dateFilter,contentFilter,mediaTypeFilter,featureFilter,
-				includeArchivedMedia,excludeNonAppCreatedData);
+		Filters filter = new Filters(contentFilter,dateFilter,featureFilter,mediaTypeFilter,
+				excludeNonAppCreatedData,includeArchivedMedia);
 		return filter;
 	}
 	

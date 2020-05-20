@@ -18,7 +18,8 @@ public class GenericHandler {
 		String[] chatStrings = ChatResponseSupplier.getLocalizedResponse(key);
 		ChatQueryResponse chatResp = ChatQueryResponse.createBasic(intent, context);
 		chatResp.addChatMessages(chatStrings);
-		chatResp.getContext().setPreviousState(key);
+		if (chatResp.getContext() != null)
+			chatResp.getContext().setPreviousState(key);
 		return chatResp;
 	}
 

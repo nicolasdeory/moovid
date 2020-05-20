@@ -8,8 +8,8 @@ public class IntentHandlerFactory {
 
 	private static boolean weAreMakingMontage(Context context)
 	{
-		return context.getContextType().equals(ContextType.MontageTheme)
-				|| context.getContextType().equals(ContextType.MontageMusic);
+		return context != null && (context.getContextType().equals(ContextType.MontageTheme)
+				|| context.getContextType().equals(ContextType.MontageMusic));
 	}
 	
 	public static ChatQueryResponse fromIntent(Intent intent, Context context)

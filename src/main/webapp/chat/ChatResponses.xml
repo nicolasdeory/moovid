@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <phrasefile language="es-ES">
-	<phraselist name="start-conversation"> <!-- This goes in the client, not here. TODO: Add error strings as well --> 
-		<response>¿Qué tal?<ret/>¿Preparado para hacer un montaje? ¡Pídemelo!</response>
-		<response>Hola 😊<ret/>¿Te apetece hacer algún montaje? ¡Venga, adelante!</response>
-		<response>¿Listo para hacer montajes?<ret/>¡Adelante!</response>
-		<response>¿Qué tal?<ret/>Pídeme lo que necesites 😎</response>
-		<response>¡Buenas! 😄</response>
-		<response>¡Hola!<ret/>Espero poder ayudarte.</response>
-	</phraselist>
 	<phraselist name="hello-intent">
 		<response>¡Hola!</response>
 		<response>Hola 😊</response>
@@ -95,14 +87,6 @@
 		<response>A tu servicio.<ret/>Espera un momento. No cierres la pestaña.</response>
 		<response>¡Allá vamos!<ret/>No cierres la pestaña mientras te hago el montaje.</response>
 		<response>Estupendo 🤩<ret/>Te voy montando el vídeo. Por favor, ¡no cierres la pestaña!</response>
-	</phraselist>
-	<phraselist name="montage-done"> <!-- TODO: Move to client -->
-		<response>¡Listo! 🤩🤩</response>
-		<response>Aquí lo tienes 😍😍</response>
-		<response>Ahí lo llevas 😍 Espero que te guste.</response>
-		<response>¡Ya está! 🤩🤩</response>
-		<response>¡Ya lo tienes! 🤩🤩</response>
-		<response>¡Listo! Ha salido genial 😍😍</response>
 	</phraselist>
 	<phraselist name="help-general">
 		<response>¡Estoy aquí para hacerte montajes chulos!<ret/>Pídeme que te haga un montaje.

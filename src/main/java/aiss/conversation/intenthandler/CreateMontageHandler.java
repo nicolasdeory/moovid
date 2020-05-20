@@ -111,6 +111,7 @@ public class CreateMontageHandler {
 			myContext.setContextType(ContextType.MontageMusic);
 			resp = ChatQueryResponse.createWaitForInput(intt, myContext);
 			resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-ask-music"));
+			return resp;
 		}
 		else if (ctx.getContextType().equals(ContextType.MontageMusic))
 		{
@@ -118,6 +119,7 @@ public class CreateMontageHandler {
 			JobManager.enqueueJob(job);
 			resp = ChatQueryResponse.createVideoGeneration(intt, job.getUuid().toString());
 			resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-start-processing"));
+			return resp;
 		}
 		return null;
 	}

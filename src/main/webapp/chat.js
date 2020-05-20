@@ -33,6 +33,8 @@ if (!String.prototype.format) {
 $(document).ready(() =>
 {
 
+  var CLIENT_RESPONSES = {};
+
   function createUserMessage(message)
   {
     //if the message from the user isn't empty then run 
@@ -50,6 +52,25 @@ $(document).ready(() =>
     }
   }
 
+
+  function sendMultipleBotMessages(messages)
+  {
+    let i = 0;
+    var interval = setInterval(function ()
+    {
+      var msg = messages[i];
+      createBotMessage(msg);
+      i++;
+      if (i >= messages.length)
+        clearInterval(interval);
+    }, 700);
+  }
+
+  function getRandomClientResponse(key)
+  {
+    return CLIENT_RESPONSES[key][Math.floor(Math.random() * CLIENT_RESPONSES[key].length)];
+  }
+
   function processUserMessage(message)
   {
     if (message != "")
@@ -58,18 +79,23 @@ $(document).ready(() =>
       $.get("/chatquery?q="+message, function(resp)
       {
         console.log(resp);
-        let i = 0;
-        var interval = setInterval(function()
-        {
-          var msg = resp.messages[i];
-          createBotMessage(msg);
-          i++;
-          if (i >= resp.messages.length)
-            clearInterval(interval);
-        },700);
+        sendMultipleBotMessages(resp.messages);
+      })
+      .fail(() =>
+      {
+        sendMultipleBotMessages(getRandomClientResponse("error"));
       });
     }
   }
+
+  $.get("/chat/clientResponses.json", function(data)
+  {
+    CLIENT_RESPONSES = data;
+    sendMultipleBotMessages(getRandomClientResponse("start-conversation"));
+  }).fail(() =>
+  {
+    createBotMessage("Lo siento, ha ocurrido un error que no me esperaba. Prueba a volver a cargar la página.")
+  });
 
   //runs the keypress() function when a key is pressed
   document.onkeypress = keyPress;

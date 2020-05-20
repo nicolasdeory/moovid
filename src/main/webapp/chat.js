@@ -50,6 +50,7 @@ $(document).ready(() =>
     if (message != "")
     {
       $("#chat-container").append(BOT_MESSAGE_HTML.format(message));
+      updateScroll();
     }
   }
 
@@ -63,7 +64,10 @@ $(document).ready(() =>
       createBotMessage(msg);
       i++;
       if (i >= messages.length)
+      {
         clearInterval(interval);
+        $("#chatbox").prop("disabled", false); // reenable chatbox
+      }
     }, 700);
   }
 
@@ -74,6 +78,7 @@ $(document).ready(() =>
 
   function processUserMessage(message)
   {
+    $("#chatbox").prop("disabled", true);
     if (message != "")
     {
       createUserMessage(message);

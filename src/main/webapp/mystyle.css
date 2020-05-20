@@ -129,21 +129,21 @@ footer{
 
 .col-yellow1 {
     background-color: #FFD449;
-    height: 530px;
-    width: 450px;
+    height: 75%;
+    width: 29%;
     position: absolute;
-    left: 150px;
-    top: 100px;
+    left: 10%;
+    top: 14%;
     color: black;
 }
 
 .col-yellow2 {
     background-color: #FFD449;
-    height: 530px;
-    width: 700px;
+    height: 75%;
+    width: 48%;
     position: absolute;
-    left: 620px;
-    top: 100px;
+    left: 40.5%;
+    top: 14%;
     color: black;
 }
 
@@ -311,7 +311,7 @@ a.button3:hover{
     border-radius: 60px;
     position: relative;
     padding-left: 15px;
-    padding-right: 15px;
+    padding-right: 15px ;
 }
 .chat-footer .chatbot{
     display: block;
@@ -324,7 +324,7 @@ a.button3:hover{
     outline: none;
     font-size: 17px;
     padding-left: 30px;
-    padding-right: 30px;
+    padding-right: 110px;
     color: #2b2b2b;
     font-family: 'Montserrat', sans-serif;
 
@@ -344,9 +344,11 @@ a.button3:hover{
     font-family: 'Montserrat', sans-serif;
     cursor: pointer;
     right: 23px;
-
-
 }
 
+.send-button:hover{
+    color: #eee;
+    background-color: #2b2b2b;
+}
 
 

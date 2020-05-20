@@ -33,8 +33,18 @@ public class YoutubeResource {
 		log.log(Level.FINER, "Number of available audio downloads: " + audios.size());
 		System.out.println("Formatos encontrados: " + audios.size());
 		AudioFormat f;
-		Comparator<AudioFormat> cmp = (x,y) -> x.bitrate().compareTo(y.bitrate());
-		Predicate<AudioFormat> pred = x -> x.bitrate() >= 160000;
+		Comparator<AudioFormat> cmp = new Comparator<AudioFormat>() {
+			@Override
+			public int compare(AudioFormat x, AudioFormat y) {
+				return x.bitrate().compareTo(y.bitrate());
+			}
+		};
+		Predicate<AudioFormat> pred = new Predicate<AudioFormat>() {
+			@Override
+			public boolean test(AudioFormat x) {
+				return x.bitrate() >= 160000;
+			}
+		};
 		if (audios.stream().filter(pred).findFirst().isPresent())
 			f = audios.stream().filter(pred).min(cmp).get();
 		else

@@ -58,10 +58,15 @@ $(document).ready(() =>
       $.get("/chatquery?q="+message, function(resp)
       {
         console.log(resp);
-        resp.messages.forEach((msg) =>
+        let i = 0;
+        var interval = setInterval(function()
         {
+          var msg = resp.messages[i];
           createBotMessage(msg);
-        });
+          i++;
+          if (i >= resp.messages.length)
+            clearInterval(interval);
+        },700);
       });
     }
   }

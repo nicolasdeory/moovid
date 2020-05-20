@@ -90,7 +90,7 @@
     </init-param>
     <init-param>
       <param-name>onSuccess</param-name>
-      <param-value>redirect:/PhotosList</param-value>
+      <param-value>redirect:/</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>

@@ -39,6 +39,7 @@ $(document).ready(() =>
     if (message != "")
     {
       $("#chat-container").append(USER_MESSAGE_HTML.format(message));
+      updateScroll();
     }
   }
   
@@ -70,6 +71,12 @@ $(document).ready(() =>
       });
     }
   }
+
+
+  function updateScroll(){
+    var element = document.getElementById("chat-container");
+    element.scrollTop = element.scrollHeight;
+}
 
   //runs the keypress() function when a key is pressed
   document.onkeypress = keyPress;

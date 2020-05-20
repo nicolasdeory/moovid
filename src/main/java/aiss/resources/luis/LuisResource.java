@@ -112,7 +112,7 @@ public class LuisResource {
 		case Thanks:
 			intn = new Intent(tipo);
 			return intn;
-		case Help:
+		case HelpIntent:
 			intn = new Intent(tipo);
 			return intn;
 		case Insult:

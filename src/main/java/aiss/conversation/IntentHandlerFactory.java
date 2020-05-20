@@ -17,7 +17,7 @@ public class IntentHandlerFactory {
 		switch (intent.getTopIntent())
 		{
 		// HELP
-		case Help:
+		case HelpIntent:
 			return HelpHandler.generateResponse(intent, context);
 		// COMMUNICATION CANCEL
 		case CommunicationCancel:

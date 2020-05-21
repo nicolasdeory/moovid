@@ -1,4 +1,4 @@
-package aiss.spotify.resource.test;
+package aiss.resources.spotify.test;
 
 import static org.junit.Assert.assertEquals;
 

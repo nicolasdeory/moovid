@@ -1,23 +1,60 @@
 package aiss.resources.youtube;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import org.restlet.resource.ClientResource;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.kiulian.downloader.YoutubeDownloader;
 import com.github.kiulian.downloader.YoutubeException;
 import com.github.kiulian.downloader.model.Extension;
 import com.github.kiulian.downloader.model.YoutubeVideo;
 import com.github.kiulian.downloader.model.formats.AudioFormat;
-
 public class YoutubeResource {
 	
 	private static final Logger log = Logger.getLogger(YoutubeResource.class.getName());
 	private static final String PATH = "./temp/music";
+	
+	private static String getIdFromJson(String json) {
+		JsonNode query = null;
+		String id = null;
+		try {
+			query = new ObjectMapper().readTree(json);
+			id = query.get("items").elements().next().get("id")
+					.get("videoId").textValue();
+		} catch (IOException e) {
+			log.log(Level.WARNING, "Error parsing Youtube query JSON file");
+		}
+		return id;
+	}
+	
+	public static String getVideoId(String query) {
+		String path = "./keys/YoutubeKey.txt";
+		String key = null;
+		try {
+			key = Files.lines(Paths.get(path)).findFirst().get();
+		} catch (IOException e) {
+			log.log(Level.INFO, "Couldnt find YoutubeKey.txt");
+		}
+		String uri = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=";
+		uri += query + "&key=" + key;
+		log.log(Level.FINE, "Searching videos at endpoint: " + uri);
+		ClientResource cr = new ClientResource(uri);
+		String json = cr.get(String.class);
+		return getIdFromJson(json);
+	}
 	
 	public static String downloadVideo(String id) {
 		return downloadVideo(id, 1);
@@ -46,7 +83,7 @@ public class YoutubeResource {
 			return downloadVideo(id, retry++);
 		}
 			
-		log.log(Level.FINER, "Number of available audio downloads: " + audios.size());
+		log.log(Level.FINE, "Number of available audio downloads: " + audios.size());
 		AudioFormat f;
 		Comparator<AudioFormat> cmp = new Comparator<AudioFormat>() {
 			@Override
@@ -64,7 +101,7 @@ public class YoutubeResource {
 			f = audios.stream().filter(pred).min(cmp).get();
 		else
 			f = audios.stream().max(cmp).get();
-		log.log(Level.FINER, "Chosen audio download with bitrate of: " + f.bitrate());
+		log.log(Level.FINE, "Chosen audio download with bitrate of: " + f.bitrate());
 		
 		File outputDir = new File(PATH);
 		File file = null;

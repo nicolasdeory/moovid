@@ -1,24 +1,25 @@
 package aiss.resources.photos;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.restlet.data.MediaType;
+import org.restlet.ext.jackson.JacksonRepresentation;
 import org.restlet.resource.ClientResource;
 import org.restlet.resource.ResourceException;
 
-import aiss.model.photos.filter.ContentCategory;
 import aiss.model.photos.filter.ContentFilter;
 import aiss.model.photos.filter.Date;
 import aiss.model.photos.filter.DateFilter;
 import aiss.model.photos.filter.EndDate;
-import aiss.model.photos.filter.Feature;
 import aiss.model.photos.filter.FeatureFilter;
 import aiss.model.photos.filter.Filters;
-import aiss.model.photos.filter.MediaType;
 import aiss.model.photos.filter.MediaTypeFilter;
 import aiss.model.photos.filter.Range;
+import aiss.model.photos.filter.RequestSearch;
 import aiss.model.photos.filter.StartDate;
 import aiss.model.photos.mediaitem.MediaItem;
 import aiss.model.photos.mediaitem.MediaItems;
@@ -94,24 +95,31 @@ public class MediaItemResource {
 			String DateFilter = "dates: ;ranges:" + inicio.getDay() + "/" + inicio.getMonth() + "/" + inicio.getYear() +
 					"-" + fin.getDay() + "/" + fin.getMonth() + "/" + fin.getYear() + ",";
 			String ContentFilter = "included:";
-			if(temas.equals(null) || temas.size()==0) {
-				ContentFilter= ContentFilter + "NONE-LANDSCAPES-RECEIPTS-CITYSCAPES-LANDMARKS-SELFIES-PEOPLE-PETS-WEDDINGS-"
-						+ "BIRTHDAYS-DOCUMENTS-TRAVEL-ANIMALS-FOOD-SPORT-NIGHT-PERFORMANCES-WHITEBOARDS-SCREENSHOTS"
-						+ "-UTILITY-ARTS-CRAFTS-FASHION-HOUSES-GARDENS-FLOWERS-HOLIDAYS-";
-			}else {
-				for(String s : temas) {
-					ContentFilter = ContentFilter + s + "-";
-				}
+			for(String s : temas) {
+					if(s.length()<3) {
+						ContentFilter = ContentFilter + "  ";
+					}else {
+						ContentFilter = ContentFilter + s + "-";
+					}
 			}
 			ContentFilter = ContentFilter.substring(0, ContentFilter.length()-1);
 			ContentFilter = ContentFilter + ";excluded: ,";
 			String MediaTypeFilter = "mediatypes:PHOTO,";
-			String FeatureFilter = "features:NONE-FAVORITES,";
+			String FeatureFilter = "features:NONE,";
 			filtrostr = DateFilter + ContentFilter + MediaTypeFilter + FeatureFilter + "true,false";
 			Filters filters = generadorDeFiltro(filtrostr);
+			RequestSearch request = new RequestSearch(filters);
 			System.out.println("INFORMACION: El filtro que se forma es: " + filters);
+			System.out.println("Este es el acces token: " + access_token);
 			cr = new ClientResource(uri + ":search" + "?access_token=" + access_token);
-			list = cr.post(filters, MediaItems.class);
+			JacksonRepresentation<RequestSearch> a = new JacksonRepresentation<RequestSearch>(MediaType.APPLICATION_JSON, request);
+			try {
+				System.out.println(a.getText());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			list = cr.post(new JacksonRepresentation<RequestSearch>(MediaType.APPLICATION_JSON, request), MediaItems.class);
 			System.out.println("INFORMACION: La lista devuelta es: " + list );
 		} catch (ResourceException re){
 			System.out.println("INFORMACION: Error when retrieving the collections: " + re);
@@ -200,6 +208,7 @@ public class MediaItemResource {
 		else {
 			String[] splits = includedstr.split("-");
 			for(String s:splits) {
+				if(s.equals(" ") || s.equals("")) continue;
 				includedList.add(s);
 			}
 		}
@@ -207,6 +216,7 @@ public class MediaItemResource {
 		else {
 			String[] splits = excludedstr.split("-");
 			for(String s:splits) {
+				if(s.equals(" ") || s.equals("")) continue;
 				excludedList.add(s);
 			}
 		}

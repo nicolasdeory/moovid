@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import aiss.model.photos.filter.ContentCategory;
 import aiss.model.photos.filter.Date;
+import aiss.model.photos.mediaitem.MediaItem;
 import aiss.model.photos.mediaitem.MediaItems;
 import aiss.resources.photos.MediaItemResource;
 
@@ -32,9 +32,11 @@ public class GooglePhotosMediaItemSearchController extends HttpServlet{
             if (accessToken != null && !"".equals(accessToken)) {
                 MediaItemResource miResource = new MediaItemResource(accessToken);
                 MediaItems MIs = miResource.searchMediaItem(inicio,fin,contenidos);
+                List<String> listaUrls = obtenerURLSDeBajada(MIs);
                 if(MIs!=null) {
                 	log.info("Files according to filters obtained");
-                    req.setAttribute("MediaItems", MIs);
+                    req.setAttribute("MediaItems", listaUrls);
+                    req.getRequestDispatcher("/demo.jsp").forward(req, resp);
                 }else {
                 	log.info("No files could be found with those filters");
                 	req.getRequestDispatcher("/AuthController/GooglePhotos").forward(req, resp);
@@ -64,6 +66,16 @@ public class GooglePhotosMediaItemSearchController extends HttpServlet{
     	}
     	return res;
     }
+    
+    private List<String> obtenerURLSDeBajada(MediaItems MIs){
+		List<String> ls = new ArrayList<String>();
+		for(MediaItem mi: MIs.getMediaItems()) {
+			String baseUrl = mi.getBaseUrl();
+			String urlFinal = baseUrl + "=w1020-h720-d";
+			ls.add(urlFinal);
+		}
+		return ls;
+	}
     
     
 }

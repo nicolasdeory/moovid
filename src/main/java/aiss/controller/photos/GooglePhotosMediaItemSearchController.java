@@ -56,7 +56,7 @@ public class GooglePhotosMediaItemSearchController extends HttpServlet{
         }
     }
 
-    private List<Date> ParseoFechas(String fechasstr) {
+    public static List<Date> ParseoFechas(String fechasstr) {
 		// TODO Auto-generated method stub
     	List<Date> res = new ArrayList<Date>();
     	if(fechasstr.length()<3) return res;
@@ -69,7 +69,7 @@ public class GooglePhotosMediaItemSearchController extends HttpServlet{
 		return res;
 	}
 
-    private static Date ParseoFecha(String fechaStr) {
+    public static Date ParseoFecha(String fechaStr) {
 		Date res = new Date (0,0,0);
 		if(fechaStr.length()<3) return res;
     	String[] splits = fechaStr.split("-");
@@ -77,7 +77,7 @@ public class GooglePhotosMediaItemSearchController extends HttpServlet{
     	return res;
     }
     
-    private static List<String> ParseoContenidos(String contenidosStr){
+    public static List<String> ParseoContenidos(String contenidosStr){
     	List<String> res = new ArrayList<String>();
     	String[] splits = contenidosStr.split("-");
     	for(String s: splits) {
@@ -86,7 +86,7 @@ public class GooglePhotosMediaItemSearchController extends HttpServlet{
     	return res;
     }
     
-    private List<String> obtenerURLSDeBajada(MediaItems MIs){
+    public List<String> obtenerURLSDeBajada(MediaItems MIs){
 		List<String> ls = new ArrayList<String>();
 		if(MIs==null) return ls;
 		for(MediaItem mi: MIs.getMediaItems()) {

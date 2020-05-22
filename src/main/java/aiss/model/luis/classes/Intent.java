@@ -32,7 +32,10 @@ public class Intent {
 		this.topIntent = topIntent;
 	}
 
-	
+	@Override
+	public String toString() {
+		return "Intent [topIntent=" + topIntent + ", sentiment=" + sentiment + "]";
+	}
 	
 	
 }

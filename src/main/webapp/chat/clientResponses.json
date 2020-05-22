@@ -1,0 +1,27 @@
+{
+    "start-conversation":
+    [
+        ["¿Qué tal?","¿Preparado para hacer un montaje? ¡Pídemelo!"],
+        ["Hola 😊","¿Te apetece hacer algún montaje? ¡Venga, adelante!"],
+        ["¿Listo para hacer montajes?","¡Adelante!"],
+        ["¿Qué tal?","Pídeme hacer un montaje 😎"],
+        ["¡Buenas! 😄", "¿Listo para hacer un montaje? ¡Pídemelo!"],
+        ["¡Hola!", "Espero poder ayudarte. ¡Pídeme que te haga un montaje!"]
+    ],
+    "montage-done":
+    [
+        ["¡Listo! 🤩🤩"],
+        ["Aquí lo tienes 😍😍"],
+        ["Ahí lo llevas 😍 Espero que te guste."],
+        ["¡Ya está! 🤩🤩"],
+        ["¡Ya lo tienes! 🤩🤩"],
+        ["¡Listo! Ha salido genial 😍😍"]
+    ],
+    "error":
+    [
+        ["Lo siento, algo no ha funcionado bien.","Vuelve a cargar la página si esto sigue sin funcionar."],
+        ["Vaya, algo no ha ido bien 😖", "Prueba a volver a cargar la página."],
+        ["Vaya.","Algo no ha ido bien. ¿Prueba a volver a cargar la página?"],
+        ["Algo no ha funcionado bien, lo siento.", "Prueba a volver a cargar la página si sigue sin funcionar."]
+    ]
+}

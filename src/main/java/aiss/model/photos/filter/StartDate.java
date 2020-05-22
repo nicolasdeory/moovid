@@ -16,11 +16,11 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "month",
     "year"
 })
-public class Date {
+public class StartDate {
 
     @Override
 	public String toString() {
-		return "Date [day=" + day + ", month=" + month + ", year=" + year + "]";
+		return "StartDate [day=" + day + ", month=" + month + ", year=" + year + "]";
 	}
 
 	@JsonProperty("day")
@@ -32,7 +32,7 @@ public class Date {
 
     
     
-    public Date(Integer day, Integer month, Integer year) {
+    public StartDate(Integer day, Integer month, Integer year) {
 		super();
 		this.day = day;
 		this.month = month;
@@ -68,5 +68,4 @@ public class Date {
     public void setYear(Integer year) {
         this.year = year;
     }
-
 }

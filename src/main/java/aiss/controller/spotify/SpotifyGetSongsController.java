@@ -18,11 +18,11 @@ import aiss.model.spotify.Song;
 import aiss.resources.spotify.SpotifyResource;
 
 
-public class SpotifyGetSongController extends HttpServlet{
+public class SpotifyGetSongsController extends HttpServlet{
 
-	private static final Logger log = Logger.getLogger(SpotifyGetSongController.class.getName());
+	private static final Logger log = Logger.getLogger(SpotifyGetSongsController.class.getName());
 	private static final long serialVersionUID = 1L;
-	 public SpotifyGetSongController() {
+	 public SpotifyGetSongsController() {
 	        super();
 	        // TODO Auto-generated constructor stub
 	    }
@@ -32,14 +32,15 @@ public class SpotifyGetSongController extends HttpServlet{
 			String artists = request.getParameter("artists");
 			String danceability = request.getParameter("danceability");
 			String energy = request.getParameter("energy");
+			String instrumentalness = request.getParameter("instrumentalness");
 			String tempo = request.getParameter("tempo");
 			String valence = request.getParameter("valence");
 			List<Artist> id = SpotifyResource.getArtistIds(artists);
 			String json_song = SpotifyResource.getRecommendations(id, danceability,
-					energy, tempo, valence);
-			Song song = SpotifyResource.getSongFromJson(json_song);
-			request.setAttribute("song", song.toString());
-			log.log(Level.INFO, "Forwarding recommended song: " + song);
+					energy, instrumentalness, tempo, valence);
+			List<Song> songs = SpotifyResource.getSongsFromJson(json_song);
+			request.setAttribute("songs", songs.toString());
+			log.log(Level.INFO, "Forwarding recommended songs: " + songs);
 			request.getRequestDispatcher("/.jsp").forward(request, response);
 			
 		}

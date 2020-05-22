@@ -107,4 +107,14 @@
     <servlet-name>ChatQueryController</servlet-name>
     <url-pattern>/chatquery</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>YoutubeGetIDController</display-name>
+    <servlet-name>YoutubeGetIDController</servlet-name>
+    <servlet-class>aiss.controller.youtube.YoutubeGetIDController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>YoutubeGetIDController</servlet-name>
+    <url-pattern>/YoutubeGetIDController</url-pattern>
+  </servlet-mapping>
 </web-app>

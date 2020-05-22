@@ -46,7 +46,7 @@
                 </div>
                 <a id="luisbutton" class="button3">LUIS</a>
                 <a id="spotifybutton" class="button3">SPOTIFY</a>
-                <a id="photosbutton" href="/PhotosSearch?inicio=2020-01-01&fin=2020-05-19&contents=" class="button3">PHOTOS</a>
+                <a id="photosbutton" href="/PhotosSearch?inicio=2020-01-01&fin=2020-05-19&contents=&excluded=" class="button3">PHOTOS</a>
             </div>
         </div>
 
@@ -62,7 +62,6 @@
                     		<span id="result">
                     		Llega a Search
                     		Estos son los elementos que devuelve = <c:out value="${requestScope.MediaItems}"/>
-              				<input type="button" onclick="window.location.href = '${requestScope.MediaItem.baseUrl}=w1020-h720-d';">
                     		</span>
                 		</div>
             		</div>

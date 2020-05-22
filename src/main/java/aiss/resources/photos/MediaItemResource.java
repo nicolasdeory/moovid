@@ -87,7 +87,7 @@ public class MediaItemResource {
 
 	
 	//CAMBAIR ESTO PARA QUE ENTREN DOS DATES Y LA LISTA DE MONTAGETHEME
-	public  MediaItems searchMediaItem(Date inicio, Date fin, List<String> temas){
+	public  MediaItems searchMediaItem(Date inicio, Date fin, List<String> temas, List<String> excluidos){
 		ClientResource cr = null;
 		MediaItems list = null;
 		try {
@@ -103,7 +103,16 @@ public class MediaItemResource {
 					}
 			}
 			ContentFilter = ContentFilter.substring(0, ContentFilter.length()-1);
-			ContentFilter = ContentFilter + ";excluded: ,";
+			ContentFilter = ContentFilter + ";excluded:";
+			for(String s : excluidos) {
+				if(s.length()<3) {
+					ContentFilter = ContentFilter + "  ";
+				}else {
+					ContentFilter = ContentFilter + s + "-";
+				}
+			}
+			ContentFilter = ContentFilter.substring(0, ContentFilter.length()-1);
+			ContentFilter = ContentFilter + ",";
 			String MediaTypeFilter = "mediatypes:PHOTO,";
 			String FeatureFilter = "features:NONE,";
 			filtrostr = DateFilter + ContentFilter + MediaTypeFilter + FeatureFilter + "true,false";

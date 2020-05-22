@@ -24,14 +24,16 @@ public class GooglePhotosMediaItemSearchController extends HttpServlet{
     	String iniciostr = req.getParameter("inicio");
     	String finstr = req.getParameter("fin");
     	String contentsstr = req.getParameter("contents");
+    	String excluidosstr = req.getParameter("excluded");
     	Date inicio = ParseoFecha(iniciostr);
     	Date fin = ParseoFecha(finstr);
     	List<String> contenidos = ParseoContenidos(contentsstr);
+    	List<String> excluidos = ParseoContenidos(excluidosstr);
         if (inicio != null && fin != null && contenidos != null) {
             String accessToken = (String) req.getSession().getAttribute("GooglePhotos-token");
             if (accessToken != null && !"".equals(accessToken)) {
                 MediaItemResource miResource = new MediaItemResource(accessToken);
-                MediaItems MIs = miResource.searchMediaItem(inicio,fin,contenidos);
+                MediaItems MIs = miResource.searchMediaItem(inicio,fin,contenidos,excluidos);
                 List<String> listaUrls = obtenerURLSDeBajada(MIs);
                 if(MIs!=null) {
                 	log.info("Files according to filters obtained");

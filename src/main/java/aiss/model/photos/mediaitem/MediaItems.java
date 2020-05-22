@@ -45,20 +45,10 @@ public class MediaItems {
         this.nextPageToken = nextPageToken;
     }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
 
 	@Override
 	public String toString() {
-		return "MediaItems [mediaItems=" + mediaItems + ", nextPageToken=" + nextPageToken + ", additionalProperties="
-				+ additionalProperties + "]";
+		return "MediaItems [mediaItems=" + mediaItems + ", nextPageToken=" + nextPageToken + "]";
 	}
     
     

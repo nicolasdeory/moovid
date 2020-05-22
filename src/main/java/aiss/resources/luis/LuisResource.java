@@ -19,6 +19,8 @@ import aiss.model.luis.classes.MusicIntent;
 import aiss.model.luis.classes.SpecificThemeIntent;
 import aiss.model.luis.enumerates.IntentType;
 import aiss.model.luis.enumerates.MontageTheme;
+import aiss.model.luis.enumerates.MusicAcoustic;
+import aiss.model.luis.enumerates.MusicDanceable;
 import aiss.model.luis.enumerates.MusicEnergy;
 import aiss.model.luis.enumerates.MusicMood;
 import aiss.model.luis.enumerates.MusicTempo;
@@ -65,17 +67,28 @@ public class LuisResource {
 			if (entities.has("MusicMood"))
 				mood = MusicMood.valueOf(entities.get("MusicMood").elements().next().fieldNames().next());
 			
-			Boolean danceable = false;
+			MusicDanceable danceable = MusicDanceable.none;
 			if (entities.has("MusicDanceable"))
-				danceable = true;
+				danceable = MusicDanceable.yes;
+			
+			MusicAcoustic acoustic = MusicAcoustic.none;
+			if (entities.has("MusicAcoustic"))
+				acoustic = MusicAcoustic.yes;
 			
 			List<String> ls_author = new ArrayList<String>();
 			Iterator<JsonNode> it_author = entities.get("MusicAuthor").elements();
-			while(it_author.hasNext()) {
+			while(it_author.hasNext())
 				ls_author.add(it_author.next().textValue());
+			
+			List<String> ls_genre = new ArrayList<String>();
+			Iterator<JsonNode> it_genre = entities.get("MusicGenre").elements();
+			while(it_genre.hasNext()) {
+				String genre = it_genre.next().textValue();
+				ls_genre.add(parseGenre(genre));
 			}
 			
-			MusicIntent mus = new MusicIntent(sent, ls_author, mood, tempo, energy, danceable);
+			MusicIntent mus = new MusicIntent(sent, ls_author, ls_genre, mood,
+					tempo, energy, danceable, acoustic);
 			return mus;
 		case SpecificTheme:
 			SpecificThemeIntent sth = new SpecificThemeIntent(sent, ls);
@@ -150,4 +163,8 @@ public class LuisResource {
 		return res;
 	}
 	
+	private static String parseGenre(String genre) {
+		//TODO: JSON with genre map
+		return genre;
+	}
 }

@@ -32,13 +32,14 @@ public class SpotifyGetSongsController extends HttpServlet{
 			String artists = request.getParameter("artists");
 			String danceability = request.getParameter("danceability");
 			String energy = request.getParameter("energy");
+			String instrumentalness = request.getParameter("instrumentalness");
 			String tempo = request.getParameter("tempo");
 			String valence = request.getParameter("valence");
 			List<Artist> id = SpotifyResource.getArtistIds(artists);
 			String json_song = SpotifyResource.getRecommendations(id, danceability,
-					energy, tempo, valence);
+					energy, instrumentalness, tempo, valence);
 			List<Song> songs = SpotifyResource.getSongsFromJson(json_song);
-			request.setAttribute("song", songs.toString());
+			request.setAttribute("songs", songs.toString());
 			log.log(Level.INFO, "Forwarding recommended songs: " + songs);
 			request.getRequestDispatcher("/.jsp").forward(request, response);
 			

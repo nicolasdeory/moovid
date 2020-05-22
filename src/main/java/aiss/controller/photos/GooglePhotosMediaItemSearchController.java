@@ -21,10 +21,12 @@ public class GooglePhotosMediaItemSearchController extends HttpServlet{
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    	String fechasstr = req.getParameter("fechas");
     	String iniciostr = req.getParameter("inicio");
     	String finstr = req.getParameter("fin");
     	String contentsstr = req.getParameter("contents");
     	String excluidosstr = req.getParameter("excluded");
+    	List<Date> fechas = ParseoFechas(fechasstr);
     	Date inicio = ParseoFecha(iniciostr);
     	Date fin = ParseoFecha(finstr);
     	List<String> contenidos = ParseoContenidos(contentsstr);
@@ -33,7 +35,7 @@ public class GooglePhotosMediaItemSearchController extends HttpServlet{
             String accessToken = (String) req.getSession().getAttribute("GooglePhotos-token");
             if (accessToken != null && !"".equals(accessToken)) {
                 MediaItemResource miResource = new MediaItemResource(accessToken);
-                MediaItems MIs = miResource.searchMediaItem(inicio,fin,contenidos,excluidos);
+                MediaItems MIs = miResource.searchMediaItem(fechas,inicio,fin,contenidos,excluidos);
                 List<String> listaUrls = obtenerURLSDeBajada(MIs);
                 if(MIs!=null) {
                 	log.info("Files according to filters obtained");
@@ -54,9 +56,24 @@ public class GooglePhotosMediaItemSearchController extends HttpServlet{
         }
     }
 
+    private List<Date> ParseoFechas(String fechasstr) {
+		// TODO Auto-generated method stub
+    	List<Date> res = new ArrayList<Date>();
+    	if(fechasstr.length()<3) return res;
+		String[] diferentesFechas = fechasstr.split("/");
+		for(String s:diferentesFechas) {
+			String[] splits = s.split("-");
+			Date fecha = new Date(Integer.valueOf(splits[0]),Integer.valueOf(splits[1]),Integer.valueOf(splits[2]));
+			res.add(fecha);
+		}
+		return res;
+	}
+
     private static Date ParseoFecha(String fechaStr) {
+		Date res = new Date (0,0,0);
+		if(fechaStr.length()<3) return res;
     	String[] splits = fechaStr.split("-");
-    	Date res = new Date(Integer.valueOf(splits[0]),Integer.valueOf(splits[1]),Integer.valueOf(splits[2]));
+    	res = new Date(Integer.valueOf(splits[0]),Integer.valueOf(splits[1]),Integer.valueOf(splits[2]));
     	return res;
     }
     
@@ -71,6 +88,7 @@ public class GooglePhotosMediaItemSearchController extends HttpServlet{
     
     private List<String> obtenerURLSDeBajada(MediaItems MIs){
 		List<String> ls = new ArrayList<String>();
+		if(MIs==null) return ls;
 		for(MediaItem mi: MIs.getMediaItems()) {
 			String baseUrl = mi.getBaseUrl();
 			String urlFinal = baseUrl + "=w1020-h720-d";

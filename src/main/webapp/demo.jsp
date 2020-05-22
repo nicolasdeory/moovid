@@ -46,7 +46,7 @@
                 </div>
                 <a id="luisbutton" class="button3">LUIS</a>
                 <a id="spotifybutton" class="button3">SPOTIFY</a>
-                <a id="photosbutton" href="/PhotosSearch?inicio=2020-01-01&fin=2020-05-19&contents=&excluded=" class="button3">PHOTOS</a>
+                <a id="photosbutton" href="/PhotosSearch?fechas=20-05-2020&inicio=14-12-2019&fin=18-02-2020&contents=selfies&excluded=" class="button3">PHOTOS</a>
             </div>
         </div>
 

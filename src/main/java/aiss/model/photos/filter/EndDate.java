@@ -32,7 +32,7 @@ public class EndDate {
 
     
     
-    public EndDate(Integer year, Integer month, Integer day) {
+    public EndDate(Integer day, Integer month, Integer year) {
 		super();
 		this.day = day;
 		this.month = month;

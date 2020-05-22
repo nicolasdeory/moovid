@@ -87,13 +87,23 @@ public class MediaItemResource {
 
 	
 	//CAMBAIR ESTO PARA QUE ENTREN DOS DATES Y LA LISTA DE MONTAGETHEME
-	public  MediaItems searchMediaItem(Date inicio, Date fin, List<String> temas, List<String> excluidos){
+	public  MediaItems searchMediaItem(List<Date> fechas, Date inicio, Date fin, List<String> temas, List<String> excluidos){
 		ClientResource cr = null;
 		MediaItems list = null;
 		try {
 			String filtrostr = "";
-			String DateFilter = "dates: ;ranges:" + inicio.getDay() + "/" + inicio.getMonth() + "/" + inicio.getYear() +
+			String DateFilter = "dates:";
+	    	if(fechas.size()==0) DateFilter = DateFilter + "  ";
+			for(Date d : fechas) {
+				DateFilter = DateFilter + d.getDay() + "/" + d.getMonth() + "/" + d.getYear() + "|";
+			}
+			DateFilter = DateFilter.substring(0, DateFilter.length()-1);
+			if(inicio.getYear()==0) {
+				DateFilter = DateFilter + ";ranges: ,";
+			}else {
+				DateFilter = DateFilter + ";ranges:" + inicio.getDay() + "/" + inicio.getMonth() + "/" + inicio.getYear() +
 					"-" + fin.getDay() + "/" + fin.getMonth() + "/" + fin.getYear() + ",";
+			}
 			String ContentFilter = "included:";
 			for(String s : temas) {
 					if(s.length()<3) {
@@ -181,11 +191,11 @@ public class MediaItemResource {
 		List<Range> dateRangesList= new ArrayList<Range>();
 		if(!datess.equals(" ")) {
 			for(String datestr:datesstr) {
-				String splits[] = datestr.split(".");
+				String splits[] = datestr.split("/");
 				Integer day = Integer.valueOf(splits[0].trim());
 				Integer month = Integer.valueOf(splits[1].trim());
 				Integer year = Integer.valueOf(splits[2].trim());
-				Date date = new Date(year,month,day);
+				Date date = new Date(day,month,year);
 				datesList.add(date);
 			}
 		}
@@ -200,8 +210,8 @@ public class MediaItemResource {
 				Integer day2 = Integer.valueOf(date2str[0].trim());
 				Integer month2 = Integer.valueOf(date2str[1].trim());
 				Integer year2 = Integer.valueOf(date2str[2].trim());
-				StartDate date1 = new StartDate(year1,month1,day1);
-				EndDate date2 = new EndDate(year2,month2,day2);
+				StartDate date1 = new StartDate(day1,month1,year1);
+				EndDate date2 = new EndDate(day2,month2,year2);
 				Range dateRange = new Range(date1,date2);
 				dateRangesList.add(dateRange);
 			}

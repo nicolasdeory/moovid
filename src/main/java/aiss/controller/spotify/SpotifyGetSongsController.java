@@ -29,7 +29,7 @@ public class SpotifyGetSongsController extends HttpServlet{
 
 		protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-			String artists = request.getParameter("artists");
+			/*String artists = request.getParameter("artists");
 			String danceability = request.getParameter("danceability");
 			String energy = request.getParameter("energy");
 			String instrumentalness = request.getParameter("instrumentalness");
@@ -41,7 +41,7 @@ public class SpotifyGetSongsController extends HttpServlet{
 			List<Song> songs = SpotifyResource.getSongsFromJson(json_song);
 			request.setAttribute("songs", songs.toString());
 			log.log(Level.INFO, "Forwarding recommended songs: " + songs);
-			request.getRequestDispatcher("/.jsp").forward(request, response);
+			request.getRequestDispatcher("/.jsp").forward(request, response);*/
 			
 		}
 

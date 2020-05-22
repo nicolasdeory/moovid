@@ -51,7 +51,8 @@
 				<div class="black-line"></div>
 			</div>
 
-			<div class="chat-container" id="chat-container"></div>
+			<div class="chat-container" id="chat-container">
+			</div>
 			<div class="chat-footer">
 				<input type="text" placeholder="Escribe tu mensaje aquí"
 					id="chatbox" class="chatbot" value=""> <input type="button"

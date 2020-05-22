@@ -248,6 +248,8 @@ a.button3:hover{
     background: #555;
 }
 
+
+
 .chat-container {
     display: flex;
     flex-direction: column; 
@@ -290,7 +292,7 @@ a.button3:hover{
     margin-left: 10px;
     margin-right: 10px;
 }
-.chat-container .msg p{
+.chat-container .msg {
     word-break: normal;
     font-size: 12px;
 }
@@ -351,4 +353,38 @@ a.button3:hover{
     background-color: #2b2b2b;
 }
 
+.video-solution{
+    width: 500px;
+    padding: 15px;
+    border-radius: 50px;
+}
 
+.loading-montage{
+    padding: 10px;
+    align-items: center;
+}
+
+.info-montage{
+    font-size: 8px;
+}
+
+.loading-container{
+    background-color: #f1f1f1;
+    border-radius: 13px;
+    padding: 3px;
+    width: 400px;
+    margin-bottom: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.loading-bar{
+    background-color: #1974d2;
+    width: 30%;
+    height: 4px;
+    border-radius: 10px;
+}
+
+.loading-icon{
+    width: 60px;
+}

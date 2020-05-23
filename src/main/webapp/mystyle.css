@@ -375,7 +375,7 @@ a.button3:hover{
 }
 
 .loading-container{
-    background-color: #f1f1f1;
+    background-color: #eee;
     border-radius: 13px;
     padding: 3px;
     width: 350px;

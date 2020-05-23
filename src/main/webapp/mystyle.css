@@ -386,13 +386,32 @@ a.button3:hover{
 
 .loading-bar{
     background-color: #1974d2;
-    width: 30%;
+    width: 0%;
     height: 4px;
     border-radius: 10px;
 }
 
 .loading-icon{
     width: 60px;
+}
+
+.help-box{  
+    display: none;
+    z-index: 3;
+    position: absolute;
+    width: 20%;
+    height: 35%;
+    left: 66.5%;
+    top: 21%;
+    background-color: rgb(255, 234, 164);
+    font-weight: 500;
+    border-radius: 20px;
+    border-top-right-radius: 0px;
+    color: #222;
+    opacity: 70%;
+    padding: 10px;
+    font-size: 13px;
+    overflow-y: scroll;
 }
 
 
@@ -417,5 +436,24 @@ a.button3:hover{
         left: 10%;
         top: 14%;
         color: black;
+    }
+
+    .help-box{
+        display: none;
+        z-index: 3;
+        position: absolute;
+        width: 20%;
+        height: 40%;
+        left: 57%;
+        top: 52%;
+        background-color: rgb(255, 234, 164);
+        font-weight: 500;
+        border-radius: 20px;
+        border-top-right-radius: 0px;
+        color: #222;
+        opacity: 70%;
+        padding: 10px;
+        overflow-y: scroll;
+        font-size: 13px;
     }
 }

@@ -195,16 +195,17 @@ function generateVid(doneCallback, progressCallback)
                 break;
             case "stdout":
                 console.log(msg.data);
-                var msgData = msg.data;
-                if (msgData.indexOf("frame=") == 0)
-                {
-                    var progMatch = msgData.match(/^frame= *([0-9]+)/);
-                    if (progMatch.length > 0)
-                        progressCallback("Montando vídeo...", 20 + (progMatch[0]/totalVideoFrames)*80);
-                }                
                 break;
             case "stderr":
                 console.log(msg.data);
+                var msgData = msg.data;
+                if (msgData.indexOf("frame=") == 0)
+                {
+                    var regx = /^frame= *([0-9]+)/g;
+                    var progMatch = regx.exec(msgData);
+                    if (progMatch.length > 0)
+                        progressCallback("Montando vídeo...", 20 + (progMatch[1]/totalVideoFrames)*80);
+                }                
                 break;
             case "done":
                 sampleVideoData = undefined;

@@ -116,7 +116,8 @@ public class YoutubeResource {
 			audioFormat = audios.stream().max(cmp).get();
 		log.log(Level.FINE, "Chosen audio download with bitrate of: " + audioFormat.bitrate());
 		
-		String musicPath = PATH;
+		return audioFormat.url(); // just pass the track url
+		/*String musicPath = PATH;
 		File outputDir = new File(PATH);
 		File file = null;
 		try {
@@ -149,7 +150,7 @@ public class YoutubeResource {
 			return downloadVideo(id, retry++);
 		}
 		log.log(Level.INFO, "Succesfully downloaded song at " + musicPath + " : " + video.details().title());
-		return file.getName();
+		return file.getName();*/
 	}
 	
 }

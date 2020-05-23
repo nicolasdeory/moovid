@@ -37,27 +37,7 @@ public class JobManager {
 		queue = new LinkedList<>();
 		jobs = new HashMap<String, MontageJob>();
 		rand = new Random();
-		/*Thread thread = ThreadManager.createBackgroundThread(new Runnable() {
-		    public void run() {
-		        queueLoop();
-		    }
-		});
-		thread.start();*/
 	}
-	
-	/*private static void queueLoop()
-	{
-		while (true)
-		{
-			if (queue.isEmpty())
-			{
-				try {
-					TimeUnit.MILLISECONDS.sleep(200);
-				} catch (InterruptedException e) { }
-				continue;
-			}
-		}
-	}*/
 	
 	private static void processJob(MontageJob job)
 	{
@@ -92,9 +72,9 @@ public class JobManager {
 		
 		// Retrieve photos
 		MediaItemResource mr = new MediaItemResource(job.getPhotosToken());
-		MediaItems mis = mr.searchMediaItem(new ArrayList<LocalDate>(), start, end, themeStrings, new ArrayList<String>());
-		System.out.println("media items " + mis);
-		List<String> urls = getDownloadUrls(mis);
+		List<String> urls = mr.searchMediaItem(new ArrayList<LocalDate>(), start, end, themeStrings, new ArrayList<String>());
+		System.out.println("media urls retrieved. size " + urls.size());
+		//List<String> urls = getDownloadUrls(mis);
 		
 		// Music
 		

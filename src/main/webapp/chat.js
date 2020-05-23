@@ -181,6 +181,7 @@ $(document).ready(() =>
       console.log("received job data");
       console.log(data);
       const imgUrls = data.photoUrls;
+      imgUrls = imgUrls.reverse();
       if (imgUrls.length > 100) // MAX 100 photos
       {
         imgUrls.splice(imgUrls.length-(imgUrls.length-100), imgUrls.length);

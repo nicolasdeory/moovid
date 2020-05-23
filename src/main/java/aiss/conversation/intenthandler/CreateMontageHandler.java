@@ -112,18 +112,19 @@ public class CreateMontageHandler {
 	private static ChatQueryResponse handleDecideForMe(Intent intt, Context ctx)
 	{
 		ChatQueryResponse resp;
-		Context myContext = new Context();
+		//Context myContext = new Context();
+		//myContext.set
 		if (ctx.getContextType().equals(ContextType.MontageTheme))
 		{
-			myContext.setThemeEntities(new ArrayList<MontageTheme>());
-			myContext.setContextType(ContextType.MontageMusic);
-			resp = ChatQueryResponse.createWaitForInput(intt, myContext);
+			ctx.setThemeEntities(new ArrayList<MontageTheme>());
+			ctx.setContextType(ContextType.MontageMusic);
+			resp = ChatQueryResponse.createWaitForInput(intt, ctx);
 			resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-ask-music"));
 			return resp;
 		}
 		else if (ctx.getContextType().equals(ContextType.MontageMusic))
 		{
-			MontageJob job = MontageJob.of(myContext.getAccessToken(), myContext.getThemeEntities(), null, myContext.getStart(), myContext.getEnd());
+			MontageJob job = MontageJob.of(ctx.getAccessToken(), ctx.getThemeEntities(), null, ctx.getStart(), ctx.getEnd());
 			JobManager.enqueueJob(job);
 			resp = ChatQueryResponse.createVideoGeneration(intt, job.getUuid().toString());
 			resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-start-processing"));

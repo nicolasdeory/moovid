@@ -104,6 +104,8 @@ public class JobManager {
 			if (music == null || authorList.size() == 0)
 			{
 				// TODO: Default song...
+				// Pick genre from a random list (edm, reggaeton, pop)
+				// Keep attributes that the user might have specified
 				songJson = SpotifyResource.getRecommendations(new ArrayList<Artist>(), null, 
 						null, null, null, null, null);
 			}

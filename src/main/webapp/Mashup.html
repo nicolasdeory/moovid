@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html lang="es">
-
 <head>
     <title>Moovid</title>
-
+    
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="mystyle.css">
     <link rel="icon" type="image/png" href="images/Moovid logo color.png">
@@ -19,13 +17,10 @@
     <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
     <script src="buttonscript.js"></script>
     <script src="chat.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 </head>
-<% String controller = "/PhotosList"; %>
 
-<c:if test="${not empty mediaItemId}">
-    <% controller = "/PhotosGet";%>
-</c:if>
 
 <body>
     <img class="bg" src="images/background.png" />
@@ -42,7 +37,7 @@
                 </div>
                 <a id="photosbutton" href="/photoslogin" class="button3">
                     <img src="images/gfotos logo.png" id="gfotoslogo">
-                    <p>GOOGLE PHOTOS</p>
+                    <p id="text-button">GOOGLE PHOTOS</p>
                 </a>
             </div>
         </div>

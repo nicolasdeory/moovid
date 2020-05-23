@@ -116,6 +116,9 @@ function getFilters(){
 function generateVid(doneCallback)
 {
     console.log("generating video");
+
+    var videoLength = (blobsArray.length - 1) * 1; // 1 second duration each photo, at the moment
+
     var arg = "";
    //arg += '-i img0.png -hide_banner';
     //arg += "-loop 1 ";
@@ -141,9 +144,9 @@ function generateVid(doneCallback)
     arg += "-c:v libx264 ";
     arg += "-pix_fmt yuv420p ";
     arg += "-vf fps=25,scale=1280:720:force_original_aspect_ratio=decrease,setsar=1,pad=1280:720:(ow-iw)/2:(oh-ih)/2," // TODO: FADEOUT FPS 
-    arg += "fade=out:st=53:d=3 " //zoompan=d=(1+0.3)/0.3:s=1280x720:fps=1/0.3,
+    arg += `fade=out:st=${videoLength-3}:d=3 ` //zoompan=d=(1+0.3)/0.3:s=1280x720:fps=1/0.3,
     //arg += "-af afade=d=0.5,areverse,afade=d=0.5,areverse "
-    arg += "-af afade=in:st=0:d=3,afade=out:st=53:d=3 " 
+    arg += `-af afade=in:st=0:d=3,afade=out:st=${videoLength-3}:d=3 ` 
     arg += "-shortest ";
     //arg += "-maxrate 5M ";
     arg += "-framerate 25 "

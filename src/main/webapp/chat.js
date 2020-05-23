@@ -33,6 +33,16 @@ if (!String.prototype.format) {
 $(document).ready(() =>
 {
 
+  function logged(){
+    const currentUrl = window.location.href;
+      if (currentUrl.indexOf("login=1") >= 0)
+      {
+        $("#photosbutton").hide();
+        $("#subtitle-for-yellow1").val("¡Bienvenido a Moovid!");
+      }
+
+  }
+
   var CLIENT_RESPONSES = {};
 
   function createUserMessage(message)

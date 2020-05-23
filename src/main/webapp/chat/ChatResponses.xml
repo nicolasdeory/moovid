@@ -83,7 +83,7 @@
 	<phraselist name="montage-start-processing">
 		<response>¡Estupendo!<ret/>Espera un momentito. No cierres esta pestaña.</response>
 		<response>Perfecto 😎<ret/>Enseguida te monto el vídeo. No cierres esta pestaña, por favor.</response>
-		<response>Me parece genial 😊<ret/>Espera unos minutos. ¡No cierres la pestaña!</response>
+		<response>¡Genial! 😊<ret/>Espera unos minutos. ¡No cierres la pestaña!</response>
 		<response>A tu servicio.<ret/>Espera un momento. No cierres la pestaña.</response>
 		<response>¡Allá vamos!<ret/>No cierres la pestaña mientras te hago el montaje.</response>
 		<response>Estupendo 🤩<ret/>Te voy montando el vídeo. Por favor, ¡no cierres la pestaña!</response>

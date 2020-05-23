@@ -1,8 +1,9 @@
 package aiss.resources.spotify;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -10,6 +11,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.apache.commons.io.IOUtils;
 import org.restlet.data.ChallengeResponse;
 import org.restlet.data.ChallengeScheme;
 import org.restlet.data.Form;
@@ -20,6 +23,7 @@ import org.restlet.resource.ResourceException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import aiss.model.spotify.AccessToken;
 import aiss.model.spotify.Artist;
 import aiss.model.spotify.Song;
@@ -54,12 +58,20 @@ public class SpotifyResource {
        ClientResource cr1 = null;
         try {
         	String path = "./keys/SpotifyKey.txt";
-    		String keys = null;
+        	String keys = null;
+    		InputStream is = SpotifyResource.class.getClassLoader().getResourceAsStream(path);
     		try {
+			      keys = IOUtils.toString(is, "UTF-8");
+			} catch (IOException e1) {
+				log.log(Level.INFO, "Couldnt find SpotifyKey.txt");
+			}
+    		
+    		
+    		/*try {
     			keys = Files.lines(Paths.get(path)).findFirst().get();
     		} catch (IOException e) {
     			log.log(Level.INFO, "Couldnt find SpotifyKey.txt");
-    		}
+    		}*/
         	String[] split = keys.split(":");
             cr1 = new ClientResource("https://accounts.spotify.com/api/token");
             Form form = new Form();
@@ -111,7 +123,7 @@ public class SpotifyResource {
 			query = new ObjectMapper().readTree(json);
 			Artist res = new Artist (query.get("artists").get("items").elements()
 					.next().get("id").textValue());
-			log.log(Level.FINEST, "Successfully obtained Artist object from JSON: " + res);
+			log.log(Level.INFO, "Successfully obtained Artist object from JSON: " + res);
 			return res;
 		} catch (IOException e) {
 			log.log(Level.WARNING, "Error parsing Spotify Artist Search JSON file: " + e.getMessage());
@@ -132,13 +144,13 @@ public class SpotifyResource {
 		}
 	}
 	
-	public static String getRecommendations(List<Artist> id, List<String> genres, String danceability,
+	public static String getRecommendations(List<Artist> artists, List<String> genres, String danceability,
 			String energy, String instrumentalness, String tempo, String valence) {
 		String uri = "https://api.spotify.com/v1/recommendations?";
-		uri += "limit=10";
+		uri += "limit=10&market=ES";
 		uri += "&seed_artists=";
-		for (Artist artist : id) {
-			if (id.indexOf(artist)!=0)
+		for (Artist artist : artists) {
+			if (artists.indexOf(artist)!=0)
 				uri += "%2C";
 			uri += artist.getId();
 		}
@@ -147,7 +159,6 @@ public class SpotifyResource {
 				uri += "%2C";
 			uri += genre;
 		}
-		uri = uri.substring(0, uri.length() - 1);
 		if (danceability.equals("true"))
 			uri += "&min_danceability=0.5";
 		if (energy.equals("highenergy"))
@@ -167,12 +178,13 @@ public class SpotifyResource {
 		if (valence.equals("sad"))
 			uri += "&max_valence=0.5";
 		if (!isAuthorized()) authorize();
-		log.log(Level.FINE, "Searching recommendations at endpoint: " + uri);
+		log.log(Level.INFO, "Searching recommendations at endpoint: " + uri);
 		ClientResource cr_sr = new ClientResource(uri);
 		ChallengeResponse chres = new ChallengeResponse(
 				ChallengeScheme.HTTP_OAUTH_BEARER);
 		chres.setRawValue(token.getAccessToken());
 		cr_sr.getRequest().setChallengeResponse(chres);
+		//log.log(Level.INFO, cr_sr.getResponse().toString());
 		return cr_sr.get(String.class);
 	}
 	

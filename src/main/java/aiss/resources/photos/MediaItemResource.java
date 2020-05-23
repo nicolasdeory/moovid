@@ -2,9 +2,11 @@ package aiss.resources.photos;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import org.restlet.data.MediaType;
 import org.restlet.ext.jackson.JacksonRepresentation;
@@ -87,9 +89,16 @@ public class MediaItemResource {
 
 	
 	//CAMBAIR ESTO PARA QUE ENTREN DOS DATES Y LA LISTA DE MONTAGETHEME
-	public  MediaItems searchMediaItem(List<Date> fechas, Date inicio, Date fin, List<String> temas, List<String> excluidos){
+	public  MediaItems searchMediaItem(List<LocalDate> fechas1, LocalDate inicio1, LocalDate fin1, List<String> temas, List<String> excluidos){
 		ClientResource cr = null;
 		MediaItems list = null;
+		Date inicio = new Date(inicio1.getDayOfMonth(),inicio1.getMonthValue(),inicio1.getYear());
+		Date fin = new Date(fin1.getDayOfMonth(),fin1.getMonthValue(),fin1.getYear());
+		List<Date> fechas = new ArrayList<Date>();
+		for(LocalDate f : fechas1)
+		{
+			fechas.add(new Date(f.getDayOfMonth(),f.getMonthValue(),f.getYear()));
+		}
 		try {
 			String filtrostr = "";
 			String DateFilter = "dates:";
@@ -138,6 +147,7 @@ public class MediaItemResource {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			log.info(filters.toString());
 			list = cr.post(new JacksonRepresentation<RequestSearch>(MediaType.APPLICATION_JSON, request), MediaItems.class);
 			System.out.println("INFORMACION: La lista devuelta es: " + list );
 		} catch (ResourceException re){
@@ -219,8 +229,21 @@ public class MediaItemResource {
 		DateFilter dateFilter = new DateFilter(datesList,dateRangesList);
 		
 		//Creacion de ContentFilter (consta de 2 parametros, included y excluded)
+		log.info(parametrosContentFilter[0]);
+		log.info(parametrosContentFilter[1]);
 		String includedstr = parametrosContentFilter[0].split(":")[1].trim();
-		String excludedstr = parametrosContentFilter[1].split(":")[1].trim();
+		
+		// Handles case when excluded is empty
+		String auxStr = "";
+		if (parametrosContentFilter[1].equals("excluded"))
+		{
+			auxStr = parametrosContentFilter[1] + ": ";
+		}
+		else
+		{
+			auxStr = parametrosContentFilter[1];
+		}
+		String excludedstr = auxStr.split(":")[1].trim();
 		List<String> includedList = new ArrayList<String>();
 		List<String> excludedList = new ArrayList<String>();
 		if(!includedstr.contains("-") && includedstr.length()>1) includedList.add(includedstr);

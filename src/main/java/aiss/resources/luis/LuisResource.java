@@ -93,15 +93,21 @@ public class LuisResource {
 				acoustic = MusicAcoustic.yes;
 			
 			List<String> ls_author = new ArrayList<String>();
-			Iterator<JsonNode> it_author = entities.get("MusicAuthor").elements();
-			while(it_author.hasNext())
-				ls_author.add(it_author.next().textValue());
+			if (entities.get("MusicAuthor") != null)
+			{
+				Iterator<JsonNode> it_author = entities.get("MusicAuthor").elements();
+				while(it_author.hasNext())
+					ls_author.add(it_author.next().textValue());
+			}
 			
 			List<String> ls_genre = new ArrayList<String>();
-			Iterator<JsonNode> it_genre = entities.get("MusicGenre").elements();
-			while(it_genre.hasNext()) {
-				String genre = it_genre.next().textValue();
-				ls_genre.add(parseGenre(genre));
+			if (entities.get("MusicGenre") != null)
+			{
+				Iterator<JsonNode> it_genre = entities.get("MusicGenre").elements();
+				while(it_genre.hasNext()) {
+					String genre = it_genre.next().textValue();
+					ls_genre.add(parseGenre(genre));
+				}
 			}
 			
 			MusicIntent mus = new MusicIntent(sent, ls_author, ls_genre, mood,

@@ -15,14 +15,16 @@ public class MontageJob
 	private LocalDate start;
 	private LocalDate end;
 	private MusicIntent musicDesciption;
+	private String photosToken;
 	
-	public static MontageJob of(List<MontageTheme> themes, MusicIntent musicDescription, LocalDate start, LocalDate end)
+	public static MontageJob of(String photosToken, List<MontageTheme> themes, MusicIntent musicDescription, LocalDate start, LocalDate end)
 	{
-		return new MontageJob(themes, musicDescription, start, end);
+		return new MontageJob(photosToken, themes, musicDescription, start, end);
 	}
 	
-	private MontageJob(List<MontageTheme> themes, MusicIntent musicDesciption, LocalDate start, LocalDate end) {
+	private MontageJob(String photosToken, List<MontageTheme> themes, MusicIntent musicDesciption, LocalDate start, LocalDate end) {
 		super();
+		this.photosToken = photosToken;
 		this.themes = themes;
 		this.musicDesciption = musicDesciption;
 		this.start = start;
@@ -65,5 +67,15 @@ public class MontageJob
 	public void setEnd(LocalDate end) {
 		this.end = end;
 	}
+
+	public String getPhotosToken() {
+		return photosToken;
+	}
+
+	public void setPhotosToken(String photosToken) {
+		this.photosToken = photosToken;
+	}
+	
+	
 	
 }

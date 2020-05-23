@@ -22,6 +22,8 @@ public class Context implements Serializable {
 	private boolean waitingForInput;
 	String previousState = "";
 	private boolean isLoggedIn;
+	private String accessToken;
+	
 	
 	private long timestamp;
 	
@@ -91,6 +93,16 @@ public class Context implements Serializable {
 	public boolean previousStateEquals(String prevState)
 	{
 		return this.previousState != null && this.previousState.equals(prevState);
+	}
+
+	
+	
+	public String getAccessToken() {
+		return accessToken;
+	}
+
+	public void setAccessToken(String accessToken) {
+		this.accessToken = accessToken;
 	}
 
 	@Override

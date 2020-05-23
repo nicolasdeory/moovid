@@ -54,6 +54,20 @@ if (!String.prototype.format) {
 $(document).ready(() =>
 {
 
+
+  $("#info-button").click(() =>
+  {
+    if($("#help-box").is(':hidden')){
+
+    $("#help-box").show();
+  }else{
+    $("#help-box").hide();
+  }
+
+
+  });
+  
+
   function logged(){
     const currentUrl = window.location.href;
       if (currentUrl.indexOf("login=1") >= 0)
@@ -73,6 +87,7 @@ $(document).ready(() =>
     //if the message from the user isn't empty then run 
     if (message != "")
     {
+      $("#help-box").hide();
       $("#chat-container").append(USER_MESSAGE_HTML.format(message));
       updateScroll();
     }

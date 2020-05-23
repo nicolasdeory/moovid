@@ -118,6 +118,14 @@ function generateVid(doneCallback, progressCallback)
     progressCallback("Montando vídeo...", 20);
     console.log("generating video");
 
+    var blobsArray = [
+        { name: "audio.webm", data: audioData }                  
+    ]
+    for(let i = 0; i<sampleVideoData.length;i++)
+    {
+        blobsArray.push({ name: filesArray[i], data: sampleVideoData[i] })
+    }
+    
     var videoLength = (blobsArray.length - 1) * 1; // 1 second duration each photo, at the moment
     var totalVideoFrames = videoLength * 25; // 25 fps
 
@@ -170,13 +178,6 @@ function generateVid(doneCallback, progressCallback)
         switch (msg.type)
         {
             case "ready":
-                var blobsArray = [
-                    { name: "audio.webm", data: audioData }                  
-                ]
-                for(let i = 0; i<sampleVideoData.length;i++)
-                {
-                    blobsArray.push({ name: filesArray[i], data: sampleVideoData[i] })
-                }
                 //console.log(blobsArray);
                 worker.postMessage({
                     type: "run",

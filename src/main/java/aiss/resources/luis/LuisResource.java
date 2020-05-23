@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import org.restlet.resource.ClientResource;
 
@@ -65,7 +66,9 @@ public class LuisResource {
 		Intent intn;
 		switch(tipo) { // TODO: Add remaning intents
 		case CreateMontage:
+			System.out.println("Received CreateMontageJSON " + json);
 			List<LocalDate> ls_date = retrieveDateRange(entities);
+			System.out.println("LUIS parsed dates " + ls_date);
 			MontageCreateIntent mcr = new MontageCreateIntent(sent, ls, ls_date.get(0), ls_date.get(1));
 			return mcr;
 		case MontageThemeIntent:
@@ -181,27 +184,44 @@ public class LuisResource {
 		List<LocalDate> res = new ArrayList<LocalDate>();
 		String start = "";
 		String end = "";
-		if (nodo.has("datetimeV2") || (nodo.has("DateRange") && !nodo.get("DateRange").elements().next().isNull())) {
-			String tipo = nodo.findValue("type").textValue();
-			JsonNode resolution = nodo.findValue("resolution");
+		if (nodo.has("datetimeV2") || nodo.has("other-day") || (nodo.has("DateRange") && !nodo.get("DateRange").elements().next().isNull())) {
+			List<JsonNode> nodoTipos = nodo.findValues("type");
+			//List<String> tipos = nodos.stream().map(x->x.textValue()).collect(Collectors.toList());
+			//String tipo = nodo.findValue("type").textValue();
+			System.out.println("Date parse type " + nodoTipos);
 			
-			if (tipo.equals("daterange")) {
+			
+			if (nodoTipos.stream().anyMatch(x->x.textValue().contains(("daterange")))) {
+				
+				//System.out.println(nodoTipos);
+				JsonNode resolution = nodo.findValue("resolution"); // We hope it'll find daterange first
+				System.out.println("Parsing date range. Resolution: " + resolution.toString());
+				JsonNode startNode = resolution.findValue("start");
+				JsonNode endNode = resolution.findValue("end");
+				//System.out.println(dateRangeNode.textValue());
+				
+				/*JsonNode resolution = dateRangeNode.findValue("daterange").findValue("resolution");
 				start = resolution.elements().next().get("start").textValue();
-				end = resolution.elements().next().get("end").textValue();
+				end = resolution.elements().next().get("end").textValue();*/
+				System.out.println("Parsing date range : " + startNode.toString() + " " + endNode.toString());
+				start = startNode.textValue();
+				end = endNode.textValue();
 				
 			}
-			
-			else if (tipo.equals("date")) {
+			else if (nodoTipos.stream().anyMatch(x->x.textValue().contains(("date")))) 
+			{
+				//JsonNode dateNode = nodoTipos.stream().filter(x->x.textValue().contains("daterange")).findFirst().get();
+				JsonNode resolution = nodo.findValue("daterange").findValue("resolution");
 				start = resolution.elements().next().get("value").textValue();
 				end = start;
 			}
-			
-			else if (nodo.has("other-day")){
+			else
+			{
 				end = LocalDate.now().toString();
 				start = LocalDate.now().minusWeeks(2).toString();
 			}
 		}
-		if(!end.equals("") && !start.equals("")) {
+		if(/*start != null && end != null &&*/ !end.equals("") && !start.equals("")) {
 			res.add(LocalDate.parse(start));
 			res.add(LocalDate.parse(end));
 		}
@@ -210,6 +230,7 @@ public class LuisResource {
 			res.add(null);
 		}
 		
+		System.out.println("Parse date function " + res);
 		return res;
 	}
 	

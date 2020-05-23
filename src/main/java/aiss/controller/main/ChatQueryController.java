@@ -40,6 +40,7 @@ public class ChatQueryController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String query = request.getParameter("q");
 		Intent intent = LuisResource.getIntentFromQuery(query);
+		System.out.println("got intent " + intent.toString());
 		Context sessionContext = (Context)request.getSession().getAttribute("context");
 		// Discard context if it's too old (more than 10 minutes)
 		if (sessionContext != null &&

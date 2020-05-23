@@ -84,6 +84,11 @@ public class MontageCreateIntent extends Intent{
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "MontageCreateIntent [themeEntities=" + themeEntities + ", start=" + start + ", end=" + end + "]";
+	}
 	
 	
 }

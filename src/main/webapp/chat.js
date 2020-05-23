@@ -88,7 +88,7 @@ $(document).ready(() =>
   }
 
 
-  function sendMultipleBotMessages(messages)
+  function sendMultipleBotMessages(messages, shouldEnableLoading) // when shouldEnableLoading is true, when messages are done being sent, loading goes visible
   {
     let i = 0;
     var interval = setInterval(function ()
@@ -99,7 +99,16 @@ $(document).ready(() =>
       if (i >= messages.length)
       {
         clearInterval(interval);
-        $("#chatbox").prop("disabled", false); // reenable chatbox
+        if (shouldEnableLoading)
+        {
+          $("#loading-container").show();
+          $('#loading-container').appendTo('#chat-container');
+          updateScroll();
+          // chatbox doesn't get reenabled until montage is done
+        } else
+        {
+          $("#chatbox").prop("disabled", false); // reenable chatbox
+        }
       }
     }, 700);
   }
@@ -128,10 +137,14 @@ $(document).ready(() =>
       $.get(chatQuery + "q="+message, function(resp)
       {
         console.log(resp);
-        sendMultipleBotMessages(resp.messages);
+        
         if (resp.responseType == "VideoGeneration")
         {
+          sendMultipleBotMessages(resp.messages, true);
           processMontage(resp.jobId);
+        } else
+        {
+          sendMultipleBotMessages(resp.messages);
         }
       })
       .fail(() =>
@@ -144,6 +157,7 @@ $(document).ready(() =>
   function processMontage(jobId)
   {
     $("#chat-container").append(LOADING_MESSAGE_HTML); // Add loading message with id #loading-container
+    $("#loading-container").hide();
     montageProgress("Buscando imágenes...", 0);
 
     $.get(`/getjob?id=${jobId}`, function(data)
@@ -172,6 +186,7 @@ $(document).ready(() =>
     $("#chat-container").append(VIDEO_MESSAGE_HTML.format(src));
     sendMultipleBotMessages(getRandomClientResponse("montage-done"));
     createBotMessage(`Puedes descargar el vídeo <a href="${src}" download="moovid.mp4">aquí</a>.`)
+    $("#chatbox").prop("disabled", false); // reenable chatbox
     // var a = document.createElement('a');
    // a.download = "moovid.mp4";
     
@@ -189,7 +204,7 @@ $(document).ready(() =>
   function updateScroll(){
     var element = document.getElementById("chat-container");
     element.scrollTop = element.scrollHeight;
-}
+  }
 
   $.get("/chat/clientResponses.json", function(data)
   {

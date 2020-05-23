@@ -167,7 +167,7 @@ public class MediaItemResource {
 	
 	public List<String> obtenerURLSDeBajada(MediaItems MIs, List<Date> fechas, Date inicio, Date fin, List<String> contenidos, List<String> excluidos, String pageToken, Integer contador){
 		List<String> ls = new ArrayList<String>();
-		if(MIs==null) return ls;
+		if(MIs==null || MIs.getMediaItems() == null) return ls;
 		for(MediaItem mi: MIs.getMediaItems()) {
 			String baseUrl = mi.getBaseUrl();
 			String urlFinal = baseUrl + "=w1020-h720-d";

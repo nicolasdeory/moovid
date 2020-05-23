@@ -35,8 +35,8 @@ public class GooglePhotosMediaItemSearchController extends HttpServlet{
             String accessToken = (String) req.getSession().getAttribute("GooglePhotos-token");
             if (accessToken != null && !"".equals(accessToken)) {
                 MediaItemResource miResource = new MediaItemResource(accessToken);
-                MediaItems MIs = miResource.searchMediaItem(fechas,inicio,fin,contenidos,excluidos);
-                List<String> listaUrls = obtenerURLSDeBajada(MIs);
+                MediaItems MIs = miResource.searchMediaItem(fechas,inicio,fin,contenidos,excluidos, "");
+                List<String> listaUrls = obtenerURLSDeBajada(MIs, miResource, fechas,inicio,fin,contenidos,excluidos,MIs.getNextPageToken(),0);
                 if(MIs!=null) {
                 	log.info("Files according to filters obtained");
                     req.setAttribute("MediaItems", listaUrls);
@@ -86,13 +86,24 @@ public class GooglePhotosMediaItemSearchController extends HttpServlet{
     	return res;
     }
     
-    public List<String> obtenerURLSDeBajada(MediaItems MIs){
+    public List<String> obtenerURLSDeBajada(MediaItems MIs, MediaItemResource miResource, List<Date> fechas, Date inicio, Date fin, List<String> contenidos, List<String> excluidos, String pageToken, Integer contador){
 		List<String> ls = new ArrayList<String>();
 		if(MIs==null) return ls;
 		for(MediaItem mi: MIs.getMediaItems()) {
 			String baseUrl = mi.getBaseUrl();
 			String urlFinal = baseUrl + "=w1020-h720-d";
 			ls.add(urlFinal);
+		}
+		System.out.println("En la funcion de las URLS los items son: " + MIs.getMediaItems());
+		System.out.println("En la funcion de las URLS el siguiente page token es: " + MIs.getNextPageToken());
+		if(MIs.getNextPageToken()==null) return ls;
+		if(contador == 5) return ls;
+		contador++;
+		MediaItems newMIs = miResource.searchMediaItem(fechas, inicio, fin, contenidos, excluidos, pageToken);
+		ls.addAll(obtenerURLSDeBajada(newMIs,miResource,fechas,inicio,fin,contenidos,excluidos,newMIs.getNextPageToken(),contador));
+		if(ls.size()>100) {
+			List<String> subl = ls.subList(0, 100);
+			return subl;
 		}
 		return ls;
 	}

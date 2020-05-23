@@ -113,11 +113,13 @@ function getFilters(){
     };
 }
 
-function generateVid(doneCallback)
+function generateVid(doneCallback, progressCallback)
 {
+    progressCallback("Montando vídeo...", 20);
     console.log("generating video");
 
     var videoLength = (blobsArray.length - 1) * 1; // 1 second duration each photo, at the moment
+    var totalVideoFrames = videoLength * 25; // 25 fps
 
     var arg = "";
    //arg += '-i img0.png -hide_banner';
@@ -192,6 +194,13 @@ function generateVid(doneCallback)
                 break;
             case "stdout":
                 console.log(msg.data);
+                var msgData = msg.data;
+                if (msgData.indexOf("frame=") == 0)
+                {
+                    var progMatch = msgData.match(/^frame= *([0-9]+)/);
+                    if (progMatch.length > 0)
+                        progressCallback("Montando vídeo...", 20 + (progMatch[0]/totalVideoFrames)*80);
+                }                
                 break;
             case "stderr":
                 console.log(msg.data);
@@ -331,15 +340,27 @@ function generateVid(doneCallback)
     ,"IMG_2098.jpg","IMG_2099.jpg","IMG_2100.jpg","IMG_2101.jpg","IMG_2105.jpg","IMG_2106.jpg","IMG_2107.jpg","IMG_2108.jpg","IMG_2109.jpg"
     ,"IMG_2110.jpg","IMG_2113.jpg","IMG_2114.jpg","IMG_2176.jpg","IMG_2177.jpg","IMG_2183.jpg","IMG_2184.jpg"];*/
 
-    function makeMontage(imageUrlList, audioUrl, doneCallback)
+    function makeMontage(imageUrlList, audioUrl, doneCallback, progressCallback)
     {
+        audioLoaded = false;
+        imagesLoaded = 0;
         //getFilters();
         retrieveSampleVideo(imageUrlList);
         retrieveAudio(audioUrl);
         var interval = setInterval(function(){
+            var progressPct = 5 + (((audioLoaded ? 1 : 0) + imagesLoaded) / (1+imageUrlList.length))*15; // We know it starts at 5 here
+            if (!audioLoaded && imagesLoaded == imageUrlList.length)
+            {
+                progressCallback("Descargando audio...", progressPct);
+            }
+            else 
+            {
+                progressCallback("Descargando imágenes...", progressPct);
+            }
+            
             if (audioLoaded && imagesLoaded==imageUrlList.length)
             {
-                generateVid(doneCallback);
+                generateVid(doneCallback, progressCallback);
                 clearInterval(interval);
               /*  if (!retrievingFormats)
                 {

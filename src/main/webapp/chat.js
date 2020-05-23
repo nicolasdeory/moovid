@@ -17,6 +17,27 @@ const BOT_MESSAGE_HTML =
 </div>
 `;
 
+const LOADING_MESSAGE_HTML = 
+`
+<div class="chat-left" id="loading-container">
+  <div class="msg loading-montage">
+      <p class="info-montage" id="loading-message"></p>
+      <div class="loading-container">
+          <div class="loading-bar" id="loading-bar"></div>
+      </div>
+  </div>
+</div>
+`;
+
+const VIDEO_MESSAGE_HTML = 
+`
+<div class="chat-left">
+  <div class="msg">
+    <video class="video-solution" controls><source type="video/mp4" src="{0}"> </video>
+  </div>
+</div>
+`;
+
 
 if (!String.prototype.format) {
   String.prototype.format = function() {
@@ -122,6 +143,9 @@ $(document).ready(() =>
 
   function processMontage(jobId)
   {
+    $("#chat-container").append(LOADING_MESSAGE_HTML); // Add loading message with id #loading-container
+    montageProgress("Buscando imágenes...", 0);
+
     $.get(`/getjob?id=${jobId}`, function(data)
     {
       // TODO: get bpm
@@ -133,21 +157,33 @@ $(document).ready(() =>
         imgUrls.splice(imgUrls.length-(imgUrls.length-80), imgUrls.length);
       }
       const audioUrl = data.musicUrl;
-      makeMontage(imgUrls, audioUrl, montageDone);
+
+      
+      montageProgress("Descargando imágenes...", 5);
+      
+      makeMontage(imgUrls, audioUrl, montageDone, montageProgress);
     })
   }
 
   function montageDone(blob)
   {
     var src = window.URL.createObjectURL(blob);
+    $("#loading-container").remove();
+    $("#chat-container").append(VIDEO_MESSAGE_HTML.format(src));
     sendMultipleBotMessages(getRandomClientResponse("montage-done"));
-    createBotMessage(`Bájatelo <a href="${src}" download="moovid.mp4">aquí</a>.`)
+    createBotMessage(`Puedes descargar el vídeo <a href="${src}" download="moovid.mp4">aquí</a>.`)
     // var a = document.createElement('a');
    // a.download = "moovid.mp4";
     
    //  a.href = src;
     // a.textContent = 'Click here to download ' + "moovid.mp4" + "!";
    //  $("body").append(a);
+  }
+
+  function montageProgress(message, progressPct)
+  {
+    $("#loading-bar").css("width", progressPct+"%");
+    $("#loading-message").text(message);
   }
 
   function updateScroll(){

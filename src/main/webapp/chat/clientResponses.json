@@ -8,6 +8,15 @@
         ["¡Buenas! 😄", "¿Listo para hacer un montaje? ¡Pídemelo!"],
         ["¡Hola!", "Espero poder ayudarte. ¡Pídeme que te haga un montaje!"]
     ],
+    "start-conversation-after-login":
+    [
+        ["¡Gracias por iniciar sesión!","¿Preparado para hacer un montaje? ¡Pídemelo!"],
+        ["¡Ya has iniciado sesión!","¿Te apetece hacer algún montaje? ¡Venga, adelante!"],
+        ["Gracias por iniciar sesión 😊","¡Vamos a hacer un montaje!"],
+        ["¡Sesión iniciada! 😎","Ahora sólo queda pedirme hacer un montaje 😎"],
+        ["¡Gracias por iniciar sesión! 😄", "¿Listo para hacer un montaje? ¡Pídemelo!"],
+        ["¡Sesión iniciada!", "Ya estamos preparados para hacer un montaje 😎"]
+    ],
     "montage-done":
     [
         ["¡Listo! 🤩🤩"],

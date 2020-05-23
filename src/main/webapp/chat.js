@@ -37,10 +37,12 @@ $(document).ready(() =>
     const currentUrl = window.location.href;
       if (currentUrl.indexOf("login=1") >= 0)
       {
-        $("#photosbutton").hide();
-        $("#subtitle-for-yellow1").val("¡Bienvenido a Moovid!");
+        return true;
       }
-
+      else
+      {
+        return false;
+      }
   }
 
   var CLIENT_RESPONSES = {};
@@ -156,7 +158,15 @@ $(document).ready(() =>
   $.get("/chat/clientResponses.json", function(data)
   {
     CLIENT_RESPONSES = data;
-    sendMultipleBotMessages(getRandomClientResponse("start-conversation"));
+    if (logged())
+    {
+      sendMultipleBotMessages(getRandomClientResponse("start-conversation-after-login"));
+    }
+    else
+    {
+      sendMultipleBotMessages(getRandomClientResponse("start-conversation"));
+    }
+    
   }).fail(() =>
   {
     createBotMessage("Lo siento, ha ocurrido un error que no me esperaba. Prueba a volver a cargar la página.")
@@ -182,5 +192,11 @@ $(document).ready(() =>
     processUserMessage($("#chatbox").val());
     $("#chatbox").val("");
   });
+
+  if (logged())
+  {
+    $("#photosbutton").hide();
+    $("#subtitle-for-yellow1").text("¡Bienvenido a Moovid! Si tienes alguna pregunta, tan sólo pide ayuda.");
+  }
 
 });

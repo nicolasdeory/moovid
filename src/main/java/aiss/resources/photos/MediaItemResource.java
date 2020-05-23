@@ -89,9 +89,7 @@ public class MediaItemResource {
 
 	
 	//CAMBAIR ESTO PARA QUE ENTREN DOS DATES Y LA LISTA DE MONTAGETHEME
-	public  MediaItems searchMediaItem(List<LocalDate> fechas1, LocalDate inicio1, LocalDate fin1, List<String> temas, List<String> excluidos){
-		ClientResource cr = null;
-		MediaItems list = null;
+	public  List<String> searchMediaItem(List<LocalDate> fechas1, LocalDate inicio1, LocalDate fin1, List<String> temas, List<String> excluidos){
 		Date inicio = new Date(inicio1.getDayOfMonth(),inicio1.getMonthValue(),inicio1.getYear());
 		Date fin = new Date(fin1.getDayOfMonth(),fin1.getMonthValue(),fin1.getYear());
 		List<Date> fechas = new ArrayList<Date>();
@@ -99,6 +97,17 @@ public class MediaItemResource {
 		{
 			fechas.add(new Date(f.getDayOfMonth(),f.getMonthValue(),f.getYear()));
 		}
+		
+		MediaItems mis = searchMediaItem(fechas, inicio, fin, temas, excluidos, "");
+		List<String> urls = obtenerURLSDeBajada(mis, fechas, inicio, fin, temas, excluidos, mis.getNextPageToken(), 0);
+		return urls;
+	}
+	
+	public MediaItems searchMediaItem(List<Date> fechas, Date inicio, Date fin, List<String> temas, List<String> excluidos, String pageToken)
+	{
+		ClientResource cr = null;
+		MediaItems list = null;
+		
 		try {
 			String filtrostr = "";
 			String DateFilter = "dates:";
@@ -136,7 +145,7 @@ public class MediaItemResource {
 			String FeatureFilter = "features:NONE,";
 			filtrostr = DateFilter + ContentFilter + MediaTypeFilter + FeatureFilter + "true,false";
 			Filters filters = generadorDeFiltro(filtrostr);
-			RequestSearch request = new RequestSearch(filters);
+			RequestSearch request = new RequestSearch(filters, pageToken);
 			System.out.println("INFORMACION: El filtro que se forma es: " + filters);
 			System.out.println("Este es el acces token: " + access_token);
 			cr = new ClientResource(uri + ":search" + "?access_token=" + access_token);
@@ -154,6 +163,28 @@ public class MediaItemResource {
 			System.out.println("INFORMACION: Error when retrieving the collections: " + re);
 		}
 		return list;
+	}
+	
+	public List<String> obtenerURLSDeBajada(MediaItems MIs, List<Date> fechas, Date inicio, Date fin, List<String> contenidos, List<String> excluidos, String pageToken, Integer contador){
+		List<String> ls = new ArrayList<String>();
+		if(MIs==null) return ls;
+		for(MediaItem mi: MIs.getMediaItems()) {
+			String baseUrl = mi.getBaseUrl();
+			String urlFinal = baseUrl + "=w1020-h720-d";
+			ls.add(urlFinal);
+		}
+		System.out.println("En la funcion de las URLS los items son: " + MIs.getMediaItems());
+		System.out.println("En la funcion de las URLS el siguiente page token es: " + MIs.getNextPageToken());
+		if(MIs.getNextPageToken()==null) return ls;
+		if(contador == 5) return ls;
+		contador++;
+		MediaItems newMIs = searchMediaItem(fechas, inicio, fin, contenidos, excluidos, pageToken);
+		ls.addAll(obtenerURLSDeBajada(newMIs,fechas,inicio,fin,contenidos,excluidos,newMIs.getNextPageToken(),contador));
+		if(ls.size()>100) {
+			List<String> subl = ls.subList(0, 100);
+			return subl;
+		}
+		return ls;
 	}
 	
 	public  NewMediaItemResult createMediaItem(InputStream ficheromedia, String nombreMontaje){

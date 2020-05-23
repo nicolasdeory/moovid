@@ -96,6 +96,10 @@ $(document).ready(() =>
       {
         console.log(resp);
         sendMultipleBotMessages(resp.messages);
+        if (resp.responseType == "VideoGeneration")
+        {
+          processMontage(resp.jobId);
+        }
       })
       .fail(() =>
       {
@@ -104,6 +108,35 @@ $(document).ready(() =>
     }
   }
 
+  function processMontage(jobId)
+  {
+    $.get(`/getjob?id=${jobId}`, function(data)
+    {
+      // TODO: get bpm
+      console.log("received job data");
+      console.log(data);
+      const imgUrls = data.photoUrls;
+      if (imgUrls.length > 80) // MAX 80 photos
+      {
+        imgUrls.splice(imgUrls.length-(imgUrls.length-80), imgUrls.length);
+      }
+      const audioUrl = data.musicUrl;
+      makeMontage(imgUrls, audioUrl, montageDone);
+    })
+  }
+
+  function montageDone(blob)
+  {
+    var src = window.URL.createObjectURL(blob);
+    sendMultipleBotMessages(getRandomClientResponse("montage-done"));
+    createBotMessage(`Bájatelo <a href="${src}" download="moovid.mp4">aquí</a>.`)
+    // var a = document.createElement('a');
+   // a.download = "moovid.mp4";
+    
+   //  a.href = src;
+    // a.textContent = 'Click here to download ' + "moovid.mp4" + "!";
+   //  $("body").append(a);
+  }
 
   function updateScroll(){
     var element = document.getElementById("chat-container");

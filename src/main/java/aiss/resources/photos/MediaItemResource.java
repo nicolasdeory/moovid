@@ -231,19 +231,29 @@ public class MediaItemResource {
 		//Creacion de ContentFilter (consta de 2 parametros, included y excluded)
 		log.info(parametrosContentFilter[0]);
 		log.info(parametrosContentFilter[1]);
-		String includedstr = parametrosContentFilter[0].split(":")[1].trim();
 		
 		// Handles case when excluded is empty
 		String auxStr = "";
-		if (parametrosContentFilter[1].equals("excluded"))
+		String auxStr1 = "";
+		if (parametrosContentFilter[0].equals("included"))
 		{
-			auxStr = parametrosContentFilter[1] + ": ";
+			auxStr = parametrosContentFilter[0] + ": ";
 		}
 		else
 		{
-			auxStr = parametrosContentFilter[1];
+			auxStr = parametrosContentFilter[0];
 		}
-		String excludedstr = auxStr.split(":")[1].trim();
+		
+		if (parametrosContentFilter[1].equals("excluded"))
+		{
+			auxStr1 = parametrosContentFilter[1] + ": ";
+		}
+		else
+		{
+			auxStr1 = parametrosContentFilter[1];
+		}
+		String includedstr = auxStr.split(":")[1].trim();
+		String excludedstr = auxStr1.split(":")[1].trim();
 		List<String> includedList = new ArrayList<String>();
 		List<String> excludedList = new ArrayList<String>();
 		if(!includedstr.contains("-") && includedstr.length()>1) includedList.add(includedstr);

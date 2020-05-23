@@ -82,7 +82,7 @@
     </init-param>
     <init-param>
       <param-name>onSuccess</param-name>
-      <param-value>redirect:/</param-value>
+      <param-value>redirect:/?login=1</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>

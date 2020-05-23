@@ -82,7 +82,17 @@ $(document).ready(() =>
     if (message != "")
     {
       createUserMessage(message);
-      $.get("/chatquery?q="+message, function(resp)
+      var chatQuery = "/chatquery";
+      const currentUrl = window.location.href;
+      if (currentUrl.indexOf("login=1") >= 0)
+      {
+        chatQuery += "?login=1&";
+      }
+      else
+      {
+        chatQuery += "?";
+      }
+      $.get(chatQuery + "q="+message, function(resp)
       {
         console.log(resp);
         sendMultipleBotMessages(resp.messages);

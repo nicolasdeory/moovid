@@ -195,6 +195,9 @@ function generateVid(doneCallback, progressCallback)
                 break;
             case "stdout":
                 console.log(msg.data);
+                break;
+            case "stderr":
+                console.log(msg.data);
                 var msgData = msg.data;
                 if (msgData.indexOf("frame=") == 0)
                 {
@@ -203,9 +206,6 @@ function generateVid(doneCallback, progressCallback)
                     if (progMatch.length > 0)
                         progressCallback("Montando vídeo...", 20 + (progMatch[1]/totalVideoFrames)*80);
                 }                
-                break;
-            case "stderr":
-                console.log(msg.data);
                 break;
             case "done":
                 sampleVideoData = undefined;

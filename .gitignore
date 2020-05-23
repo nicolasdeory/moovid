@@ -31,4 +31,4 @@ src/main/resources/SpotifyKey.txt
 src/main/resources/WEB-INF/OAuthConfig.json
 
 
-keys/
+src/main/resources/keys/

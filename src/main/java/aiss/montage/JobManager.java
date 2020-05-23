@@ -101,7 +101,7 @@ public class JobManager {
 			}
 			System.out.println("author list: " + authorList);
 			String songJson;
-			if (music == null)
+			if (music == null || authorList.size() == 0)
 			{
 				// TODO: Default song...
 				songJson = SpotifyResource.getRecommendations(new ArrayList<Artist>(), null, 
@@ -109,6 +109,7 @@ public class JobManager {
 			}
 			else
 			{
+				// TODO: IMPROVE, it doesn't work well. We've gotta pass at least one genre or artist or track
 				songJson = SpotifyResource.getRecommendations(authorList, music.getGenre(), 
 						music.getDanceable().toString(), music.getEnergy().toString(), music.getAcoustic().toString(),
 						music.getTempo().toString(), music.getMood().toString());
@@ -167,6 +168,7 @@ public class JobManager {
 			initialize();
 		
 		queue.add(job);
+		results.put(job.getUuid().toString(), new MontageResult());
 	}
 	
 	

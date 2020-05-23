@@ -201,7 +201,10 @@ $(document).ready(() =>
     $("#loading-container").remove();
     $("#chat-container").append(VIDEO_MESSAGE_HTML.format(src));
     sendMultipleBotMessages(getRandomClientResponse("montage-done"));
-    createBotMessage(`Puedes descargar el vídeo <a href="${src}" download="moovid.mp4">aquí</a>.`)
+    setTimeout(() => {
+      createBotMessage(`Puedes descargar el vídeo <a href="${src}" download="moovid.mp4">aquí</a>.`)
+    },1000);
+    
     $("#chatbox").prop("disabled", false); // reenable chatbox
     // var a = document.createElement('a');
    // a.download = "moovid.mp4";

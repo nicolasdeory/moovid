@@ -23,8 +23,12 @@
 </head>
 <% String controller = "/PhotosList"; %>
 
-<c:if test="${not empty mediaItemId}">
+<c:if test="${not empty MediaItem}">
     <% controller = "/PhotosGet";%>
+</c:if>
+
+<c:if test="${not empty MediaItems}">
+    <% controller = "/PhotosSearch";%>
 </c:if>
 
 <body>
@@ -42,7 +46,7 @@
                 </div>
                 <a id="luisbutton" class="button3">LUIS</a>
                 <a id="spotifybutton" class="button3">SPOTIFY</a>
-                <a id="photosbutton" href="/PhotosList" class="button3">PHOTOS</a>
+                <a id="photosbutton" href="/PhotosSearch?fechas=20-05-2020&inicio=14-12-2019&fin=18-02-2020&contents=selfies&excluded=" class="button3">PHOTOS</a>
             </div>
         </div>
 
@@ -52,10 +56,32 @@
                 <div class="black-line"></div>
             </div>
             <c:choose>
+            	<c:when test="${not empty MediaItems}">
+            		<div class="text-container">
+                		<div class="text-yellow">
+                    		<span id="result">
+                    		Llega a Search
+                    		Estos son los elementos que devuelve = <c:out value="${requestScope.MediaItems}"/>
+                    		</span>
+                		</div>
+            		</div>
+            	</c:when>
+            	<c:when test="${not empty MediaItem}">
+            		<div class="text-container">
+                		<div class="text-yellow">
+                    		<span id="result">
+                    		Llega a Get
+                    		Pulsa aqui para descargar la imagen de id = <c:out value="${requestScope.MediaItem.id}"/>
+              				<input type="button" onclick="window.location.href = '${requestScope.MediaItem.baseUrl}=w1020-h720-d';">
+                    		</span>
+                		</div>
+            		</div>
+            	</c:when>
     			<c:when test="${not empty cajademo}">
         			<div class="text-container">
                 		<div class="text-yellow">
                     		<span id="result">
+                    		Llega a List
                     		<c:out value="${requestScope.cajademo}"/>
                     		</span>
                 		</div>
@@ -65,7 +91,7 @@
         			<div class="text-container">
                 		<div class="text-yellow">
                     		<span id="result">
-                    		
+                    		No pillo nada
                 			</span>
                 		</div>
             		</div> 

@@ -9,14 +9,6 @@
     <url-pattern>/helloworld</url-pattern>
   </servlet-mapping>
   <servlet>
-    <servlet-name>MainServlet</servlet-name>
-    <servlet-class>aiss.controller.main.MainServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>MainServlet</servlet-name>
-    <url-pattern>/</url-pattern>
-  </servlet-mapping>
-  <servlet>
     <servlet-name>GooglePhotosMediaItemCreateController</servlet-name>
     <servlet-class>aiss.controller.photos.GooglePhotosMediaItemCreateController</servlet-class>
   </servlet>
@@ -90,7 +82,7 @@
     </init-param>
     <init-param>
       <param-name>onSuccess</param-name>
-      <param-value>redirect:/</param-value>
+      <param-value>redirect:/?login=1</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>
@@ -106,5 +98,25 @@
   <servlet-mapping>
     <servlet-name>ChatQueryController</servlet-name>
     <url-pattern>/chatquery</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>MusicServlet</display-name>
+    <servlet-name>MusicServlet</servlet-name>
+    <servlet-class>aiss.controller.youtube.MusicServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MusicServlet</servlet-name>
+    <url-pattern>/getsong</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>JobManagerController</display-name>
+    <servlet-name>JobManagerController</servlet-name>
+    <servlet-class>aiss.controller.main.JobManagerController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>JobManagerController</servlet-name>
+    <url-pattern>/getjob</url-pattern>
   </servlet-mapping>
 </web-app>

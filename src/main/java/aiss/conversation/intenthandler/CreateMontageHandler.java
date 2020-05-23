@@ -59,12 +59,20 @@ public class CreateMontageHandler {
 			myContext.setContextType(ContextType.MontageMusic);
 			resp = ChatQueryResponse.createWaitForInput(intt, myContext);
 			resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-ask-music"));
+			myContext.setStart(intentMontage.getStart());
+			myContext.setEnd(intentMontage.getEnd());
 		}
 		else
 		{
 			myContext.setContextType(ContextType.MontageTheme);
 			resp = ChatQueryResponse.createWaitForInput(intt, myContext);
 			resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-ask-theme"));
+			if (myContext.getStart() == null && myContext.getEnd() == null)
+			{
+				myContext.setStart(intentMontage.getStart());
+				myContext.setEnd(intentMontage.getEnd());
+			}
+			
 		}
 		return resp;
 	}
@@ -115,7 +123,7 @@ public class CreateMontageHandler {
 		}
 		else if (ctx.getContextType().equals(ContextType.MontageMusic))
 		{
-			MontageJob job = MontageJob.of(myContext.getThemeEntities(), null, myContext.getStart(), myContext.getEnd());
+			MontageJob job = MontageJob.of(myContext.getAccessToken(), myContext.getThemeEntities(), null, myContext.getStart(), myContext.getEnd());
 			JobManager.enqueueJob(job);
 			resp = ChatQueryResponse.createVideoGeneration(intt, job.getUuid().toString());
 			resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-start-processing"));
@@ -127,7 +135,7 @@ public class CreateMontageHandler {
 	private static ChatQueryResponse handleMusicDescription(Intent intt, Context ctx)
 	{
 		MusicIntent musicIntent = (MusicIntent)intt;
-		MontageJob job = MontageJob.of(ctx.getThemeEntities(), musicIntent, ctx.getStart(), ctx.getEnd());
+		MontageJob job = MontageJob.of(ctx.getAccessToken(), ctx.getThemeEntities(), musicIntent, ctx.getStart(), ctx.getEnd());
 		JobManager.enqueueJob(job);
 		ChatQueryResponse resp = ChatQueryResponse.createVideoGeneration(intt, job.getUuid().toString());
 		resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-start-processing"));

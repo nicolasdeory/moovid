@@ -20,8 +20,8 @@ public class GooglePhotosLoginController extends HttpServlet{
     	String accessToken = (String) req.getSession().getAttribute("GooglePhotos-token");
     	log.info("token is: " + accessToken);
     	if (accessToken != null && !"".equals(accessToken)) {
-    		MediaItemResource miResource = new MediaItemResource(accessToken);
-            String MIs = miResource.getMediaItemsString();
+    		/*MediaItemResource miResource = new MediaItemResource(accessToken);
+    		MediaItems MIs = miResource.getMediaItems();
             if(MIs!=null) {
                 log.info("Files obtained");
                 req.setAttribute("cajademo", MIs);
@@ -29,7 +29,10 @@ public class GooglePhotosLoginController extends HttpServlet{
             }else {
                 log.info("Files could not be found!");
                 req.getRequestDispatcher("/AuthController/GooglePhotos").forward(req, resp);
-            }
+            }*/
+    		resp.setStatus(301);
+    		resp.addHeader("Location", "./?login=1");
+    		//req.getRequestDispatcher("/?login=1").forward(req, resp);
                 
         } else {
             log.info("Trying to access Google Photos without an access token, redirecting to OAuth servlet");

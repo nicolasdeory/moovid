@@ -10,7 +10,7 @@ public class ChatQueryResponse
 {
 	List<String> messages;
 	ChatQueryResponseType responseType;
-	Integer jobId;
+	String jobId;
 	Context context;
 	Intent topIntent;
 	String query;
@@ -30,7 +30,7 @@ public class ChatQueryResponse
 	
 	public static ChatQueryResponse createVideoGeneration(Intent topIntent, String jobId)
 	{
-		return new ChatQueryResponse(ChatQueryResponseType.VideoGeneration, topIntent, null);
+		return new ChatQueryResponse(ChatQueryResponseType.VideoGeneration, jobId);
 	}
 	
 	public void addChatMessage(String message)
@@ -39,7 +39,7 @@ public class ChatQueryResponse
 	}
 	
 	public void addChatMessages(String[] messageArray)
-	{
+	{	
 		for(String message : messageArray) 
 		{
 			this.messages.add(message.trim());
@@ -51,6 +51,14 @@ public class ChatQueryResponse
 		this.responseType = type;
 		this.topIntent = intn;
 		this.messages = new ArrayList<String>();
+	}
+	
+	private ChatQueryResponse(ChatQueryResponseType type, String jobId)
+	{
+		this.context = null;
+		this.messages = new ArrayList<String>();
+		this.responseType = type;
+		this.jobId = jobId;
 	}
 
 	public ChatQueryResponseType getResponseType() {
@@ -73,11 +81,11 @@ public class ChatQueryResponse
 		return messages;
 	}
 
-	public Integer getJobId() {
+	public String getJobId() {
 		return jobId;
 	}
 
-	public void setJobId(Integer jobId) {
+	public void setJobId(String jobId) {
 		this.jobId = jobId;
 	}
 

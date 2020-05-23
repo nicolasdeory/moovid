@@ -1,46 +1,91 @@
+
 package aiss.model.photos.mediaitem;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.HashMap;
+import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonIgnoreProperties(ignoreUnknown=true)
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+    "creationTime",
+    "width",
+    "height",
+    "photo"
+})
 public class MediaMetadata {
-	private String creationTime;
-	private String width;
-	private String height;
-	private Photo photo;
-	private Video video;
-	
-	public String getCreationTime() {
-		return creationTime;
+
+    @JsonProperty("creationTime")
+    private String creationTime;
+    @JsonProperty("width")
+    private String width;
+    @JsonProperty("height")
+    private String height;
+    @JsonProperty("photo")
+    private Photo photo;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+    @JsonProperty("creationTime")
+    public String getCreationTime() {
+        return creationTime;
+    }
+
+    @JsonProperty("creationTime")
+    public void setCreationTime(String creationTime) {
+        this.creationTime = creationTime;
+    }
+
+    @JsonProperty("width")
+    public String getWidth() {
+        return width;
+    }
+
+    @JsonProperty("width")
+    public void setWidth(String width) {
+        this.width = width;
+    }
+
+    @JsonProperty("height")
+    public String getHeight() {
+        return height;
+    }
+
+    @JsonProperty("height")
+    public void setHeight(String height) {
+        this.height = height;
+    }
+
+    @JsonProperty("photo")
+    public Photo getPhoto() {
+        return photo;
+    }
+
+    @JsonProperty("photo")
+    public void setPhoto(Photo photo) {
+        this.photo = photo;
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    @JsonAnySetter
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
+    }
+
+	@Override
+	public String toString() {
+		return "MediaMetadata [creationTime=" + creationTime + ", width=" + width + ", height=" + height + ", photo="
+				+ photo + ", additionalProperties=" + additionalProperties + "]";
 	}
-	public void setCreationTime(String creationTime) {
-		this.creationTime = creationTime;
-	}
-	public String getWidth() {
-		return width;
-	}
-	public void setWidth(String width) {
-		this.width = width;
-	}
-	public String getHeight() {
-		return height;
-	}
-	public void setHeight(String height) {
-		this.height = height;
-	}
-	public Photo getPhoto() {
-		return photo;
-	}
-	public void setPhoto(Photo photo) {
-		this.photo = photo;
-	}
-	public Video getVideo() {
-		return video;
-	}
-	public void setVideo(Video video) {
-		this.video = video;
-	}
-	
-	
+    
+    
+
 }

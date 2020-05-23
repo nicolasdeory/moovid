@@ -16,6 +16,11 @@
 			<name>Restlet repository</name>
 			<url>https://maven.restlet.com</url>
 		</repository>
+		
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
 	</repositories>
 
 	<properties>
@@ -142,6 +147,12 @@
 		    <version>9.4.15.v20190215</version>
 		</dependency>
 
+		<!-- java-youtube-downloader -->
+		<dependency>
+			  <groupId>com.github.sealedtx</groupId>
+			  <artifactId>java-youtube-downloader</artifactId>
+			  <version>2.1.2</version>
+		</dependency>
 	</dependencies>
 
 	<build>

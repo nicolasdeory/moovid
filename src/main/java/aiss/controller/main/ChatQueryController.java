@@ -47,7 +47,20 @@ public class ChatQueryController extends HttpServlet {
 			sessionContext = null;
 		
 		sessionContext = sessionContext == null ? new Context() : sessionContext;
-		String accessToken = (String) request.getSession().getAttribute("GooglePhotos-token");
+		String accessToken = "";
+		String logParam = request.getParameter("login");
+		//System.out.println("log param = " + logParam);
+		if (logParam != null && logParam.equals("1"))
+		{
+			accessToken = (String) request.getSession().getAttribute("GooglePhotos-token");
+			
+		}
+		else
+		{
+			accessToken = null;
+		}
+		
+		sessionContext.setAccessToken(accessToken);
 		sessionContext.setLoggedIn(accessToken != null && !"".equals(accessToken));
 		System.out.println(intent);
 		ChatQueryResponse chatResponse = IntentHandlerFactory.fromIntent(intent, sessionContext);

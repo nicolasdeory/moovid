@@ -1,61 +1,118 @@
+
 package aiss.model.photos.filter;
 
+import java.util.HashMap;
+import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+    "contentFilter",
+    "dateFilter",
+    "featureFilter",
+    "mediaTypeFilter",
+    "excludeNonAppCreatedData",
+    "includeArchivedMedia"
+})
 public class Filters {
-	
-	private DateFilter dateFilter;
-	private ContentFilter contentFilter;
-	private MediaTypeFilter mediaTypeFilter;
-	private FeatureFilter featureFilter;
-	private Boolean includeArchivedMedia;
-	private Boolean excludeNonAppCreatedData;
-	
-	public Filters(DateFilter dateFilter, ContentFilter contentFilter, MediaTypeFilter mediaTypeFilter,
-			FeatureFilter featureFilter, Boolean includeArchivedMedia, Boolean excludeNonAppCreatedData) {
+
+    @Override
+	public String toString() {
+		return "Filters [contentFilter=" + contentFilter + ", dateFilter=" + dateFilter + ", featureFilter="
+				+ featureFilter + ", mediaTypeFilter=" + mediaTypeFilter + ", excludeNonAppCreatedData="
+				+ excludeNonAppCreatedData + ", includeArchivedMedia=" + includeArchivedMedia + "]";
+	}
+
+	@JsonProperty("contentFilter")
+    private ContentFilter contentFilter;
+    @JsonProperty("dateFilter")
+    private DateFilter dateFilter;
+    @JsonProperty("featureFilter")
+    private FeatureFilter featureFilter;
+    @JsonProperty("mediaTypeFilter")
+    private MediaTypeFilter mediaTypeFilter;
+    @JsonProperty("excludeNonAppCreatedData")
+    private Boolean excludeNonAppCreatedData;
+    @JsonProperty("includeArchivedMedia")
+    private Boolean includeArchivedMedia;
+
+    
+    
+    public Filters(ContentFilter contentFilter, DateFilter dateFilter, FeatureFilter featureFilter,
+			MediaTypeFilter mediaTypeFilter, Boolean excludeNonAppCreatedData, Boolean includeArchivedMedia) {
 		super();
-		this.dateFilter = dateFilter;
 		this.contentFilter = contentFilter;
-		this.mediaTypeFilter = mediaTypeFilter;
+		this.dateFilter = dateFilter;
 		this.featureFilter = featureFilter;
-		this.includeArchivedMedia = includeArchivedMedia;
+		this.mediaTypeFilter = mediaTypeFilter;
 		this.excludeNonAppCreatedData = excludeNonAppCreatedData;
-	}
-	public DateFilter getDateFilter() {
-		return dateFilter;
-	}
-	public void setDateFilter(DateFilter dateFilter) {
-		this.dateFilter = dateFilter;
-	}
-	public ContentFilter getContentFilter() {
-		return contentFilter;
-	}
-	public void setContentFilter(ContentFilter contentFilter) {
-		this.contentFilter = contentFilter;
-	}
-	public MediaTypeFilter getMediaTypeFilter() {
-		return mediaTypeFilter;
-	}
-	public void setMediaTypeFilter(MediaTypeFilter mediaTypeFilter) {
-		this.mediaTypeFilter = mediaTypeFilter;
-	}
-	public FeatureFilter getFeatureFilter() {
-		return featureFilter;
-	}
-	public void setFeatureFilter(FeatureFilter featureFilter) {
-		this.featureFilter = featureFilter;
-	}
-	public Boolean getIncludeArchivedMedia() {
-		return includeArchivedMedia;
-	}
-	public void setIncludeArchivedMedia(Boolean includeArchivedMedia) {
 		this.includeArchivedMedia = includeArchivedMedia;
 	}
-	public Boolean getExcludeNonAppCreatedData() {
-		return excludeNonAppCreatedData;
-	}
-	public void setExcludeNonAppCreatedData(Boolean excludeNonAppCreatedData) {
-		this.excludeNonAppCreatedData = excludeNonAppCreatedData;
-	}
-	
-	
-	
+
+	@JsonProperty("contentFilter")
+    public ContentFilter getContentFilter() {
+        return contentFilter;
+    }
+
+    @JsonProperty("contentFilter")
+    public void setContentFilter(ContentFilter contentFilter) {
+        this.contentFilter = contentFilter;
+    }
+
+    @JsonProperty("dateFilter")
+    public DateFilter getDateFilter() {
+        return dateFilter;
+    }
+
+    @JsonProperty("dateFilter")
+    public void setDateFilter(DateFilter dateFilter) {
+        this.dateFilter = dateFilter;
+    }
+
+    @JsonProperty("featureFilter")
+    public FeatureFilter getFeatureFilter() {
+        return featureFilter;
+    }
+
+    @JsonProperty("featureFilter")
+    public void setFeatureFilter(FeatureFilter featureFilter) {
+        this.featureFilter = featureFilter;
+    }
+
+    @JsonProperty("mediaTypeFilter")
+    public MediaTypeFilter getMediaTypeFilter() {
+        return mediaTypeFilter;
+    }
+
+    @JsonProperty("mediaTypeFilter")
+    public void setMediaTypeFilter(MediaTypeFilter mediaTypeFilter) {
+        this.mediaTypeFilter = mediaTypeFilter;
+    }
+
+    @JsonProperty("excludeNonAppCreatedData")
+    public Boolean getExcludeNonAppCreatedData() {
+        return excludeNonAppCreatedData;
+    }
+
+    @JsonProperty("excludeNonAppCreatedData")
+    public void setExcludeNonAppCreatedData(Boolean excludeNonAppCreatedData) {
+        this.excludeNonAppCreatedData = excludeNonAppCreatedData;
+    }
+
+    @JsonProperty("includeArchivedMedia")
+    public Boolean getIncludeArchivedMedia() {
+        return includeArchivedMedia;
+    }
+
+    @JsonProperty("includeArchivedMedia")
+    public void setIncludeArchivedMedia(Boolean includeArchivedMedia) {
+        this.includeArchivedMedia = includeArchivedMedia;
+    }
+
+
 }

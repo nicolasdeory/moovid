@@ -13,10 +13,13 @@ public class RequestSearch {
 	
 	@JsonProperty("filters")
 	private Filters filters;
+	@JsonProperty("pageToken")
+	private String pageToken;
 
-	public RequestSearch(Filters filters) {
+	public RequestSearch(Filters filters, String pageToken) {
 		super();
 		this.filters = filters;
+		this.pageToken = pageToken;
 	}
 	
 	@JsonProperty("filters")
@@ -30,9 +33,19 @@ public class RequestSearch {
 		this.filters = filters;
 	}
 
+	
+	
+	public String getPageToken() {
+		return pageToken;
+	}
+
+	public void setPageToken(String pageToken) {
+		this.pageToken = pageToken;
+	}
+
 	@Override
 	public String toString() {
-		return "RequestSearch [filters=" + filters + "]";
+		return "RequestSearch [filters=" + filters + "pageToken" + pageToken + "]";
 	}
 	
 	

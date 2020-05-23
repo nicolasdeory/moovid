@@ -136,7 +136,7 @@ public class MediaItemResource {
 			String FeatureFilter = "features:NONE,";
 			filtrostr = DateFilter + ContentFilter + MediaTypeFilter + FeatureFilter + "true,false";
 			Filters filters = generadorDeFiltro(filtrostr);
-			RequestSearch request = new RequestSearch(filters);
+			RequestSearch request = new RequestSearch(filters, pageToken);
 			System.out.println("INFORMACION: El filtro que se forma es: " + filters);
 			System.out.println("Este es el acces token: " + access_token);
 			cr = new ClientResource(uri + ":search" + "?access_token=" + access_token);

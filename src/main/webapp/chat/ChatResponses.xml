@@ -59,7 +59,7 @@
 	<phraselist name="montage-ask-music">
 		<response>Me parece bien.<ret/>¿Quieres algún tipo de música en concreto?</response>
 		<response>¿Te apetece escuchar algún tipo de música en especial?</response>
-		<response>Vale 😊<ret/>¿Tienes alga preferencia sobre lo que quieras ver en el montaje?</response>
+		<response>Vale 😊<ret/>¿Tienes alga preferencia sobre el tipo de música que quieras en el montaje?</response>
 		<response>Me parece perfecto.<ret/>¿Te pongo algún tipo de música, o te la elijo yo?</response>
 		<response>Alto y claro.<ret/>¿Elijo yo la música, o quieres algún género en concreto?</response>
 		<response>Bien. ¿Prefieres que elija yo la música, o quieres algún tipo en concreto?</response>

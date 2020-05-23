@@ -265,9 +265,13 @@ a.button3:hover{
 }
 
 .chat-right{
+    float: right;
     display: flex;
     margin-right: 10px;
+    padding-left: 2px;
     word-break: break-all;
+    margin-left: auto;
+    max-width: 50%;
 }
 
 .chat-right .sp{

@@ -98,6 +98,21 @@ public class PhotoResourceTest {
 		assertTrue("Filtro mal generado",f.getMediaTypeFilter().getMediaTypes().get(0).equals("PHOTO") && f.getFeatureFilter().getIncludedFeatures().get(0).equals("NONE"));
 	}
 	
+	public void GeneradorDeFiltroVacio() throws Exception{
+        String fechasstr = "";
+        String iniciostr = "";
+        String finstr = "";
+        String contenidosstr = "";
+        String excluidosstr = "";
+        List<Date> fechas = ParseoFechas(fechasstr);
+        Date inicio = ParseoFecha(iniciostr);
+        Date fin = ParseoFecha(finstr);
+        List<String> contenidos = ParseoContenidos(contenidosstr);
+        List<String> excluidos = ParseoContenidos(excluidosstr);
+        String fltsstr = generadorDeStringFiltro(fechas,inicio,fin,contenidos,excluidos);
+        Filters f = generadorDeFiltro(fltsstr);
+        assertTrue("Filtro mal generado",f.getDateFilter().getDates().size()==0 && f.getDateFilter().getRanges().size()==0 && f.getContentFilter().getIncludedContentCategories().size()==0);
+    }
 	
 	
 	

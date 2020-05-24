@@ -32,3 +32,7 @@ src/main/resources/WEB-INF/OAuthConfig.json
 
 
 src/main/resources/keys/
+
+keys/SpotifyKey.txt
+
+keys/YoutubeKey.txt

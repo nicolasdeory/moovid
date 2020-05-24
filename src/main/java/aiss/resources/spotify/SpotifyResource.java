@@ -188,6 +188,21 @@ public class SpotifyResource {
 		return cr_sr.get(String.class);
 	}
 	
+	public static String getBasicRecommendations() {
+		String uri = "https://api.spotify.com/v1/recommendations?";
+		uri += "limit=10&market=ES";
+		uri += "&seed_genres=edm%2Creggaeton%2Cpop&min_danceability=0.5";
+		if (!isAuthorized()) authorize();
+		log.log(Level.INFO, "Searching basic recommendations at endpoint: " + uri);
+		ClientResource cr_sr = new ClientResource(uri);
+		ChallengeResponse chres = new ChallengeResponse(
+				ChallengeScheme.HTTP_OAUTH_BEARER);
+		chres.setRawValue(token.getAccessToken());
+		cr_sr.getRequest().setChallengeResponse(chres);
+		//log.log(Level.INFO, cr_sr.getResponse().toString());
+		return cr_sr.get(String.class);
+	}
+	
 	public static List<Artist> getArtistIds(String artists) {
 		if (!isAuthorized()) authorize();
 		String[] artist_split = artists.split(",");

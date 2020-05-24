@@ -65,13 +65,6 @@ public class SpotifyResource {
 			} catch (IOException e1) {
 				log.log(Level.INFO, "Couldnt find SpotifyKey.txt");
 			}
-    		
-    		
-    		/*try {
-    			keys = Files.lines(Paths.get(path)).findFirst().get();
-    		} catch (IOException e) {
-    			log.log(Level.INFO, "Couldnt find SpotifyKey.txt");
-    		}*/
         	String[] split = keys.split(":");
             cr1 = new ClientResource("https://accounts.spotify.com/api/token");
             Form form = new Form();
@@ -108,7 +101,7 @@ public class SpotifyResource {
 				Double bpm = getBPM(id);
 				Song s = new Song(artist, name, bpm);
 				result.add(s);
-				log.log(Level.FINEST, "Successfully obtained Song object from JSON: " + s);
+				log.log(Level.INFO, "Successfully obtained Song object from JSON: " + s);
 			}
 			
 		} catch (IOException e) {
@@ -136,7 +129,7 @@ public class SpotifyResource {
 		try {
 			query = new ObjectMapper().readTree(json);
 			Double res = query.get("tempo").asDouble();
-			log.log(Level.FINEST, "Successfully obtained song BPM from JSON: " + res);
+			log.log(Level.INFO, "Successfully obtained song BPM from JSON: " + res);
 			return res;
 		} catch (IOException e) {
 			log.log(Level.WARNING, "Error parsing Audio Features JSON file: " + e.getMessage());
@@ -148,15 +141,18 @@ public class SpotifyResource {
 			String energy, String instrumentalness, String tempo, String valence) {
 		String uri = "https://api.spotify.com/v1/recommendations?";
 		uri += "limit=10&market=ES";
-		uri += "&seed_artists=";
 		for (Artist artist : artists) {
 			if (artists.indexOf(artist)!=0)
 				uri += "%2C";
+			else
+				uri += "&seed_artists=";
 			uri += artist.getId();
 		}
 		for (String genre : genres) {
 			if (genres.indexOf(genre) != 0)
 				uri += "%2C";
+			else
+				uri += "&seed_genres=";
 			uri += genre;
 		}
 		if (danceability.equals("true"))
@@ -184,7 +180,6 @@ public class SpotifyResource {
 				ChallengeScheme.HTTP_OAUTH_BEARER);
 		chres.setRawValue(token.getAccessToken());
 		cr_sr.getRequest().setChallengeResponse(chres);
-		//log.log(Level.INFO, cr_sr.getResponse().toString());
 		return cr_sr.get(String.class);
 	}
 	
@@ -199,7 +194,6 @@ public class SpotifyResource {
 				ChallengeScheme.HTTP_OAUTH_BEARER);
 		chres.setRawValue(token.getAccessToken());
 		cr_sr.getRequest().setChallengeResponse(chres);
-		//log.log(Level.INFO, cr_sr.getResponse().toString());
 		return cr_sr.get(String.class);
 	}
 	

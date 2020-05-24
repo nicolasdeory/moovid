@@ -190,14 +190,26 @@ public class LuisResource {
 			//String tipo = nodo.findValue("type").textValue();
 			System.out.println("Date parse type " + nodoTipos);
 			
-			
 			if (nodoTipos.stream().anyMatch(x->x.textValue().contains(("daterange")))) {
 				
 				//System.out.println(nodoTipos);
-				JsonNode resolution = nodo.findValue("resolution"); // We hope it'll find daterange first
-				System.out.println("Parsing date range. Resolution: " + resolution.toString());
-				JsonNode startNode = resolution.findValue("start");
-				JsonNode endNode = resolution.findValue("end");
+				Iterator<JsonNode> nodosDate = nodo.findValue("datetimeV2").elements();
+				JsonNode startNode = null;
+				JsonNode endNode = null;
+				while (nodosDate.hasNext())
+				{
+					JsonNode dateNode = nodosDate.next();
+					if (dateNode.findValue("type").textValue().equals("daterange")) 
+					{
+						JsonNode resolution = dateNode.findValue("resolution"); // We hope it'll find daterange first (NO ES EL CASO!!!!)
+						System.out.println("Parsing date range. Resolution: " + resolution.toString());
+						startNode = resolution.findValue("start");
+						endNode = resolution.findValue("end");
+					} else
+					{
+						continue;
+					}
+				}
 				//System.out.println(dateRangeNode.textValue());
 				
 				/*JsonNode resolution = dateRangeNode.findValue("daterange").findValue("resolution");

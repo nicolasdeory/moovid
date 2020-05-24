@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 import com.google.appengine.api.ThreadManager;
 
@@ -30,6 +31,8 @@ public class JobManager {
 	private static Map<String, MontageJob> jobs;
 	
 	private static Random rand;
+
+	private static final Logger log = Logger.getLogger(JobManager.class.getName());
 	
 	public static void initialize() 
 	{
@@ -69,55 +72,81 @@ public class JobManager {
 		
 		// Init montageresult
 		
+		// Music
+		
+				MusicIntent music = job.getMusicDesciption();
+				List<Artist> authorList = new ArrayList<Artist>();
+				for(String a : music.getAuthor())
+				{
+					authorList.add(SpotifyResource.getArtistIds(a).get(0)); // Gets the most probable artist result
+				}
+				log.info("author list: " + authorList);
+				String songJson;
+				if (music == null || authorList.size() == 0)
+				{
+					// TODO: Default song...
+					// Pick genre from a random list (edm, reggaeton, pop)
+					// Keep attributes that the user might have specified
+					songJson = SpotifyResource.getRecommendations(new ArrayList<Artist>(), null, 
+							null, null, null, null, null);
+				}
+				else
+				{
+					// TODO: IMPROVE, it doesn't work well. We've gotta pass at least one genre or artist or track
+					songJson = SpotifyResource.getRecommendations(authorList, music.getGenre(), 
+							music.getDanceable().toString(), music.getEnergy().toString(), music.getAcoustic().toString(),
+							music.getTempo().toString(), music.getMood().toString());
+					
+				}
+				List<Song> songs = SpotifyResource.getSongsFromJson(songJson);
+				log.info("Found songs " + songs);
+				//Song randomSong = songs.get(rand.nextInt(songs.size()));
+				List<Song> threeSongs = songs.subList(0, 3);
+				for(Song s : threeSongs)
+				{
+					String songName = s.getName();
+					String songAuthor = s.getArtist();
+					log.info("Picked song " + songAuthor + "--" + songName);
+				}
 		
 		// Retrieve photos
 		MediaItemResource mr = new MediaItemResource(job.getPhotosToken());
-		List<String> urls = mr.searchMediaItem(new ArrayList<LocalDate>(), start, end, themeStrings, new ArrayList<String>());
-		System.out.println("media urls retrieved. size " + urls.size());
+		List<String> photoUrls = mr.searchMediaItem(new ArrayList<LocalDate>(), start, end, themeStrings, new ArrayList<String>());
+		log.info("media urls retrieved. size " + photoUrls.size());
 		//List<String> urls = getDownloadUrls(mis);
 		
-		// Music
+		// Get Youtube audio stream link
 		
-		MusicIntent music = job.getMusicDesciption();
-		List<Artist> authorList = new ArrayList<Artist>();
-		for(String a : music.getAuthor())
+		List<String> audioStreamUrls = new ArrayList<String>();
+		for (Song s : threeSongs)
 		{
-			authorList.add(SpotifyResource.getArtistIds(a).get(0)); // Gets the most probable artist result
+			String songName = s.getName();
+			String songAuthor = s.getArtist();
+			// Get song from Youtube
+			String videoId = YoutubeResource.getVideoId(songAuthor + " " + songName);
+			if (videoId != null)
+			{
+				log.info("video id is " + videoId);
+				String audioStreamUrl = YoutubeResource.getAudioStreamUrl(videoId);
+				if (audioStreamUrl != null && audioStreamUrl.length() > 0)
+					audioStreamUrls.add(audioStreamUrl);
+			}
 		}
-		System.out.println("author list: " + authorList);
-		String songJson;
-		if (music == null || authorList.size() == 0)
-		{
-			// TODO: Default song...
-			// Pick genre from a random list (edm, reggaeton, pop)
-			// Keep attributes that the user might have specified
-			songJson = SpotifyResource.getRecommendations(new ArrayList<Artist>(), null, 
-					null, null, null, null, null);
-		}
-		else
-		{
-			// TODO: IMPROVE, it doesn't work well. We've gotta pass at least one genre or artist or track
-			songJson = SpotifyResource.getRecommendations(authorList, music.getGenre(), 
-					music.getDanceable().toString(), music.getEnergy().toString(), music.getAcoustic().toString(),
-					music.getTempo().toString(), music.getMood().toString());
-			
-		}
-		List<Song> songs = SpotifyResource.getSongsFromJson(songJson);
-		System.out.println("Found songs " + songs);
-		//Song randomSong = songs.get(rand.nextInt(songs.size()));
-		Song randomSong = songs.get(0); // Get first one
-		String songName = randomSong.getName();
-		String songAuthor = randomSong.getArtist();
-		System.out.println("Picked song " + songAuthor + "--" + songName);
 		
-		// Get song from Youtube
-		String videoId = YoutubeResource.getVideoId(songAuthor + " " + songName);
-		System.out.println("video id is " + videoId);
-		String audioStreamUrl = YoutubeResource.getAudioStreamUrl(videoId); // TODO: Pass video url instead of file...it's slow AF
+		if (audioStreamUrls.size() == 0)
+		{
+			log.severe("CRITICAL: No youtube video ids were found!! Returning empty list");	
+		}
+		
+		if (photoUrls.size() == 0)
+		{
+			log.warning("WARNING: No photos were found. Either user has an invalid token, or specified very narrow filters");	
+		}
+		
 		
 		// Finish up
-		System.out.println("photo urls are " + urls);
-		MontageJobResult montageResult = new MontageJobResult(urls, audioStreamUrl);
+		//log.info("photo urls are " + urls);
+		MontageJobResult montageResult = new MontageJobResult(photoUrls, audioStreamUrls);
 		results.put(job.getUuid().toString(), montageResult);
 	}
 	

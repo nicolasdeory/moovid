@@ -233,6 +233,7 @@ function generateVid(doneCallback, progressCallback, errorCallback)
     var imagesLoaded = 0;
     var audioLoaded = false;
     var retrievingFormats = false;
+    var montageErrored = false;
 
     var canvas = document.createElement('canvas');
     canvas.width = 1280;
@@ -244,6 +245,8 @@ function generateVid(doneCallback, progressCallback, errorCallback)
 
     function retrieveSampleVideo(urlArray, errorCallback)
     {
+        // TODO: Do error handling
+
         console.log("retrieving photo list:");
         console.log(urlArray);
         filesArray = [];
@@ -279,10 +282,7 @@ function generateVid(doneCallback, progressCallback, errorCallback)
                         }, "image/jpeg", 1);
                         
                     }
-
                     img.src = URL.createObjectURL(blob);
-
-                    
                 }
             };
     
@@ -290,66 +290,67 @@ function generateVid(doneCallback, progressCallback, errorCallback)
         } 
     }
 
-    function retrieveAudio(audioUrl, errorCallback)
+    function retrieveAudio(audioUrls, errorCallback)
     {
+        // We take a list of audioUrls and pick the first one that works
         console.log("downloading audio");
 
-        fetch(PROXY_URL + audioUrl).then(r => 
+        var triesPerSong = 2;
+        for (let i = 0; i < audioUrls.length * triesPerSong; i++) // 2 tries per song, total 6 tries
         {
-            return r.blob();
-        }).then((blob)=>
-        {
-            if (blob.size < 100) // less than 100 bytes is not really an audio file...
+            let idx = Math.floor(i / 2);
+            const audioUrl = audioUrls[idx];
+            fetch(PROXY_URL + audioUrl).then(r => 
             {
-                errorCallback("audio-dl-failed")
-            }
-            else
+                return r.blob();
+            }).then((blob) =>
             {
-                console.log("audio loaded");
-                audioData = blob;
-                audioLoaded = true;
-            }
-        }).catch((x) =>
-        {
-            console.log("error loading audio");
-            errorCallback("audio-dl-failed")
-        });
-
-        /*var oReq = new XMLHttpRequest();
-        oReq.open("GET", audioUrl, true);
-        oReq.responseType = "blob";
-
-        oReq.onload = function (oEvent)
-        {
-            /*var arrayBuffer = oReq.response;
-            
-            if (arrayBuffer)
-            {
-                audioData = new Uint8Array(arrayBuffer);
-                audioLoaded = true;
-                console.log("audio loaded");
-            }*/
-          /*  var blob = oReq.response;
-                if (blob)
+                if (audioLoaded)
                 {
-                    audioData = blob;
+                    console.log("Thanks but we've already loaded audio");
+                    return; // Already loaded
+                }
+                if (blob.size < 100) // less than 100 bytes is not really an audio file...
+                {
+                    if (i == audioUrls.length * triesPerSong - 1)
+                    {
+                        console.log("error loading audio alternative " + idx);
+                        montageErrored = true;
+                        errorCallback("audio-dl-failed") // Throw error if all tries were used
+                    }
+                    return;
+                }
+                else
+                {
                     console.log("audio loaded");
+                    audioData = blob;
                     audioLoaded = true;
                 }
-        };
-
-        oReq.send(null);*/
+            }).catch(() =>
+            {
+                console.log("error loading audio alternative " + idx);
+                if (i == audioUrls.length * triesPerSong - 1)
+                {
+                    montageErrored = true;
+                    errorCallback("audio-dl-failed") // Throw error if all tries were used
+                }
+            });
+        }
     }
 
-    function makeMontage(imageUrlList, audioUrl, doneCallback, progressCallback, errorCallback)
+    function makeMontage(imageUrlList, audioUrls, doneCallback, progressCallback, errorCallback)
     {
         audioLoaded = false;
         imagesLoaded = 0;
         //getFilters();
         retrieveSampleVideo(imageUrlList, errorCallback);
-        retrieveAudio(audioUrl, errorCallback);
+        retrieveAudio(audioUrls, errorCallback);
         var interval = setInterval(function(){
             var progressPct = 5 + (((audioLoaded ? 1 : 0) + imagesLoaded) / (1+imageUrlList.length))*15; // We know it starts at 5 here
+            if (montageErrored) {
+                montageErrored = false;
+                clearInterval(interval); // Reset montage processor state after failed montage
+            }
             if (!audioLoaded && imagesLoaded == imageUrlList.length)
             {
                 progressCallback("Descargando audio...", progressPct);

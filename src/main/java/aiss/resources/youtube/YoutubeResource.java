@@ -4,6 +4,7 @@ package aiss.resources.youtube;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Level;
@@ -32,10 +33,27 @@ public class YoutubeResource {
 		String id = null;
 		try {
 			query = new ObjectMapper().readTree(json);
-			id = query.get("items").elements().next().get("id")
-					.get("videoId").textValue();
+			//log.info(json);
+			Iterator<JsonNode> itemNodes = query.get("items").elements();
+			while (itemNodes.hasNext()) // Iterate and skip channel results. Take the first video result
+			{
+				JsonNode itemNode = itemNodes.next();
+				if (itemNode.get("id").get("kind").textValue().equals("youtube#video"))
+				{
+					id = itemNode.get("id").get("videoId").textValue();
+					break;
+				} else 
+				{
+					log.info("Found non-video result, skipping");
+				}
+			}
 		} catch (IOException e) {
 			log.log(Level.WARNING, "Error parsing Youtube query JSON file");
+			return null;
+		} catch (NullPointerException e)
+		{
+			log.log(Level.WARNING, "Error parsing Youtube query JSON file (nullpointer)");
+			return null;
 		}
 		return id;
 	}
@@ -75,13 +93,13 @@ public class YoutubeResource {
 		} catch (YoutubeException | IOException e1) {
 			log.log(Level.WARNING, "Error at video download with id (" + id + "): " + e1.getMessage());
 			log.log(Level.INFO, "Failed download attempt (" + retry + "/3)");
-			return downloadVideo(id, retry++);
+			return downloadVideo(id, retry + 1);
 		}
 		List<AudioFormat> audios = video.findAudioWithExtension(Extension.WEBM);
 		if (audios.isEmpty()) {
 			log.log(Level.WARNING, "Error at video download with id (" + id + "): No audio files with .webm extension found");
 			log.log(Level.INFO, "Failed download attempt (" + retry + "/3)");
-			return downloadVideo(id, retry++);
+			return downloadVideo(id, retry + 1);
 		}
 			
 		log.log(Level.FINE, "Number of available audio downloads: " + audios.size());

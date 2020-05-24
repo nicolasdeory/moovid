@@ -213,14 +213,18 @@ $(document).ready(() =>
                 newImgUrls.push(imgUrls[idx]);
             }
           }
+          imgUrls = newImgUrls;
         }
         const audioUrl = data.musicUrl;
         console.log("trimmed photos list down to " + newImgUrls.length)
         
         montageProgress("Descargando imágenes...", 5);
         
-        makeMontage(imgUrls, audioUrl, montageDone, montageProgress);
+        makeMontage(imgUrls, audioUrl, montageDone, montageProgress, montageError);
       }
+    }).fail(() =>
+    {
+      montageError("download-error");
     });
   }
 
@@ -241,6 +245,18 @@ $(document).ready(() =>
    //  a.href = src;
     // a.textContent = 'Click here to download ' + "moovid.mp4" + "!";
    //  $("body").append(a);
+  }
+
+  // When something crashes while making the montage
+  function montageError(message)
+  {
+    console.log("FATAL MONTAGE ERROR: " + message);
+    sendMultipleBotMessages(getRandomClientResponse("montage-error"));
+    $("#loading-bar").addClass("error");
+    $("#loading-message").text("Error en el montaje");
+    $("#loading-bar").css("animation", "none");
+    $("#loading-bar").css("width", "100%");
+    $("#chatbox").prop("disabled", false);
   }
 
   function montageProgress(message, progressPct)

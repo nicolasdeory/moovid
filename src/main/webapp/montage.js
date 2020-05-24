@@ -113,7 +113,7 @@ function getFilters(){
     };
 }
 
-function generateVid(doneCallback, progressCallback)
+function generateVid(doneCallback, progressCallback, errorCallback)
 {
     progressCallback("Montando vídeo...", 20);
     console.log("generating video");
@@ -213,14 +213,15 @@ function generateVid(doneCallback, progressCallback)
                 console.log("done");
                 console.log(msg.data);
                 // Write out.webm to disk.
-               // var a = document.createElement('a');
-                //a.download = "moovid.mp4";
-                var blob = new Blob([msg.data.MEMFS[0].data]);
-                doneCallback(blob);
-                //var src = window.URL.createObjectURL(blob);
-               // a.href = src;
-               // a.textContent = 'Click here to download ' + "moovid.mp4" + "!";
-               // $("body").append(a);
+                if (msg.data === undefined || msg.data.MEMFS[0] === undefined)
+                {
+                    errorCallback("ffmpeg-failed");
+                }
+                else
+                {
+                    var blob = new Blob([msg.data.MEMFS[0].data]);
+                    doneCallback(blob);
+                }
                 break;
         }
     };
@@ -241,7 +242,7 @@ function generateVid(doneCallback, progressCallback)
 
     const PROXY_URL = 'https://cors-anywhere.herokuapp.com/';
 
-    function retrieveSampleVideo(urlArray)
+    function retrieveSampleVideo(urlArray, errorCallback)
     {
         console.log("retrieving photo list:");
         console.log(urlArray);
@@ -289,7 +290,7 @@ function generateVid(doneCallback, progressCallback)
         } 
     }
 
-    function retrieveAudio(audioUrl)
+    function retrieveAudio(audioUrl, errorCallback)
     {
         console.log("downloading audio");
 
@@ -298,12 +299,20 @@ function generateVid(doneCallback, progressCallback)
             return r.blob();
         }).then((blob)=>
         {
-            console.log("audio loaded");
-            audioData = blob;
-            audioLoaded = true;
+            if (blob.size < 100) // less than 100 bytes is not really an audio file...
+            {
+                errorCallback("audio-dl-failed")
+            }
+            else
+            {
+                console.log("audio loaded");
+                audioData = blob;
+                audioLoaded = true;
+            }
         }).catch((x) =>
         {
             console.log("error loading audio");
+            errorCallback("audio-dl-failed")
         });
 
         /*var oReq = new XMLHttpRequest();
@@ -332,23 +341,13 @@ function generateVid(doneCallback, progressCallback)
         oReq.send(null);*/
     }
 
-    
-    /*var imgList=[
-    "IMG_2999.jpg","IMG_3009.jpg","IMG_3030.jpg","IMG_3074.jpg","IMG_3102.jpg",
-    "IMG_3111.jpg","IMG_3135.jpg","IMG_3147.jpg","IMG_2036.jpg","IMG_2037.jpg","IMG_2038.jpg","IMG_2039.jpg","IMG_2040.jpg","IMG_2041.jpg",
-    "IMG_2042.jpg","IMG_2043.jpg","IMG_2046.jpg","IMG_2047.jpg","IMG_2048.jpg","IMG_2049.jpg","IMG_2050.jpg","IMG_2051.jpg","IMG_2052.jpg",
-    "IMG_2053.jpg","IMG_2054.jpg","IMG_2056.jpg","IMG_2057.jpg","IMG_2058.jpg","IMG_2085.jpg","IMG_2086.jpg","IMG_2087.jpg","IMG_2088.jpg",
-    "IMG_2089.jpg","IMG_2090.jpg","IMG_2091.jpg","IMG_2092.jpg","IMG_2093.jpg","IMG_2094.jpg","IMG_2095.jpg","IMG_2096.jpg","IMG_2097.jpg"
-    ,"IMG_2098.jpg","IMG_2099.jpg","IMG_2100.jpg","IMG_2101.jpg","IMG_2105.jpg","IMG_2106.jpg","IMG_2107.jpg","IMG_2108.jpg","IMG_2109.jpg"
-    ,"IMG_2110.jpg","IMG_2113.jpg","IMG_2114.jpg","IMG_2176.jpg","IMG_2177.jpg","IMG_2183.jpg","IMG_2184.jpg"];*/
-
-    function makeMontage(imageUrlList, audioUrl, doneCallback, progressCallback)
+    function makeMontage(imageUrlList, audioUrl, doneCallback, progressCallback, errorCallback)
     {
         audioLoaded = false;
         imagesLoaded = 0;
         //getFilters();
-        retrieveSampleVideo(imageUrlList);
-        retrieveAudio(audioUrl);
+        retrieveSampleVideo(imageUrlList, errorCallback);
+        retrieveAudio(audioUrl, errorCallback);
         var interval = setInterval(function(){
             var progressPct = 5 + (((audioLoaded ? 1 : 0) + imagesLoaded) / (1+imageUrlList.length))*15; // We know it starts at 5 here
             if (!audioLoaded && imagesLoaded == imageUrlList.length)
@@ -362,7 +361,7 @@ function generateVid(doneCallback, progressCallback)
             
             if (audioLoaded && imagesLoaded==imageUrlList.length)
             {
-                generateVid(doneCallback, progressCallback);
+                generateVid(doneCallback, progressCallback, errorCallback);
                 clearInterval(interval);
               /*  if (!retrievingFormats)
                 {

@@ -398,6 +398,10 @@ a.button3:hover{
     transition: 0.2s;
 }
 
+.loading-bar.error {
+    background-color: #f33c3c;
+}
+
 @keyframes loadingAnim {
     0% {
         margin-left: -100px;

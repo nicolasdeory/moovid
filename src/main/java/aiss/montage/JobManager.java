@@ -75,14 +75,9 @@ public class JobManager {
 		// Music
 		
 				MusicIntent music = job.getMusicDesciption();
-				List<Artist> authorList = new ArrayList<Artist>();
-				for(String a : music.getAuthor())
-				{
-					authorList.add(SpotifyResource.getArtistIds(a).get(0)); // Gets the most probable artist result
-				}
-				log.info("author list: " + authorList);
+				
 				String songJson;
-				if (music == null || authorList.size() == 0)
+				if (music == null)
 				{
 					// TODO: Default song...
 					// Pick genre from a random list (edm, reggaeton, pop)
@@ -91,11 +86,28 @@ public class JobManager {
 				}
 				else
 				{
-					// TODO: IMPROVE, it doesn't work well. We've gotta pass at least one genre or artist or track
-					songJson = SpotifyResource.getRecommendations(authorList, music.getGenre(), 
-							music.getDanceable().toString(), music.getEnergy().toString(), music.getAcoustic().toString(),
-							music.getTempo().toString(), music.getMood().toString());
-					
+					List<String> musicIntentAuthorList = music.getAuthor();
+					List<Artist> authorList = new ArrayList<Artist>();
+					if (musicIntentAuthorList != null)
+					{
+						for(String a : music.getAuthor())
+						{
+							authorList.add(SpotifyResource.getArtistIds(a).get(0)); // Gets the most probable artist result
+						}
+					}
+					log.info("author list: " + authorList);
+					if (authorList.size() == 0)
+					{
+						log.warning("author list had 0 elements, resorting to basic recommendations");
+						songJson = SpotifyResource.getBasicRecommendations();
+					}
+					else
+					{
+						// TODO: IMPROVE, it doesn't work well. We've gotta pass at least one genre or artist or track
+						songJson = SpotifyResource.getRecommendations(authorList, music.getGenre(), 
+								music.getDanceable().toString(), music.getEnergy().toString(), music.getAcoustic().toString(),
+								music.getTempo().toString(), music.getMood().toString());
+					}
 				}
 				List<Song> songs = SpotifyResource.getSongsFromJson(songJson);
 				log.info("Found songs " + songs);

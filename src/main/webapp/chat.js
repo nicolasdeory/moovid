@@ -180,7 +180,7 @@ $(document).ready(() =>
       // TODO: get bpm
       console.log("received job data");
       console.log(data);
-      const imgUrls = data.photoUrls;
+      var imgUrls = data.photoUrls;
       imgUrls = imgUrls.reverse();
       if (imgUrls.length > 100) // MAX 100 photos
       {

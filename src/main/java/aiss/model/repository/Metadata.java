@@ -60,7 +60,7 @@ public class Metadata {
 	
 	@JsonProperty("urlcoverart")
 	public void setUrlcoverart(String urlcoverart) {
-		urlcoverart = urlcoverart;
+		this.urlcoverart = urlcoverart;
 	}
 
 	@Override

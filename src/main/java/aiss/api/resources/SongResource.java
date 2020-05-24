@@ -72,12 +72,14 @@ public class SongResource {
 		}
 		MP3 mp3 = new MP3(metadata);
 		repository.addMP3(mp3);
-		
+		/*
 		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(),"get");
 		URI uri = ub.build(mp3.getId());
 		ResponseBuilder resp = Response.created(uri);
 		resp.entity(mp3);
-		return resp.build();
+		return resp.build();*/
+		Response resp1 = Response.status(204).header("ETag", mp3.getId()).build();
+		return resp1;
 	}
 	
 	@POST
@@ -90,14 +92,15 @@ public class SongResource {
 		}
 		List<BoundExtractedResult<MP3>> results = FuzzySearch.extractSorted(Fmp3.getName(), repository.listMP3(), x->x.getMetadata().toString(), new FuzzyMetadataScore());
 		List<MP3> mp3 = new ArrayList<MP3>();
-		results.stream().filter(x->x.getScore()>50).sorted(Comparator.comparing(x->x.getScore()))
+		mp3 = results.stream().filter(x->x.getScore()>70).sorted(Comparator.comparing(x->x.getScore()))
 		.sorted(Comparator.reverseOrder()).map(x->x.getReferent()).collect(Collectors.toList());
 		
-		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(),"get");
+		/*UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(),"get");
 		URI uri = ub.build(mp3.hashCode());
 		ResponseBuilder resp = Response.created(uri);
-		resp.entity(mp3);
-		return resp.build();
+		resp.entity(mp3);*/
+		Response resp1 = Response.ok().entity(mp3).build();
+		return resp1;
 	}
 	
 	@DELETE

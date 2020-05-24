@@ -5,7 +5,6 @@ import java.util.Set;
 
 import javax.ws.rs.core.Application;
 
-import aiss.api.resources.PlaylistResource;
 import aiss.api.resources.SongResource;
 
 public class MoovidApplication extends Application{

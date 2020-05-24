@@ -11,7 +11,7 @@ import org.restlet.data.CharacterSet;
 import org.restlet.ext.jackson.JacksonRepresentation;
 
 import aiss.montage.JobManager;
-import aiss.montage.MontageResult;
+import aiss.montage.MontageJobResult;
 
 /**
  * Servlet implementation class JobManagerController
@@ -32,7 +32,7 @@ public class JobManagerController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String jobId = request.getParameter("id");
-		MontageResult result = JobManager.queryResult(jobId);
+		MontageJobResult result = JobManager.queryResult(jobId);
 		if (result == null)
 		{
 			System.out.println("No job found with that ID");
@@ -41,7 +41,7 @@ public class JobManagerController extends HttpServlet {
 		}
 		else
 		{
-			JacksonRepresentation<MontageResult> resultRepr = new JacksonRepresentation<MontageResult>(result);
+			JacksonRepresentation<MontageJobResult> resultRepr = new JacksonRepresentation<MontageJobResult>(result);
 			resultRepr.setCharacterSet(CharacterSet.UTF_8);
 			String chatJson = resultRepr.getText();
 			response.setCharacterEncoding("UTF-8");

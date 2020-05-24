@@ -2,20 +2,20 @@ package aiss.montage;
 
 import java.util.List;
 
-public class MontageResult 
+public class MontageJobResult 
 {
 	private List<String> photoUrls;
 	private String musicUrl;
 	private boolean isPending;
 	
-	public MontageResult(List<String> photoUrls, String musicUrl) {
+	public MontageJobResult(List<String> photoUrls, String musicUrl) {
 		super();
 		this.photoUrls = photoUrls;
 		this.musicUrl = musicUrl;
 		this.isPending = false;
 	}
 	
-	public MontageResult()
+	public MontageJobResult()
 	{
 		this.isPending = true;
 	}

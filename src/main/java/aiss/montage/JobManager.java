@@ -26,14 +26,14 @@ public class JobManager {
 
 	private static Queue<MontageJob> queue;
 	
-	private static Map<String, MontageResult> results;
+	private static Map<String, MontageJobResult> results;
 	private static Map<String, MontageJob> jobs;
 	
 	private static Random rand;
 	
 	public static void initialize() 
 	{
-		results = new HashMap<String, MontageResult>();
+		results = new HashMap<String, MontageJobResult>();
 		queue = new LinkedList<>();
 		jobs = new HashMap<String, MontageJob>();
 		rand = new Random();
@@ -117,12 +117,12 @@ public class JobManager {
 		
 		// Finish up
 		System.out.println("photo urls are " + urls);
-		MontageResult montageResult = new MontageResult(urls, audioStreamUrl);
+		MontageJobResult montageResult = new MontageJobResult(urls, audioStreamUrl);
 		results.put(job.getUuid().toString(), montageResult);
 	}
 	
 	
-	public static MontageResult queryResult(String uuid)
+	public static MontageJobResult queryResult(String uuid)
 	{
 		if (results == null)
 			initialize();
@@ -161,5 +161,5 @@ public class JobManager {
 			initialize();
 		
 		jobs.put(job.getUuid().toString(), job);
-		results.put(job.getUuid().toString(), new MontageResult());
+		results.put(job.getUuid().toString(), new MontageJobResult());
 	}}

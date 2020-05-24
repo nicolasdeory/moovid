@@ -2,9 +2,11 @@ package aiss.resources.photos;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import org.restlet.data.MediaType;
 import org.restlet.ext.jackson.JacksonRepresentation;
@@ -87,9 +89,25 @@ public class MediaItemResource {
 
 	
 	//CAMBAIR ESTO PARA QUE ENTREN DOS DATES Y LA LISTA DE MONTAGETHEME
-	public  MediaItems searchMediaItem(List<Date> fechas, Date inicio, Date fin, List<String> temas, List<String> excluidos, String pageToken){
+	public  List<String> searchMediaItem(List<LocalDate> fechas1, LocalDate inicio1, LocalDate fin1, List<String> temas, List<String> excluidos){
+		Date inicio = new Date(inicio1.getDayOfMonth(),inicio1.getMonthValue(),inicio1.getYear());
+		Date fin = new Date(fin1.getDayOfMonth(),fin1.getMonthValue(),fin1.getYear());
+		List<Date> fechas = new ArrayList<Date>();
+		for(LocalDate f : fechas1)
+		{
+			fechas.add(new Date(f.getDayOfMonth(),f.getMonthValue(),f.getYear()));
+		}
+		
+		MediaItems mis = searchMediaItem(fechas, inicio, fin, temas, excluidos, "");
+		List<String> urls = obtenerURLSDeBajada(mis, fechas, inicio, fin, temas, excluidos, mis.getNextPageToken(), 0);
+		return urls;
+	}
+	
+	public MediaItems searchMediaItem(List<Date> fechas, Date inicio, Date fin, List<String> temas, List<String> excluidos, String pageToken)
+	{
 		ClientResource cr = null;
 		MediaItems list = null;
+		
 		try {
 			String filtrostr = "";
 			String DateFilter = "dates:";
@@ -138,12 +156,35 @@ public class MediaItemResource {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			log.info(filters.toString());
 			list = cr.post(new JacksonRepresentation<RequestSearch>(MediaType.APPLICATION_JSON, request), MediaItems.class);
 			System.out.println("INFORMACION: La lista devuelta es: " + list );
 		} catch (ResourceException re){
 			System.out.println("INFORMACION: Error when retrieving the collections: " + re);
 		}
 		return list;
+	}
+	
+	public List<String> obtenerURLSDeBajada(MediaItems MIs, List<Date> fechas, Date inicio, Date fin, List<String> contenidos, List<String> excluidos, String pageToken, Integer contador){
+		List<String> ls = new ArrayList<String>();
+		if(MIs==null) return ls;
+		for(MediaItem mi: MIs.getMediaItems()) {
+			String baseUrl = mi.getBaseUrl();
+			String urlFinal = baseUrl + "=w1020-h720-d";
+			ls.add(urlFinal);
+		}
+		System.out.println("En la funcion de las URLS los items son: " + MIs.getMediaItems());
+		System.out.println("En la funcion de las URLS el siguiente page token es: " + MIs.getNextPageToken());
+		if(MIs.getNextPageToken()==null) return ls;
+		if(contador == 5) return ls;
+		contador++;
+		MediaItems newMIs = searchMediaItem(fechas, inicio, fin, contenidos, excluidos, pageToken);
+		ls.addAll(obtenerURLSDeBajada(newMIs,fechas,inicio,fin,contenidos,excluidos,newMIs.getNextPageToken(),contador));
+		if(ls.size()>100) {
+			List<String> subl = ls.subList(0, 100);
+			return subl;
+		}
+		return ls;
 	}
 	
 	public  NewMediaItemResult createMediaItem(InputStream ficheromedia, String nombreMontaje){
@@ -219,8 +260,31 @@ public class MediaItemResource {
 		DateFilter dateFilter = new DateFilter(datesList,dateRangesList);
 		
 		//Creacion de ContentFilter (consta de 2 parametros, included y excluded)
-		String includedstr = parametrosContentFilter[0].split(":")[1].trim();
-		String excludedstr = parametrosContentFilter[1].split(":")[1].trim();
+		log.info(parametrosContentFilter[0]);
+		log.info(parametrosContentFilter[1]);
+		
+		// Handles case when excluded is empty
+		String auxStr = "";
+		String auxStr1 = "";
+		if (parametrosContentFilter[0].equals("included"))
+		{
+			auxStr = parametrosContentFilter[0] + ": ";
+		}
+		else
+		{
+			auxStr = parametrosContentFilter[0];
+		}
+		
+		if (parametrosContentFilter[1].equals("excluded"))
+		{
+			auxStr1 = parametrosContentFilter[1] + ": ";
+		}
+		else
+		{
+			auxStr1 = parametrosContentFilter[1];
+		}
+		String includedstr = auxStr.split(":")[1].trim();
+		String excludedstr = auxStr1.split(":")[1].trim();
 		List<String> includedList = new ArrayList<String>();
 		List<String> excludedList = new ArrayList<String>();
 		if(!includedstr.contains("-") && includedstr.length()>1) includedList.add(includedstr);

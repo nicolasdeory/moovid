@@ -32,7 +32,7 @@ public class SpotifyDemoController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if (!SpotifyResource.isAuthorized())
+		/*if (!SpotifyResource.isAuthorized())
 			SpotifyResource.authorize();
 		List<Artist> art = SpotifyResource.getArtistIds("Zedd,Savant");
 		Song song = SpotifyResource.getSongFromJson(SpotifyResource.getRecommendations
@@ -40,7 +40,7 @@ public class SpotifyDemoController extends HttpServlet {
 		SpotifyDemo demo = new SpotifyDemo(art, song);
 		String json = new JacksonRepresentation<SpotifyDemo>(demo).getText();
 		response.setContentType("application/json");
-		response.getWriter().append(json);
+		response.getWriter().append(json);*/
 	}
 
 	/**

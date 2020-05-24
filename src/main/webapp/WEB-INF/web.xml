@@ -17,12 +17,12 @@
     <url-pattern>/PhotosCreate</url-pattern>
   </servlet-mapping>
   <servlet>
-    <servlet-name>GooglePhotosMediaItemListController</servlet-name>
-    <servlet-class>aiss.controller.photos.GooglePhotosMediaItemListController</servlet-class>
+    <servlet-name>GooglePhotosLoginController</servlet-name>
+    <servlet-class>aiss.controller.photos.GooglePhotosLoginController</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>GooglePhotosMediaItemListController</servlet-name>
-    <url-pattern>/PhotosList</url-pattern>
+    <servlet-name>GooglePhotosLoginController</servlet-name>
+    <url-pattern>/photoslogin</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>GooglePhotosMediaItemGetController</servlet-name>
@@ -40,7 +40,6 @@
     <servlet-name>GooglePhotosMediaItemSearchController</servlet-name>
     <url-pattern>/PhotosSearch</url-pattern>
   </servlet-mapping>
-  <!-- Spotify -->
   <servlet>
     <servlet-name>SpotifyDemoController</servlet-name>
     <servlet-class>aiss.controller.demo.SpotifyDemoController</servlet-class>
@@ -49,7 +48,6 @@
     <servlet-name>SpotifyDemoController</servlet-name>
     <url-pattern>/demo/spotify</url-pattern>
   </servlet-mapping>
-  <!-- LUIS -->
   <servlet>
     <servlet-name>LuisDemoController</servlet-name>
     <servlet-class>aiss.controller.demo.LuisDemoController</servlet-class>
@@ -59,7 +57,7 @@
     <url-pattern>/demo/luis</url-pattern>
   </servlet-mapping>
   <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
+    <welcome-file>mashup.html</welcome-file>
   </welcome-file-list>
   <servlet>
     <description></description>
@@ -84,12 +82,41 @@
     </init-param>
     <init-param>
       <param-name>onSuccess</param-name>
-      <param-value>redirect:/PhotosList</param-value>
+      <param-value>redirect:/?login=1</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>
     <servlet-name>GooglePhotosOAuth2Callback</servlet-name>
     <url-pattern>/oauth2callback/GooglePhotos</url-pattern>
   </servlet-mapping>
- 
+  <servlet>
+    <description></description>
+    <display-name>ChatQueryController</display-name>
+    <servlet-name>ChatQueryController</servlet-name>
+    <servlet-class>aiss.controller.main.ChatQueryController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ChatQueryController</servlet-name>
+    <url-pattern>/chatquery</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>MusicServlet</display-name>
+    <servlet-name>MusicServlet</servlet-name>
+    <servlet-class>aiss.controller.youtube.MusicServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MusicServlet</servlet-name>
+    <url-pattern>/getsong</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>JobManagerController</display-name>
+    <servlet-name>JobManagerController</servlet-name>
+    <servlet-class>aiss.controller.main.JobManagerController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>JobManagerController</servlet-name>
+    <url-pattern>/getjob</url-pattern>
+  </servlet-mapping>
 </web-app>

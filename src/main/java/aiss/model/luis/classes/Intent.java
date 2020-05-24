@@ -32,7 +32,35 @@ public class Intent {
 		this.topIntent = topIntent;
 	}
 
-	
+	@Override
+	public String toString() {
+		return "Intent [topIntent=" + topIntent + ", sentiment=" + sentiment + "]";
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((sentiment == null) ? 0 : sentiment.hashCode());
+		result = prime * result + ((topIntent == null) ? 0 : topIntent.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Intent other = (Intent) obj;
+		if (sentiment != other.sentiment)
+			return false;
+		if (topIntent != other.topIntent)
+			return false;
+		return true;
+	}
+
 	
 	
 }

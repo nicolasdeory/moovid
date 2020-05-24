@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.restlet.resource.ClientResource;
 
@@ -19,19 +20,32 @@ import aiss.model.luis.classes.MusicIntent;
 import aiss.model.luis.classes.SpecificThemeIntent;
 import aiss.model.luis.enumerates.IntentType;
 import aiss.model.luis.enumerates.MontageTheme;
+import aiss.model.luis.enumerates.MusicAcoustic;
+import aiss.model.luis.enumerates.MusicDanceable;
 import aiss.model.luis.enumerates.MusicEnergy;
 import aiss.model.luis.enumerates.MusicMood;
 import aiss.model.luis.enumerates.MusicTempo;
 import aiss.model.luis.enumerates.Sentiment;
+import aiss.resources.spotify.SpotifyResource;
+import jdk.internal.jline.internal.Log;
 
 public class LuisResource {
 
+	private static final Logger log = Logger.getLogger(LuisResource.class.getName());
+	
+	public static Intent getIntentFromQuery(String query) throws IOException
+	{
+		return getIntentFromJson(getQueryPrediction(query));
+	}
+	
 	public static String getQueryPrediction(String message) {
-		String uri = "https://westus.api.cognitive.microsoft.com/"
+		/*String uri = "https://westus.api.cognitive.microsoft.com/"
 				+ "luis/prediction/v3.0/apps/b9e1fc9e-e095-4050-8786-ca9d2c7034de/"
 				+ "slots/staging/predict?subscription-key=8e8e367a952f4a15aff9a3d36a272063&verbose=false"
 				+ "&show-all-intents=true&log=true&query=\"";
-		uri += message + "\"";
+		uri += message + "\"";*/
+		String uri = "https://westus.api.cognitive.microsoft.com/luis/prediction/v3.0/apps/b9e1fc9e-e095-4050-8786-ca9d2c7034de/slots/staging/predict?subscription-key=8e8e367a952f4a15aff9a3d36a272063&verbose=false&show-all-intents=true&log=true&query=";
+		uri += message;
 		ClientResource cr = new ClientResource(uri);
 		return cr.get(String.class);
 	}
@@ -39,12 +53,17 @@ public class LuisResource {
 	public static Intent getIntentFromJson(String json) throws IOException {
 		JsonNode query = new ObjectMapper().readTree(json);
 		JsonNode entities = query.get("prediction").get("entities");
-		IntentType tipo = IntentType.valueOf
-				(query.get("prediction").get("topIntent").textValue());
+		String s = query.get("prediction").get("topIntent").textValue();
+		IntentType tipo = IntentType.valueOf(s);
 		JsonNode nodo_themes = entities.get("MontageTheme");
 		List<MontageTheme> ls = retrieveThemes(nodo_themes , new ArrayList<MontageTheme>());
-		Sentiment sent = Sentiment.valueOf(query.get("prediction").get("sentiment").get("label").textValue());
-		switch(tipo) {
+		// Sentiment is unused anyway
+		Sentiment sent = null;
+		//String sentimentString = query.get("prediction").get("sentiment").get("label").textValue();
+		//Sentiment sent = Sentiment.valueOf(sentimentString);
+		
+		Intent intn;
+		switch(tipo) { // TODO: Add remaning intents
 		case CreateMontage:
 			List<LocalDate> ls_date = retrieveDateRange(entities);
 			MontageCreateIntent mcr = new MontageCreateIntent(sent, ls, ls_date.get(0), ls_date.get(1));
@@ -65,21 +84,65 @@ public class LuisResource {
 			if (entities.has("MusicMood"))
 				mood = MusicMood.valueOf(entities.get("MusicMood").elements().next().fieldNames().next());
 			
-			Boolean danceable = false;
+			MusicDanceable danceable = MusicDanceable.none;
 			if (entities.has("MusicDanceable"))
-				danceable = true;
+				danceable = MusicDanceable.yes;
+			
+			MusicAcoustic acoustic = MusicAcoustic.none;
+			if (entities.has("MusicAcoustic"))
+				acoustic = MusicAcoustic.yes;
 			
 			List<String> ls_author = new ArrayList<String>();
-			Iterator<JsonNode> it_author = entities.get("MusicAuthor").elements();
-			while(it_author.hasNext()) {
-				ls_author.add(it_author.next().textValue());
+			if (entities.get("MusicAuthor") != null)
+			{
+				Iterator<JsonNode> it_author = entities.get("MusicAuthor").elements();
+				while(it_author.hasNext())
+					ls_author.add(it_author.next().textValue());
 			}
 			
-			MusicIntent mus = new MusicIntent(sent, ls_author, mood, tempo, energy, danceable);
+			List<String> ls_genre = new ArrayList<String>();
+			if (entities.get("MusicGenre") != null)
+			{
+				Iterator<JsonNode> it_genre = entities.get("MusicGenre").elements();
+				while(it_genre.hasNext()) {
+					String genre = it_genre.next().textValue();
+					ls_genre.add(parseGenre(genre));
+				}
+			}
+			
+			MusicIntent mus = new MusicIntent(sent, ls_author, ls_genre, mood,
+					tempo, energy, danceable, acoustic);
 			return mus;
 		case SpecificTheme:
 			SpecificThemeIntent sth = new SpecificThemeIntent(sent, ls);
 			return sth;
+		case CommunicationCancel:
+			intn = new Intent(tipo);
+			return intn;
+		case CommunicationConfirm:
+			intn = new Intent(tipo);
+			return intn;
+		case DecideForMe:
+			intn = new Intent(tipo);
+			return intn;
+		case Greeting:
+			intn = new Intent(tipo);
+			return intn;
+		case Thanks:
+			intn = new Intent(tipo);
+			return intn;
+		case HelpIntent:
+			intn = new Intent(tipo);
+			return intn;
+		case Insult:
+			intn = new Intent(tipo);
+			return intn;
+		case No:
+			intn = new Intent(tipo);
+			return intn;
+		case None:
+			intn = new Intent(tipo);
+			return intn;
 		default:
 			Intent in = new Intent(tipo, sent);
 			return in;
@@ -150,4 +213,8 @@ public class LuisResource {
 		return res;
 	}
 	
+	private static String parseGenre(String genre) {
+		//TODO: JSON with genre map
+		return genre;
+	}
 }

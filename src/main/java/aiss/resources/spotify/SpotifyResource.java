@@ -1,21 +1,18 @@
 package aiss.resources.spotify;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
+import org.apache.commons.io.IOUtils;
 import org.restlet.data.ChallengeResponse;
 import org.restlet.data.ChallengeScheme;
 import org.restlet.data.Form;
@@ -26,7 +23,6 @@ import org.restlet.resource.ResourceException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.api.client.util.IOUtils;
 
 import aiss.model.spotify.AccessToken;
 import aiss.model.spotify.Artist;
@@ -61,11 +57,21 @@ public class SpotifyResource {
 	public static void authorize(){
        ClientResource cr1 = null;
         try {
-        	String path = "SpotifyKey.txt";
-        	log.info(path);
-        	InputStream is = SpotifyResource.class.getClassLoader().getResourceAsStream(path);
-            String keys = new BufferedReader(new InputStreamReader(is))
-            		.lines().parallel().collect(Collectors.joining("\n"));
+        	String path = "./keys/SpotifyKey.txt";
+        	String keys = null;
+    		InputStream is = SpotifyResource.class.getClassLoader().getResourceAsStream(path);
+    		try {
+			      keys = IOUtils.toString(is, "UTF-8");
+			} catch (IOException e1) {
+				log.log(Level.INFO, "Couldnt find SpotifyKey.txt");
+			}
+    		
+    		
+    		/*try {
+    			keys = Files.lines(Paths.get(path)).findFirst().get();
+    		} catch (IOException e) {
+    			log.log(Level.INFO, "Couldnt find SpotifyKey.txt");
+    		}*/
         	String[] split = keys.split(":");
             cr1 = new ClientResource("https://accounts.spotify.com/api/token");
             Form form = new Form();
@@ -83,25 +89,32 @@ public class SpotifyResource {
             log.log(Level.INFO, "Successfully obtained Spotify access token: "
             		+ token.getAccessToken());
         } catch (ResourceException re){
-        	log.log(Level.WARNING, "Error authorizing Spotify " + re);
+        	log.log(Level.WARNING, "Error authorizing Spotify " + re.getMessage());
         }
     }
 	
-	public static Song getSongFromJson(String json) {
+	public static List<Song> getSongsFromJson(String json) {
 		JsonNode query = null;
+		List<Song> result = new ArrayList<Song>();;
 		try {
 			query = new ObjectMapper().readTree(json);
-			JsonNode cancion = query.get("tracks").elements().next();
-			String artist = cancion.get("artists").elements().next().get("name").textValue();
-			String name = cancion.get("name").textValue();
-			name.replaceAll("%20", " ");
-			Song res = new Song(artist, name);
-			log.log(Level.FINEST, "Successfully obtained Song object from JSON: " + res);
-			return res;
+			Iterator<JsonNode> canciones = query.get("tracks").elements();
+			while (canciones.hasNext()) {
+				JsonNode cancion = canciones.next();
+				String artist = cancion.get("artists").elements().next().get("name").textValue();
+				String name = cancion.get("name").textValue();
+				name.replaceAll("%20", " ");
+				String id = cancion.get("id").textValue();
+				Double bpm = getBPM(id);
+				Song s = new Song(artist, name, bpm);
+				result.add(s);
+				log.log(Level.FINEST, "Successfully obtained Song object from JSON: " + s);
+			}
+			
 		} catch (IOException e) {
-			log.log(Level.WARNING, "Error parsing Spotify Recommendations JSON file");
-			return null;
+			log.log(Level.WARNING, "Error parsing Spotify Recommendations JSON file: " + e.getMessage());
 		}
+		return result;
 	}
 	
 	public static Artist getArtistFromJson(String json){
@@ -110,12 +123,69 @@ public class SpotifyResource {
 			query = new ObjectMapper().readTree(json);
 			Artist res = new Artist (query.get("artists").get("items").elements()
 					.next().get("id").textValue());
-			log.log(Level.FINEST, "Successfully obtained Artist object from JSON: " + res);
+			log.log(Level.INFO, "Successfully obtained Artist object from JSON: " + res);
 			return res;
 		} catch (IOException e) {
-			log.log(Level.WARNING, "Error parsing Spotify Artist Search JSON file");
+			log.log(Level.WARNING, "Error parsing Spotify Artist Search JSON file: " + e.getMessage());
 			return null;
 		}
+	}
+	
+	public static Double getBPMFromJson(String json) {
+		JsonNode query = null;
+		try {
+			query = new ObjectMapper().readTree(json);
+			Double res = query.get("tempo").asDouble();
+			log.log(Level.FINEST, "Successfully obtained song BPM from JSON: " + res);
+			return res;
+		} catch (IOException e) {
+			log.log(Level.WARNING, "Error parsing Audio Features JSON file: " + e.getMessage());
+			return null;
+		}
+	}
+	
+	public static String getRecommendations(List<Artist> artists, List<String> genres, String danceability,
+			String energy, String instrumentalness, String tempo, String valence) {
+		String uri = "https://api.spotify.com/v1/recommendations?";
+		uri += "limit=10&market=ES";
+		uri += "&seed_artists=";
+		for (Artist artist : artists) {
+			if (artists.indexOf(artist)!=0)
+				uri += "%2C";
+			uri += artist.getId();
+		}
+		for (String genre : genres) {
+			if (genres.indexOf(genre) != 0)
+				uri += "%2C";
+			uri += genre;
+		}
+		if (danceability.equals("true"))
+			uri += "&min_danceability=0.5";
+		if (energy.equals("highenergy"))
+			uri += "&min_energy=0.6";
+		if (energy.equals("lowenergy"))
+			uri += "&max_energy=0.4";
+		if (instrumentalness.equals("lyrics"))
+			uri += "&target_instrumentalness=0.0";
+		if (instrumentalness.equals("instrumental"))
+			uri += "&min_instrumentalness=0.2";
+		if (tempo.equals("fastpaced"))
+			uri += "&min_tempo=110.0";
+		if (tempo.equals("slowpaced"))
+			uri += "&max_tempo=120.0";
+		if (valence.equals("happy"))
+			uri += "&min_valence=0.5";
+		if (valence.equals("sad"))
+			uri += "&max_valence=0.5";
+		if (!isAuthorized()) authorize();
+		log.log(Level.INFO, "Searching recommendations at endpoint: " + uri);
+		ClientResource cr_sr = new ClientResource(uri);
+		ChallengeResponse chres = new ChallengeResponse(
+				ChallengeScheme.HTTP_OAUTH_BEARER);
+		chres.setRawValue(token.getAccessToken());
+		cr_sr.getRequest().setChallengeResponse(chres);
+		//log.log(Level.INFO, cr_sr.getResponse().toString());
+		return cr_sr.get(String.class);
 	}
 	
 	public static List<Artist> getArtistIds(String artists) {
@@ -132,40 +202,21 @@ public class SpotifyResource {
 			chres.setRawValue(token.getAccessToken());
 			cr_ar.getRequest().setChallengeResponse(chres);
 			String json_artist = cr_ar.get(String.class);
-			id.add(SpotifyResource.getArtistFromJson(json_artist));
+			id.add(getArtistFromJson(json_artist));
 		}
 		return id;
 	}
 
-	public static String getRecommendations(List<Artist> id, String danceability,
-			String energy, String tempo, String valence) {
-		String uri = "https://api.spotify.com/v1/recommendations?";
-		uri += "limit=1";
-		uri += "&seed_artists=";
-		for (Artist artist : id)
-			uri += artist.getId() + ",";
-		uri = uri.substring(0, uri.length() - 1);
-		if (danceability.equals("true"))
-			uri += "&target_danceability=0.9";
-		if (energy.equals("highenergy"))
-			uri += "&target_energy=0.8";
-		if (energy.equals("lowenergy"))
-			uri += "&target_energy=0.2";
-		if (tempo.equals("fastpaced"))
-			uri += "&target_tempo=0.8";
-		if (tempo.equals("slowpaced"))
-			uri += "&target_tempo=0.2";
-		if (valence.equals("happy"))
-			uri += "&target_valence=0.8";
-		if (valence.equals("sad"))
-			uri += "&target_valence=0.2";
-		if (!isAuthorized()) authorize();
-		log.log(Level.FINE, "Searching recommendations at endpoint: " + uri);
-		ClientResource cr_sr = new ClientResource(uri);
+	public static Double getBPM(String id) {
+		String uri = "https://api.spotify.com/v1/audio-features/";
+		uri += id;
+		log.log(Level.FINE, "Searching song data at endpoint: " + uri);
+		ClientResource cr_af = new ClientResource(uri);
 		ChallengeResponse chres = new ChallengeResponse(
 				ChallengeScheme.HTTP_OAUTH_BEARER);
 		chres.setRawValue(token.getAccessToken());
-		cr_sr.getRequest().setChallengeResponse(chres);
-		return cr_sr.get(String.class);
+		cr_af.getRequest().setChallengeResponse(chres);
+		String json_song_data = cr_af.get(String.class);
+		return getBPMFromJson(json_song_data);
 	}
 }

@@ -21,7 +21,7 @@ public class GooglePhotosMediaItemSearchController extends HttpServlet{
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-    	String fechasstr = req.getParameter("fechas");
+    /*	String fechasstr = req.getParameter("fechas");
     	String iniciostr = req.getParameter("inicio");
     	String finstr = req.getParameter("fin");
     	String contentsstr = req.getParameter("contents");
@@ -53,7 +53,7 @@ public class GooglePhotosMediaItemSearchController extends HttpServlet{
         } else {
             log.warning("Invalid filters!");
             req.getRequestDispatcher("/pruebagoogle").forward(req, resp); //la url puede modificarse
-        }
+        }*/
     }
 
     public static List<Date> ParseoFechas(String fechasstr) {

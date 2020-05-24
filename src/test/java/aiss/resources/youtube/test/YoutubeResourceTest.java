@@ -43,9 +43,9 @@ public class YoutubeResourceTest {
 		String id2 = "Auuqlcom6tM";
 		String id3 = "btSlfXILTkU";
 		
-		String url1 = YoutubeResource.downloadVideo(id1);
-		String url2 = YoutubeResource.downloadVideo(id2);
-		String url3 = YoutubeResource.downloadVideo(id3);
+		String url1 = YoutubeResource.getAudioStreamUrl(id1);
+		String url2 = YoutubeResource.getAudioStreamUrl(id2);
+		String url3 = YoutubeResource.getAudioStreamUrl(id3);
 		
 		log.log(Level.INFO, "Results at YoutubeResourceTest.testDownloadVideo(): ");
 		log.log(Level.INFO, "Download URL for Muse - Hysteria: (" + url1 + ")");

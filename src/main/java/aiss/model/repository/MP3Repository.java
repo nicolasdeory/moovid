@@ -1,15 +1,15 @@
 package aiss.model.repository;
 
-import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 public class MP3Repository {
 	
-	Map<UUID, File> MP3Map;
+	Map<String, MP3> MP3Map;
 	private static MP3Repository instance=null;
-	private int index=0;			// Index to create playlists and songs' identifiers.
 	
 	
 	public static MP3Repository getInstance() {
@@ -23,27 +23,29 @@ public class MP3Repository {
 	}
 	
 	public void init() {
-		
 		MP3Map = new HashMap<String,MP3>();
-		
-		
 	}
 	
-	@Override
 	public void addMP3(MP3 p) {
-		String id = new UUID().toString();	
+		String id = UUID.randomUUID().toString();	
 		p.setId(id);
 		MP3Map.put(id,p);
 	}
 
-	@Override
 	public MP3 getMP3(String id) {
 		return MP3Map.get(id);
 	}
 	
-	@Override
 	public void removeMP3(String id) {	
 		MP3Map.remove(id);
+	}
+	
+	public List<MP3> listMP3(){
+		List<MP3> ls = new ArrayList<MP3>();
+		for(String id:MP3Map.keySet()) {
+			ls.add(MP3Map.get(id));
+		}
+		return ls;
 	}
 	
 }

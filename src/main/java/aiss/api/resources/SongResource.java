@@ -1,6 +1,9 @@
 package aiss.api.resources;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -19,6 +22,7 @@ import javax.ws.rs.core.UriInfo;
 import org.jboss.resteasy.spi.BadRequestException;
 import org.jboss.resteasy.spi.NotFoundException;
 
+import aiss.model.repository.FiltroMP3;
 import aiss.model.repository.MP3;
 import aiss.model.repository.MP3Repository;
 
@@ -56,33 +60,47 @@ public class SongResource {
 	
 	@PUT
 	@Path("/uploadmp3")
+	@Produces("application/json")
 	@Consumes("application/json")
-	public Response uploadMP3(MP3 mp3)) {  //Podria ponerse void como return
-		MP3 oldmp3 = repository.getMP3(mp3.getId());
-		if(oldmp3 == null) {
-			throw new NotFoundException("No se ha encontrado el MP3 de id: " + mp3.getId());
+	public Response uploadMP3(@Context UriInfo uriInfo,MP3 mp3) {  //Podria ponerse void como return
+		if(mp3==null) {		//se pueden comprobar otros parametros obligatorios
+			throw new BadRequestException("El mp3 no puede ser nulo");
 		}
+		if(mp3.getId()==null) mp3.setId(UUID.randomUUID().toString());
+		repository.addMP3(mp3);
 		
-		//El siguiente if hay que repetirlo en cada atributo del mp3
-		if(mp3.get|Atributo|==null) {
-			oldmp3.set|Atributo|(mp3.get|Atributo|());
-		}
-		
-		return Response.noContent().build();
+		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(),"get");
+		URI uri = ub.build(mp3.getId());
+		ResponseBuilder resp = Response.created(uri);
+		resp.entity(mp3);
+		return resp.build();
 	}
 	
 	@POST
 	@Path("/searchmp3")
 	@Produces("application/json")
 	@Consumes("application/json")
-	public Response searchMP3(@Context UriInfo uriInfo, MP3 mp3) {
-		if(mp3==null) {		//se pueden comprobar otros parametros obligatorios
+	public Response searchMP3(@Context UriInfo uriInfo, FiltroMP3 Fmp3) {
+		if(Fmp3==null) {		//se pueden comprobar otros parametros obligatorios
 			throw new BadRequestException("El mp3 no puede ser nulo");
 		}
-		repository.addMP3(mp3);
+		List<MP3> mp3 = new ArrayList<MP3>();
+		for(MP3 mp3Posible: repository.listMP3()) {
+			if(Fmp3.getName()!=null && Fmp3.getSize()!=null) {
+				if(Fmp3.getName().equals(mp3Posible.getName()) && Fmp3.getSize().getType().equals("greater") 
+						&& Fmp3.getSize().getValue()<mp3Posible.getSize()) mp3.add(mp3Posible);
+				if(Fmp3.getName().equals(mp3Posible.getName()) && Fmp3.getSize().getType().equals("lesser") 
+						&& Fmp3.getSize().getValue()>mp3Posible.getSize()) mp3.add(mp3Posible);
+			}
+			if(Fmp3.getName()!=null && Fmp3.getName().equals(mp3Posible.getName())) mp3.add(mp3Posible);
+			if(Fmp3.getSize()!=null && Fmp3.getSize().getType().equals("greater") 
+					&& Fmp3.getSize().getValue()<mp3Posible.getSize()) mp3.add(mp3Posible);
+			if(Fmp3.getSize()!=null && Fmp3.getSize().getType().equals("lesser") 
+					&& Fmp3.getSize().getValue()>mp3Posible.getSize()) mp3.add(mp3Posible);
+		}
 		
 		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(),"get");
-		URI uri = ub.build(mp3.getId());
+		URI uri = ub.build(mp3.hashCode());
 		ResponseBuilder resp = Response.created(uri);
 		resp.entity(mp3);
 		return resp.build();

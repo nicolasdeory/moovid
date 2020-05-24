@@ -189,10 +189,33 @@ $(document).ready(() =>
         imgUrls = imgUrls.reverse();
         if (imgUrls.length > 100) // MAX 100 photos
         {
-          imgUrls.splice(imgUrls.length-(imgUrls.length-100), imgUrls.length);
+          console.log("Photos more than 100, trimming");
+          var newImgUrls = [];
+          var groupSize = 5; // group 5 by 5
+          if (imgUrls.length > 300)
+          {
+            groupSize = 4;
+          }
+          if (imgUrls.length > 400)
+          {
+            groupSize = 3;
+          }
+          var groups = 100 / groupSize;
+          // Function to determine photo spread
+          var padding = (imgUrls.length - (groupSize * (groups - 2))) / (groups-1);
+          for (let i = 0; i < groups; i++)
+          {
+            for (let k = 0; k < groupSize; k++)
+            {
+              var idx = i * (groupSize + padding) + k;
+              idx = Math.floor(idx);
+              if (idx < imgUrls.length)
+                newImgUrls.push(imgUrls[idx]);
+            }
+          }
         }
         const audioUrl = data.musicUrl;
-  
+        console.log("trimmed photos list down to " + newImgUrls.length)
         
         montageProgress("Descargando imágenes...", 5);
         

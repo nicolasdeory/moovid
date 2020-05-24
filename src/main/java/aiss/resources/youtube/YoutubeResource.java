@@ -58,7 +58,7 @@ public class YoutubeResource {
 		return getIdFromJson(json);
 	}
 	
-	public static String downloadVideo(String id) {
+	public static String getAudioStreamUrl(String id) {
 		return downloadVideo(id, 1);
 	}
 	

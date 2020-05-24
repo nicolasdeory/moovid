@@ -113,11 +113,11 @@ public class JobManager {
 		// Get song from Youtube
 		String videoId = YoutubeResource.getVideoId(songAuthor + " " + songName);
 		System.out.println("video id is " + videoId);
-		String videoName = YoutubeResource.downloadVideo(videoId); // TODO: Pass video url instead of file...it's slow AF
+		String audioStreamUrl = YoutubeResource.getAudioStreamUrl(videoId); // TODO: Pass video url instead of file...it's slow AF
 		
 		// Finish up
 		System.out.println("photo urls are " + urls);
-		MontageResult montageResult = new MontageResult(urls, videoName);
+		MontageResult montageResult = new MontageResult(urls, audioStreamUrl);
 		results.put(job.getUuid().toString(), montageResult);
 	}
 	

@@ -181,18 +181,24 @@ $(document).ready(() =>
       console.log("received job data");
       console.log(data);
       var imgUrls = data.photoUrls;
-      imgUrls = imgUrls.reverse();
-      if (imgUrls.length > 100) // MAX 100 photos
+      if (imgUrls.length == 0 || imgUrls == null || imgUrls === undefined)
       {
-        imgUrls.splice(imgUrls.length-(imgUrls.length-100), imgUrls.length);
+        sendMultipleBotMessages(getRandomClientResponse("montage-no-photos"));
+      } else 
+      {
+        imgUrls = imgUrls.reverse();
+        if (imgUrls.length > 100) // MAX 100 photos
+        {
+          imgUrls.splice(imgUrls.length-(imgUrls.length-100), imgUrls.length);
+        }
+        const audioUrl = data.musicUrl;
+  
+        
+        montageProgress("Descargando imágenes...", 5);
+        
+        makeMontage(imgUrls, audioUrl, montageDone, montageProgress);
       }
-      const audioUrl = data.musicUrl;
-
-      
-      montageProgress("Descargando imágenes...", 5);
-      
-      makeMontage(imgUrls, audioUrl, montageDone, montageProgress);
-    })
+    });
   }
 
   function montageDone(blob)
@@ -216,7 +222,16 @@ $(document).ready(() =>
 
   function montageProgress(message, progressPct)
   {
-    $("#loading-bar").css("width", progressPct+"%");
+    if (progressPct == 0)
+    {
+      $("#loading-bar").css("width", "25%");
+      $("#loading-bar").css("animation", "loadingAnim ease-in-out 0.7s infinite");
+    }
+    else
+    {
+      $("#loading-bar").css("width", progressPct + "%");
+      $("#loading-bar").css("animation", "none");
+    }
     $("#loading-message").text(message);
   }
 

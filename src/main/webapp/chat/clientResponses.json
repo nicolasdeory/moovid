@@ -32,5 +32,11 @@
         ["Vaya, algo no ha ido bien 😖", "Prueba a volver a cargar la página."],
         ["Vaya.","Algo no ha ido bien. ¿Prueba a volver a cargar la página?"],
         ["Algo no ha funcionado bien, lo siento.", "Prueba a volver a cargar la página si sigue sin funcionar."]
+    ],
+    "montage-no-photos":
+    [
+        ["Vaya, no he encontrado fotos 😖","Asegúrate de que has <a href='/'>iniciado sesión</a> y que tienes algunas fotos de lo que me has pedido."],
+        ["No he encontrado fotos...", "¿Has <a href='/'>iniciado sesión</a>? 🤔", "Si no, prueba a pedirme alguna fecha en la que tengas más fotos."],
+        ["Vaya, no encuentro ninguna foto.","Comprueba que has <a href='/'>iniciado sesión</a>. Si no, prueba a pedirme una fecha en la que tengas más fotos."]
     ]
 }

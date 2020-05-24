@@ -177,13 +177,13 @@ public class MediaItemResource {
 		System.out.println("En la funcion de las URLS el siguiente page token es: " + MIs.getNextPageToken());
 		if(MIs.getNextPageToken()==null) return ls;
 		if(contador == 5) return ls;
-		contador++;
+		//contador++;
 		MediaItems newMIs = searchMediaItem(fechas, inicio, fin, contenidos, excluidos, pageToken);
 		ls.addAll(obtenerURLSDeBajada(newMIs,fechas,inicio,fin,contenidos,excluidos,newMIs.getNextPageToken(),contador));
-		if(ls.size()>100) {
+		/*if(ls.size()>100) {
 			List<String> subl = ls.subList(0, 100);
 			return subl;
-		}
+		}*/ // Just take all of the photos
 		return ls;
 	}
 	

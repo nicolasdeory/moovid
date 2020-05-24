@@ -98,12 +98,22 @@ public class JobManager {
 					log.info("author list: " + authorList);
 					if (authorList.size() == 0)
 					{
-						log.warning("author list had 0 elements, resorting to basic recommendations");
-						songJson = SpotifyResource.getBasicRecommendations();
+						log.info("author list and had 0 elements");
+						if (music.getGenre().size() == 0)
+						{
+							log.warning("author list and genres had 0 elements, resorting to basic recommendations");
+							songJson = SpotifyResource.getBasicRecommendations();
+						}
+						else
+						{
+							songJson = SpotifyResource.getRecommendations(authorList, music.getGenre(), 
+									music.getDanceable().toString(), music.getEnergy().toString(), music.getAcoustic().toString(),
+									music.getTempo().toString(), music.getMood().toString());
+						}
+						
 					}
 					else
 					{
-						// TODO: IMPROVE, it doesn't work well. We've gotta pass at least one genre or artist or track
 						songJson = SpotifyResource.getRecommendations(authorList, music.getGenre(), 
 								music.getDanceable().toString(), music.getEnergy().toString(), music.getAcoustic().toString(),
 								music.getTempo().toString(), music.getMood().toString());

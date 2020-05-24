@@ -1,16 +1,20 @@
 package aiss.resources.luis;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.commons.io.IOUtils;
 import org.restlet.resource.ClientResource;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -31,6 +35,31 @@ import aiss.model.luis.enumerates.Sentiment;
 public class LuisResource {
 
 	private static final Logger log = Logger.getLogger(LuisResource.class.getName());
+	
+	private static Map<String, String> genreDictionary;
+	
+	private static void initializeGenreDictionary()
+	{
+		String path = "genres.json";
+    	String genreJson = null;
+		InputStream is = LuisResource.class.getClassLoader().getResourceAsStream(path);
+		try {
+			genreJson = IOUtils.toString(is, "UTF-8");
+		} catch (IOException e1) {
+			log.log(Level.WARNING, "Couldnt find genres.json. Genre parsing will not work.");
+		}
+		ObjectMapper mapper = new ObjectMapper();
+
+		//JSON file to Java object
+		TypeReference<HashMap<String, String>> typeRef 
+		  = new TypeReference<HashMap<String, String>>() {};
+		  
+		try {
+			genreDictionary = mapper.readValue(genreJson, typeRef);
+		} catch (IOException e) {
+			log.log(Level.WARNING, "Error parsing genres.json. Genre parsing will not work.");
+		}
+	}
 	
 	public static Intent getIntentFromQuery(String query) throws IOException
 	{
@@ -101,7 +130,9 @@ public class LuisResource {
 				Iterator<JsonNode> it_genre = entities.get("MusicGenre").elements();
 				while(it_genre.hasNext()) {
 					String genre = it_genre.next().textValue();
-					ls_genre.add(parseGenre(genre));
+					String parsedGenre = parseGenre(genre);
+					if (parsedGenre != null)
+						ls_genre.add(parsedGenre);
 				}
 			}
 			
@@ -233,7 +264,12 @@ public class LuisResource {
 	}
 	
 	private static String parseGenre(String genre) {
-		//TODO: JSON with genre map
-		return genre;
+		if (genreDictionary == null)
+			initializeGenreDictionary();
+		
+		if (genreDictionary.containsKey(genre))
+			return genreDictionary.get(genre);
+		else
+			return null;
 	}
 }

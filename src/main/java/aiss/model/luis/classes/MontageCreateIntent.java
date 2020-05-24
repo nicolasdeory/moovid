@@ -87,7 +87,8 @@ public class MontageCreateIntent extends Intent{
 
 	@Override
 	public String toString() {
-		return "MontageCreateIntent [themeEntities=" + themeEntities + ", start=" + start + ", end=" + end + "]";
+		return super.toString() + " - Date: " + start + " - " + end + " - " + themeEntities + "\n"
+				;
 	}
 	
 	

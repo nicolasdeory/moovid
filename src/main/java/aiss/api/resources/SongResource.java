@@ -1,26 +1,35 @@
 package aiss.api.resources;
 
+import java.net.URI;
+
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.jboss.resteasy.spi.BadRequestException;
 import org.jboss.resteasy.spi.NotFoundException;
+
+import aiss.model.repository.MP3;
+import aiss.model.repository.MP3Repository;
 
 @Path("/song")
 public class SongResource {
 	
 	public static SongResource _instance=null;
-	//AQUI VENDRIA EL REPO CON LA INFO
+	MP3Repository repository;
 	
 	private SongResource() {
-		//SE METE LA INSTANCIA DEL REPO EN EL ATRIBUTO CREADO ARRIBA
+		repository = MP3Repository.getInstance();
 	}
 	
 	public static SongResource getInstance()
@@ -33,9 +42,9 @@ public class SongResource {
 	@GET
 	@Path("/getmp3/{id}")
 	@Produces("application/json")
-	public |clasedelmp3| get(@PathParam("id") String id{
+	public MP3 get(@PathParam("id") String id){
 		
-		|clasedelmp3| mp3 = |repositorio|.getMP3(id);
+		MP3 mp3 = repository.getMP3(id);
 		
 		if(mp3 == null) {
 			throw new NotFoundException("No se ha encontrado el MP3 de id: " + id);
@@ -48,10 +57,10 @@ public class SongResource {
 	@PUT
 	@Path("/uploadmp3")
 	@Consumes("application/json")
-	public Response uploadMP3(|clasedelmp3| mp3)) {  //Podria ponerse void como return
-		|clasedelmp3| oldmp3 = |repositorio|.getMP3(mp3.getId());
+	public Response uploadMP3(MP3 mp3)) {  //Podria ponerse void como return
+		MP3 oldmp3 = repository.getMP3(mp3.getId());
 		if(oldmp3 == null) {
-			throw new NotFoundException("No se ha encontrado el MP3 de id: " + id);
+			throw new NotFoundException("No se ha encontrado el MP3 de id: " + mp3.getId());
 		}
 		
 		//El siguiente if hay que repetirlo en cada atributo del mp3
@@ -66,11 +75,11 @@ public class SongResource {
 	@Path("/searchmp3")
 	@Produces("application/json")
 	@Consumes("application/json")
-	public Response searchMP3(@Context UriInfo uriInfo, |clasedelmp3| mp3) {
+	public Response searchMP3(@Context UriInfo uriInfo, MP3 mp3) {
 		if(mp3==null) {		//se pueden comprobar otros parametros obligatorios
 			throw new BadRequestException("El mp3 no puede ser nulo");
 		}
-		|repositorio|.addMP3(mp3);
+		repository.addMP3(mp3);
 		
 		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(),"get");
 		URI uri = ub.build(mp3.getId());
@@ -82,10 +91,10 @@ public class SongResource {
 	@DELETE
 	@Path("/deletemp3/{id}")
 	public Response deleteMP3(@PathParam("id") String id) {
-		|clasedelmp3| tobedeleted = |repositorio|.getMP3(id);
+		MP3 tobedeleted = repository.getMP3(id);
 		if(tobedeleted == null) {
 			throw new NotFoundException("No se ha encontrado el MP3 a borrar de id: " + id);
-		}else |repositorio|.removeMP3(id);
+		}else repository.removeMP3(id);
 		
 		return Response.noContent().build();
 	}

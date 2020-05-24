@@ -2,8 +2,10 @@ package aiss.api.resources;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
-import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -25,6 +27,10 @@ import org.jboss.resteasy.spi.NotFoundException;
 import aiss.model.repository.FiltroMP3;
 import aiss.model.repository.MP3;
 import aiss.model.repository.MP3Repository;
+import aiss.model.repository.Metadata;
+import me.xdrop.fuzzywuzzy.FuzzySearch;
+import me.xdrop.fuzzywuzzy.model.BoundExtractedResult;
+import me.xdrop.fuzzywuzzy.model.ExtractedResult;
 
 @Path("/song")
 public class SongResource {
@@ -46,7 +52,7 @@ public class SongResource {
 	@GET
 	@Path("/getmp3/{id}")
 	@Produces("application/json")
-	public MP3 get(@PathParam("id") String id){
+	public MP3 getMP3(@PathParam("id") String id){
 		
 		MP3 mp3 = repository.getMP3(id);
 		
@@ -62,11 +68,11 @@ public class SongResource {
 	@Path("/uploadmp3")
 	@Produces("application/json")
 	@Consumes("application/json")
-	public Response uploadMP3(@Context UriInfo uriInfo,MP3 mp3) {  //Podria ponerse void como return
-		if(mp3==null) {		//se pueden comprobar otros parametros obligatorios
-			throw new BadRequestException("El mp3 no puede ser nulo");
+	public Response uploadMP3(@Context UriInfo uriInfo,Metadata metadata) {  //Podria ponerse void como return
+		if(metadata==null) {		//se pueden comprobar otros parametros obligatorios
+			throw new BadRequestException("El metadata no puede ser nulo");
 		}
-		if(mp3.getId()==null) mp3.setId(UUID.randomUUID().toString());
+		MP3 mp3 = new MP3(metadata);
 		repository.addMP3(mp3);
 		
 		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(),"get");
@@ -81,23 +87,13 @@ public class SongResource {
 	@Produces("application/json")
 	@Consumes("application/json")
 	public Response searchMP3(@Context UriInfo uriInfo, FiltroMP3 Fmp3) {
-		if(Fmp3==null) {		//se pueden comprobar otros parametros obligatorios
-			throw new BadRequestException("El mp3 no puede ser nulo");
+		if(Fmp3==null || Fmp3.getName()==null || Fmp3.getName().equals("")) {		//se pueden comprobar otros parametros obligatorios
+			throw new BadRequestException("El filtro no puede ser nulo");
 		}
+		List<BoundExtractedResult<MP3>> results = FuzzySearch.extractSorted(Fmp3.getName(), repository.listMP3(), x->x.getMetadata().toString(), new FuzzyMetadataScore());
 		List<MP3> mp3 = new ArrayList<MP3>();
-		for(MP3 mp3Posible: repository.listMP3()) {
-			if(Fmp3.getName()!=null && Fmp3.getSize()!=null) {
-				if(Fmp3.getName().equals(mp3Posible.getName()) && Fmp3.getSize().getType().equals("greater") 
-						&& Fmp3.getSize().getValue()<mp3Posible.getSize()) mp3.add(mp3Posible);
-				if(Fmp3.getName().equals(mp3Posible.getName()) && Fmp3.getSize().getType().equals("lesser") 
-						&& Fmp3.getSize().getValue()>mp3Posible.getSize()) mp3.add(mp3Posible);
-			}
-			if(Fmp3.getName()!=null && Fmp3.getName().equals(mp3Posible.getName())) mp3.add(mp3Posible);
-			if(Fmp3.getSize()!=null && Fmp3.getSize().getType().equals("greater") 
-					&& Fmp3.getSize().getValue()<mp3Posible.getSize()) mp3.add(mp3Posible);
-			if(Fmp3.getSize()!=null && Fmp3.getSize().getType().equals("lesser") 
-					&& Fmp3.getSize().getValue()>mp3Posible.getSize()) mp3.add(mp3Posible);
-		}
+		results.stream().filter(x->x.getScore()>50).sorted(Comparator.comparing(x->x.getScore()))
+		.sorted(Comparator.reverseOrder()).map(x->x.getReferent()).collect(Collectors.toList());
 		
 		UriBuilder ub = uriInfo.getAbsolutePathBuilder().path(this.getClass(),"get");
 		URI uri = ub.build(mp3.hashCode());

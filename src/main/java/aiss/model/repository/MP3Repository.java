@@ -31,6 +31,11 @@ public class MP3Repository {
 		p.setId(id);
 		MP3Map.put(id,p);
 	}
+	
+	public void addMP3(Metadata m) {
+		MP3 p = new MP3(m);
+		MP3Map.put(p.getId(),p);
+	}
 
 	public MP3 getMP3(String id) {
 		return MP3Map.get(id);

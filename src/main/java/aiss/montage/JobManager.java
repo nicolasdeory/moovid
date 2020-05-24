@@ -122,7 +122,7 @@ public class JobManager {
 				List<Song> songs = SpotifyResource.getSongsFromJson(songJson);
 				log.info("Found songs " + songs);
 				//Song randomSong = songs.get(rand.nextInt(songs.size()));
-				List<Song> threeSongs = songs.subList(0, 3);
+				List<Song> threeSongs = songs.subList(0, 5); // 5 songs should be robust enough
 				for(Song s : threeSongs)
 				{
 					String songName = s.getName();

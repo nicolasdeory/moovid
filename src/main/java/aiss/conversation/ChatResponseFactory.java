@@ -4,7 +4,7 @@ import aiss.controller.main.ChatQueryResponse;
 import aiss.conversation.intenthandler.*;
 import aiss.model.luis.classes.Intent;
 
-public class IntentHandlerFactory {
+public class ChatResponseFactory {
 
 	private static boolean weAreMakingMontage(Context context)
 	{

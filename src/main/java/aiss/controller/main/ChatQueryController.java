@@ -15,7 +15,7 @@ import org.restlet.ext.jackson.JacksonRepresentation;
 
 import aiss.controller.demo.SpotifyDemo;
 import aiss.conversation.Context;
-import aiss.conversation.IntentHandlerFactory;
+import aiss.conversation.ChatResponseFactory;
 import aiss.conversation.intenthandler.IntentHandler;
 import aiss.model.luis.classes.Intent;
 import aiss.resources.luis.LuisResource;
@@ -64,7 +64,7 @@ public class ChatQueryController extends HttpServlet {
 		sessionContext.setAccessToken(accessToken);
 		sessionContext.setLoggedIn(accessToken != null && !"".equals(accessToken));
 		System.out.println(intent);
-		ChatQueryResponse chatResponse = IntentHandlerFactory.fromIntent(intent, sessionContext);
+		ChatQueryResponse chatResponse = ChatResponseFactory.fromIntent(intent, sessionContext);
 		chatResponse.setQuery(query);
 		sessionContext = chatResponse.getContext();
 		request.getSession().setAttribute("context", sessionContext);

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -27,8 +28,6 @@ import aiss.model.luis.enumerates.MusicEnergy;
 import aiss.model.luis.enumerates.MusicMood;
 import aiss.model.luis.enumerates.MusicTempo;
 import aiss.model.luis.enumerates.Sentiment;
-import aiss.resources.spotify.SpotifyResource;
-import jdk.internal.jline.internal.Log;
 
 public class LuisResource {
 
@@ -39,19 +38,15 @@ public class LuisResource {
 		return getIntentFromJson(getQueryPrediction(query));
 	}
 	
-	public static String getQueryPrediction(String message) {
-		/*String uri = "https://westus.api.cognitive.microsoft.com/"
-				+ "luis/prediction/v3.0/apps/b9e1fc9e-e095-4050-8786-ca9d2c7034de/"
-				+ "slots/staging/predict?subscription-key=8e8e367a952f4a15aff9a3d36a272063&verbose=false"
-				+ "&show-all-intents=true&log=true&query=\"";
-		uri += message + "\"";*/
+	private static String getQueryPrediction(String message) {
 		String uri = "https://westus.api.cognitive.microsoft.com/luis/prediction/v3.0/apps/b9e1fc9e-e095-4050-8786-ca9d2c7034de/slots/staging/predict?subscription-key=8e8e367a952f4a15aff9a3d36a272063&verbose=false&show-all-intents=true&log=true&query=";
 		uri += message;
+		log.log(Level.FINE, "Looking for LUIS prediction at endpoint: " + uri);
 		ClientResource cr = new ClientResource(uri);
 		return cr.get(String.class);
 	}
 	
-	public static Intent getIntentFromJson(String json) throws IOException {
+	private static Intent getIntentFromJson(String json) throws IOException {
 		JsonNode query = new ObjectMapper().readTree(json);
 		JsonNode entities = query.get("prediction").get("entities");
 		String s = query.get("prediction").get("topIntent").textValue();
@@ -59,7 +54,7 @@ public class LuisResource {
 		JsonNode nodo_themes = entities.get("MontageTheme");
 		List<MontageTheme> ls = retrieveThemes(nodo_themes , new ArrayList<MontageTheme>());
 		// Sentiment is unused anyway
-		Sentiment sent = null;
+		Sentiment sent = Sentiment.neutral;
 		//String sentimentString = query.get("prediction").get("sentiment").get("label").textValue();
 		//Sentiment sent = Sentiment.valueOf(sentimentString);
 		
@@ -190,14 +185,26 @@ public class LuisResource {
 			//String tipo = nodo.findValue("type").textValue();
 			System.out.println("Date parse type " + nodoTipos);
 			
-			
 			if (nodoTipos.stream().anyMatch(x->x.textValue().contains(("daterange")))) {
 				
 				//System.out.println(nodoTipos);
-				JsonNode resolution = nodo.findValue("resolution"); // We hope it'll find daterange first
-				System.out.println("Parsing date range. Resolution: " + resolution.toString());
-				JsonNode startNode = resolution.findValue("start");
-				JsonNode endNode = resolution.findValue("end");
+				Iterator<JsonNode> nodosDate = nodo.findValue("datetimeV2").elements();
+				JsonNode startNode = null;
+				JsonNode endNode = null;
+				while (nodosDate.hasNext())
+				{
+					JsonNode dateNode = nodosDate.next();
+					if (dateNode.findValue("type").textValue().equals("daterange")) 
+					{
+						JsonNode resolution = dateNode.findValue("resolution"); // We hope it'll find daterange first (NO ES EL CASO!!!!)
+						System.out.println("Parsing date range. Resolution: " + resolution.toString());
+						startNode = resolution.findValue("start");
+						endNode = resolution.findValue("end");
+					} else
+					{
+						continue;
+					}
+				}
 				//System.out.println(dateRangeNode.textValue());
 				
 				/*JsonNode resolution = dateRangeNode.findValue("daterange").findValue("resolution");

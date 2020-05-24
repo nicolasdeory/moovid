@@ -29,9 +29,8 @@ public class LuisDemoController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String predict = LuisResource.getQueryPrediction("Hazme%20un%20montage%20"
+		Intent in = LuisResource.getIntentFromQuery("Hazme%20un%20montage%20"
 				+ "con%20fotos%20de%20gatos");
-		Intent in = LuisResource.getIntentFromJson(predict);
 		String json = new JacksonRepresentation<Intent>(in).getText();
 		response.setContentType("application/json");
 		response.getWriter().append(json);

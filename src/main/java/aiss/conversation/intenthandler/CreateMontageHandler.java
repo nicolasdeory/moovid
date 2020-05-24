@@ -18,6 +18,12 @@ public class CreateMontageHandler {
 
 	public static ChatQueryResponse generateMontage(Intent intt, Context context, String type)
 	{
+		if (context == null || !context.isLoggedIn())
+		{
+			ChatQueryResponse resp = ChatQueryResponse.createBasic(intt, context);
+			resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-login"));
+			return resp;
+		}
 		switch (type)
 		{
 			case "CreateMontage":
@@ -43,13 +49,6 @@ public class CreateMontageHandler {
 		MontageCreateIntent intentMontage = (MontageCreateIntent)intt;
 		Context myContext = new Context();
 		ChatQueryResponse resp;
-		
-		if (!ctx.isLoggedIn())
-		{
-			resp = ChatQueryResponse.createBasic(intt, ctx);
-			resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-login"));
-			return resp;
-		}
 		
 		if (intentMontage.getThemeEntities() != null && intentMontage.getThemeEntities().size() > 0)
 		{

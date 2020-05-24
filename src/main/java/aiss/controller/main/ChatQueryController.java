@@ -31,7 +31,6 @@ public class ChatQueryController extends HttpServlet {
      */
     public ChatQueryController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**

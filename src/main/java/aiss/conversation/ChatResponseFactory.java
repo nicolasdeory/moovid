@@ -26,7 +26,7 @@ public class ChatResponseFactory {
 		case CommunicationConfirm:
 			if(context.previousStateEquals("did-you-want-montage") || context.getContextType().equals(ContextType.MontageTheme))
 			{
-				context = null;
+				//context = null;
 				return CreateMontageHandler.generateMontage(intent, context, "AskTheme");
 			}
 			else if (context.previousStateEquals("montage-ask-music") || context.getContextType().equals(ContextType.MontageMusic))

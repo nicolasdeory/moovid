@@ -113,7 +113,7 @@ function getFilters(){
     };
 }
 
-function generateVid(doneCallback, progressCallback)
+function generateVid(doneCallback, progressCallback, errorCallback)
 {
     progressCallback("Montando vídeo...", 20);
     console.log("generating video");
@@ -213,14 +213,15 @@ function generateVid(doneCallback, progressCallback)
                 console.log("done");
                 console.log(msg.data);
                 // Write out.webm to disk.
-               // var a = document.createElement('a');
-                //a.download = "moovid.mp4";
-                var blob = new Blob([msg.data.MEMFS[0].data]);
-                doneCallback(blob);
-                //var src = window.URL.createObjectURL(blob);
-               // a.href = src;
-               // a.textContent = 'Click here to download ' + "moovid.mp4" + "!";
-               // $("body").append(a);
+                if (msg.data === undefined || msg.data.MEMFS[0] === undefined)
+                {
+                    errorCallback("ffmpeg-failed");
+                }
+                else
+                {
+                    var blob = new Blob([msg.data.MEMFS[0].data]);
+                    doneCallback(blob);
+                }
                 break;
         }
     };
@@ -232,6 +233,7 @@ function generateVid(doneCallback, progressCallback)
     var imagesLoaded = 0;
     var audioLoaded = false;
     var retrievingFormats = false;
+    var montageErrored = false;
 
     var canvas = document.createElement('canvas');
     canvas.width = 1280;
@@ -241,8 +243,10 @@ function generateVid(doneCallback, progressCallback)
 
     const PROXY_URL = 'https://cors-anywhere.herokuapp.com/';
 
-    function retrieveSampleVideo(urlArray)
+    function retrieveSampleVideo(urlArray, errorCallback)
     {
+        // TODO: Do error handling
+
         console.log("retrieving photo list:");
         console.log(urlArray);
         filesArray = [];
@@ -278,10 +282,7 @@ function generateVid(doneCallback, progressCallback)
                         }, "image/jpeg", 1);
                         
                     }
-
                     img.src = URL.createObjectURL(blob);
-
-                    
                 }
             };
     
@@ -289,68 +290,67 @@ function generateVid(doneCallback, progressCallback)
         } 
     }
 
-    function retrieveAudio(audioUrl)
+    function retrieveAudio(audioUrls, errorCallback)
     {
+        // We take a list of audioUrls and pick the first one that works
         console.log("downloading audio");
 
-        fetch(PROXY_URL + audioUrl).then(r => 
+        var triesPerSong = 2;
+        for (let i = 0; i < audioUrls.length * triesPerSong; i++) // 2 tries per song, total 6 tries
         {
-            return r.blob();
-        }).then((blob)=>
-        {
-            console.log("audio loaded");
-            audioData = blob;
-            audioLoaded = true;
-        }).catch((x) =>
-        {
-            console.log("error loading audio");
-        });
-
-        /*var oReq = new XMLHttpRequest();
-        oReq.open("GET", audioUrl, true);
-        oReq.responseType = "blob";
-
-        oReq.onload = function (oEvent)
-        {
-            /*var arrayBuffer = oReq.response;
-            
-            if (arrayBuffer)
+            let idx = Math.floor(i / 2);
+            const audioUrl = audioUrls[idx];
+            fetch(PROXY_URL + audioUrl).then(r => 
             {
-                audioData = new Uint8Array(arrayBuffer);
-                audioLoaded = true;
-                console.log("audio loaded");
-            }*/
-          /*  var blob = oReq.response;
-                if (blob)
+                return r.blob();
+            }).then((blob) =>
+            {
+                if (audioLoaded)
                 {
-                    audioData = blob;
+                    console.log("Thanks but we've already loaded audio");
+                    return; // Already loaded
+                }
+                if (blob.size < 100) // less than 100 bytes is not really an audio file...
+                {
+                    if (i == audioUrls.length * triesPerSong - 1)
+                    {
+                        console.log("error loading audio alternative " + idx);
+                        montageErrored = true;
+                        errorCallback("audio-dl-failed") // Throw error if all tries were used
+                    }
+                    return;
+                }
+                else
+                {
                     console.log("audio loaded");
+                    audioData = blob;
                     audioLoaded = true;
                 }
-        };
-
-        oReq.send(null);*/
+            }).catch(() =>
+            {
+                console.log("error loading audio alternative " + idx);
+                if (i == audioUrls.length * triesPerSong - 1)
+                {
+                    montageErrored = true;
+                    errorCallback("audio-dl-failed") // Throw error if all tries were used
+                }
+            });
+        }
     }
 
-    
-    /*var imgList=[
-    "IMG_2999.jpg","IMG_3009.jpg","IMG_3030.jpg","IMG_3074.jpg","IMG_3102.jpg",
-    "IMG_3111.jpg","IMG_3135.jpg","IMG_3147.jpg","IMG_2036.jpg","IMG_2037.jpg","IMG_2038.jpg","IMG_2039.jpg","IMG_2040.jpg","IMG_2041.jpg",
-    "IMG_2042.jpg","IMG_2043.jpg","IMG_2046.jpg","IMG_2047.jpg","IMG_2048.jpg","IMG_2049.jpg","IMG_2050.jpg","IMG_2051.jpg","IMG_2052.jpg",
-    "IMG_2053.jpg","IMG_2054.jpg","IMG_2056.jpg","IMG_2057.jpg","IMG_2058.jpg","IMG_2085.jpg","IMG_2086.jpg","IMG_2087.jpg","IMG_2088.jpg",
-    "IMG_2089.jpg","IMG_2090.jpg","IMG_2091.jpg","IMG_2092.jpg","IMG_2093.jpg","IMG_2094.jpg","IMG_2095.jpg","IMG_2096.jpg","IMG_2097.jpg"
-    ,"IMG_2098.jpg","IMG_2099.jpg","IMG_2100.jpg","IMG_2101.jpg","IMG_2105.jpg","IMG_2106.jpg","IMG_2107.jpg","IMG_2108.jpg","IMG_2109.jpg"
-    ,"IMG_2110.jpg","IMG_2113.jpg","IMG_2114.jpg","IMG_2176.jpg","IMG_2177.jpg","IMG_2183.jpg","IMG_2184.jpg"];*/
-
-    function makeMontage(imageUrlList, audioUrl, doneCallback, progressCallback)
+    function makeMontage(imageUrlList, audioUrls, doneCallback, progressCallback, errorCallback)
     {
         audioLoaded = false;
         imagesLoaded = 0;
         //getFilters();
-        retrieveSampleVideo(imageUrlList);
-        retrieveAudio(audioUrl);
+        retrieveSampleVideo(imageUrlList, errorCallback);
+        retrieveAudio(audioUrls, errorCallback);
         var interval = setInterval(function(){
             var progressPct = 5 + (((audioLoaded ? 1 : 0) + imagesLoaded) / (1+imageUrlList.length))*15; // We know it starts at 5 here
+            if (montageErrored) {
+                montageErrored = false;
+                clearInterval(interval); // Reset montage processor state after failed montage
+            }
             if (!audioLoaded && imagesLoaded == imageUrlList.length)
             {
                 progressCallback("Descargando audio...", progressPct);
@@ -362,7 +362,7 @@ function generateVid(doneCallback, progressCallback)
             
             if (audioLoaded && imagesLoaded==imageUrlList.length)
             {
-                generateVid(doneCallback, progressCallback);
+                generateVid(doneCallback, progressCallback, errorCallback);
                 clearInterval(interval);
               /*  if (!retrievingFormats)
                 {

@@ -21,43 +21,6 @@ import aiss.model.photos.filter.Range;
 import aiss.model.photos.filter.StartDate;
 
 public class PhotoResourceTest {
-
-
-	//Entra un String con una o varias fechas, se pasa a una lista de fechas
-	@Test
-	public void ParseoFechasTest() throws Exception{
-        String fechasstr = "14-11-2010/26-09-2013/07-03-2009";
-        List<Date> fechas = ParseoFechas(fechasstr);
-		assertTrue("No se ha parseado la primera fecha correctamente",fechas.get(0).getDay()==14);
-		assertTrue("No se ha parseado la segunda fecha correctamente",fechas.get(1).getMonth()==9);
-		assertTrue("No se ha parseado la tercera fecha correctamente",fechas.get(2).getYear()==2009);
-	}
-	
-	//Parsea una única fecha
-	@Test
-	public void ParseoFechaTest() throws Exception{ 
-		String fechastr = "20-03-2015";
-		Date fecha = ParseoFecha(fechastr);
-		assertTrue("No se ha parseado la fecha correctamente", fecha.getDay()==20 && fecha.getMonth()==3 && fecha.getYear()==2015);
-	}
-	
-	//Esta funcion parsea un string a una Lista de contenidos (tambien en String), en esta prueba le pasamos una lista de contenidos vacia
-	@Test
-	public void ParseoContenidosVacioTest() throws Exception{ 
-		String contenidovacio = "";
-		List<String> cont = ParseoContenidos(contenidovacio);
-		assertFalse("La lista que se ha creado tiene elementos invalidos", cont.get(0).length()>2);
-	}
-	
-	//A partir de un string genera una lista de string con los contenidos de las fotos
-	@Test
-	public void ParseoContenidosTest() throws Exception{
-		String contenidosstr = "selfies-landscapes-documents";
-		List<String> contenidos = ParseoContenidos(contenidosstr);
-		assertEquals(contenidos.get(0),"selfies");
-		assertEquals(contenidos.get(1),"landscapes");
-		assertEquals(contenidos.get(2),"documents");
-	}
 	
 	//Pasa los parametros fechas y contenidos a un String que representa un filtro
 	@Test
@@ -98,6 +61,21 @@ public class PhotoResourceTest {
 		assertTrue("Filtro mal generado",f.getMediaTypeFilter().getMediaTypes().get(0).equals("PHOTO") && f.getFeatureFilter().getIncludedFeatures().get(0).equals("NONE"));
 	}
 	
+	public void GeneradorDeFiltroVacio() throws Exception{
+        String fechasstr = "";
+        String iniciostr = "";
+        String finstr = "";
+        String contenidosstr = "";
+        String excluidosstr = "";
+        List<Date> fechas = ParseoFechas(fechasstr);
+        Date inicio = ParseoFecha(iniciostr);
+        Date fin = ParseoFecha(finstr);
+        List<String> contenidos = ParseoContenidos(contenidosstr);
+        List<String> excluidos = ParseoContenidos(excluidosstr);
+        String fltsstr = generadorDeStringFiltro(fechas,inicio,fin,contenidos,excluidos);
+        Filters f = generadorDeFiltro(fltsstr);
+        assertTrue("Filtro mal generado",f.getDateFilter().getDates().size()==0 && f.getDateFilter().getRanges().size()==0 && f.getContentFilter().getIncludedContentCategories().size()==0);
+    }
 	
 	
 	

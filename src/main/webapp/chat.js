@@ -171,6 +171,11 @@ $(document).ready(() =>
 
   function processMontage(jobId)
   {
+
+    const PHOTOS_LENGTH_THRESHOLD = 10; // Abort montage if less than 10 photos are found.
+
+    $("#loading-container").remove();
+    //$("#loading-bar").removeClass("error");
     $("#chat-container").append(LOADING_MESSAGE_HTML); // Add loading message with id #loading-container
     $("#loading-container").hide();
     montageProgress("Buscando imágenes...", 0);
@@ -183,8 +188,15 @@ $(document).ready(() =>
       var imgUrls = data.photoUrls;
       if (imgUrls.length == 0 || imgUrls == null || imgUrls === undefined)
       {
+        montageError("no-photos-error", true);
         sendMultipleBotMessages(getRandomClientResponse("montage-no-photos"));
-      } else 
+      }
+      else if (imgUrls.length < PHOTOS_LENGTH_THRESHOLD)
+      {
+        montageError("not-enough-photos-error", true);
+        sendMultipleBotMessages(getRandomClientResponse("error-too-few-photos"));
+      } 
+      else 
       {
         imgUrls = imgUrls.reverse();
         if (imgUrls.length > 100) // MAX 100 photos
@@ -213,14 +225,16 @@ $(document).ready(() =>
                 newImgUrls.push(imgUrls[idx]);
             }
           }
+          imgUrls = newImgUrls;
+          console.log("trimmed photos list down to " + newImgUrls.length)
         }
-        const audioUrl = data.musicUrl;
-        console.log("trimmed photos list down to " + newImgUrls.length)
-        
+        const audioUrls = data.musicUrls;
         montageProgress("Descargando imágenes...", 5);
-        
-        makeMontage(imgUrls, audioUrl, montageDone, montageProgress);
+        makeMontage(imgUrls, audioUrls, montageDone, montageProgress, montageError);
       }
+    }).fail(() =>
+    {
+      montageError("download-error");
     });
   }
 
@@ -241,6 +255,21 @@ $(document).ready(() =>
    //  a.href = src;
     // a.textContent = 'Click here to download ' + "moovid.mp4" + "!";
    //  $("body").append(a);
+  }
+
+  // When something crashes while making the montage
+  function montageError(errcode, dontSendMessage)
+  {
+    console.log("FATAL MONTAGE ERROR: " + errcode);
+    if (!dontSendMessage)
+    {
+      sendMultipleBotMessages(getRandomClientResponse("montage-error"));
+    }
+    $("#loading-bar").addClass("error");
+    $("#loading-message").text("Error en el montaje");
+    $("#loading-bar").css("animation", "none");
+    $("#loading-bar").css("width", "100%");
+    $("#chatbox").prop("disabled", false);
   }
 
   function montageProgress(message, progressPct)

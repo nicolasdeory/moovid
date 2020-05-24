@@ -118,7 +118,8 @@ public class MusicIntent extends Intent{
 		return true;
 	}
 
-	
-	
-	
+	@Override
+	public String toString() {
+		return super.toString() + " - " + "Artists: " + author + " - Genres: " + genre;
+	}
 }

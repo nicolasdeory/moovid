@@ -2,7 +2,6 @@ package aiss.api.resources;
 
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,7 +29,6 @@ import aiss.model.repository.MP3Repository;
 import aiss.model.repository.Metadata;
 import me.xdrop.fuzzywuzzy.FuzzySearch;
 import me.xdrop.fuzzywuzzy.model.BoundExtractedResult;
-import me.xdrop.fuzzywuzzy.model.ExtractedResult;
 
 @Path("/song")
 public class SongResource {
@@ -112,10 +110,4 @@ public class SongResource {
 		
 		return Response.noContent().build();
 	}
-	
-	// PUT - subir un mp3 /song/uploadmp3
-	// GET - mp3 song id /song/getmp3
-	// POST - search mp3 song /song/searchmp3
-	// DELETE - borrar mp3 con id /song/deletemp3
-
 }

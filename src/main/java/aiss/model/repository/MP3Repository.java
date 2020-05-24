@@ -27,9 +27,11 @@ public class MP3Repository {
 	}
 	
 	public void addMP3(MP3 p) {
-		String id = UUID.randomUUID().toString();	
-		p.setId(id);
-		MP3Map.put(id,p);
+		if(p.getId()==null) {
+			String id = UUID.randomUUID().toString();
+			p.setId(id);
+		}
+		MP3Map.put(p.getId(),p);
 	}
 	
 	public void addMP3(Metadata m) {

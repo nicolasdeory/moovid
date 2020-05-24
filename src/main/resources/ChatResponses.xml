@@ -1,13 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <phrasefile language="es-ES">
-	<phraselist name="start-conversation"> <!-- This goes in the client, not here. TODO: Add error strings as well --> 
-		<response>¿Qué tal?<ret/>¿Preparado para hacer un montaje? ¡Pídemelo!</response>
-		<response>Hola 😊<ret/>¿Te apetece hacer algún montaje? ¡Venga, adelante!</response>
-		<response>¿Listo para hacer montajes? ¡Adelante!<ret/></response>
-		<response>¿Qué tal?<ret/>Pídeme lo que necesites 😎</response>
-		<response>¡Buenas! 😄</response>
-		<response>¡Hola!<ret/>Espero poder ayudarte.</response>
-	</phraselist>
 	<phraselist name="hello-intent">
 		<response>¡Hola!</response>
 		<response>Hola 😊</response>
@@ -50,7 +42,7 @@
 	</phraselist>
 	<phraselist name="montage-indicate-theme">
 		<responses>Cuéntame sobre qué quieres que te haga el montaje.</responses>
-		<response>Indícame sobre qué quieres hacer el montaje</response>
+		<response>Indícame sobre qué quieres hacer el montaje.</response>
 		<response>¿Sobre qué hago el montaje?</response>
 		<response>¿Sobre qué quieres el montaje?</response>
 		<response>¿Qué tipo de fotos quieres que te incluya en el montaje?</response>
@@ -67,7 +59,7 @@
 	<phraselist name="montage-ask-music">
 		<response>Me parece bien.<ret/>¿Quieres algún tipo de música en concreto?</response>
 		<response>¿Te apetece escuchar algún tipo de música en especial?</response>
-		<response>Vale 😊<ret/>¿Tienes alga preferencia sobre lo que quieras ver en el montaje?</response>
+		<response>Vale 😊<ret/>¿Tienes alga preferencia sobre el tipo de música que quieras en el montaje?</response>
 		<response>Me parece perfecto.<ret/>¿Te pongo algún tipo de música, o te la elijo yo?</response>
 		<response>Alto y claro.<ret/>¿Elijo yo la música, o quieres algún género en concreto?</response>
 		<response>Bien. ¿Prefieres que elija yo la música, o quieres algún tipo en concreto?</response>
@@ -91,18 +83,10 @@
 	<phraselist name="montage-start-processing">
 		<response>¡Estupendo!<ret/>Espera un momentito. No cierres esta pestaña.</response>
 		<response>Perfecto 😎<ret/>Enseguida te monto el vídeo. No cierres esta pestaña, por favor.</response>
-		<response>Me parece genial 😊<ret/>Espera unos minutos. ¡No cierres la pestaña!</response>
-		<response>A tu servicio.<ret/>Espera un momento. No cierres la pestaña.</response>
+		<response>¡Genial! 😊<ret/>Espera unos minutos mientras te monto el video. ¡No cierres la pestaña!</response>
+		<response>¡Montando vídeo!<ret/>Espera un momento. No cierres la pestaña.</response>
 		<response>¡Allá vamos!<ret/>No cierres la pestaña mientras te hago el montaje.</response>
-		<response>Estupendo 🤩<ret/>Te voy montando el vídeo. Por favor, ¡no cierres la pestaña!</response>
-	</phraselist>
-	<phraselist name="montage-done"> <!-- TODO: Move to client -->
-		<response>¡Listo! 🤩🤩</response>
-		<response>Aquí lo tienes 😍😍</response>
-		<response>Ahí lo llevas 😍 Espero que te guste.</response>
-		<response>¡Ya está! 🤩🤩</response>
-		<response>¡Ya lo tienes! 🤩🤩</response>
-		<response>¡Listo! Ha salido genial 😍😍</response>
+		<response>¡Vamos allá! 🤩<ret/>Te voy montando el vídeo. Por favor, ¡no cierres la pestaña!</response>
 	</phraselist>
 	<phraselist name="help-general">
 		<response>¡Estoy aquí para hacerte montajes chulos!<ret/>Pídeme que te haga un montaje.
@@ -126,8 +110,7 @@
 	<phraselist name="help-theme">
 		<response>Verás, como intento ser inteligente, resulta que puedo analizar tus fotos y buscarte las que se ajusten a lo que me pidas.
 			<ret/>Entonces, me puedes pedir que te busque desde fotos de tus amigos o fotos de paisajes, hasta fotos de los apuntes que sacaste la semana pasada (un montaje muy interesante)
-			<ret/>No olvides que me puedes indicar también desde qué fecha a qué fecha quieres que te busque las fotos.
-			<ret/>Y bueno, también me puedes decir el tipo de música que vas a querer para el montaje.
+			<ret/>¡Ah! También me puedes indicar desde qué fecha a qué fecha quieres que te busque las fotos.
 		</response>
 	</phraselist>
 	<phraselist name="cancel">
@@ -190,10 +173,6 @@
 		<response>Perdona, me estoy liando.<ret/>¿Hacemos un montaje?</response>
 		<response>¿Querías hacer un montaje?</response>
 		<response>Vale, ¿entiendo que quieres hacer un montaje?</response>
-		<response>🤗</response>
-		<response>🤩</response>
-		<response>😎</response>
-		<response>😊</response>
 	</phraselist>
 	<phraselist name="insult"> <!-- Insult -->
 		<response>La verdad es que eso sobraba.</response>

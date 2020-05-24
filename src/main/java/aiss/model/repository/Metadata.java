@@ -7,21 +7,21 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "name",
-    "albumName",
+    "albumname",
     "author",
-    "URLCoverArt"
+    "urlcoverart"
 })
 
 public class Metadata {
 	
 	@JsonProperty("name")
 	private String name;
-	@JsonProperty("albumName")
-	private String albumName;
+	@JsonProperty("albumname")
+	private String albumname;
 	@JsonProperty("author")
 	private String author;
-	@JsonProperty("URLCoverArt")
-	private String URLCoverArt;
+	@JsonProperty("urlcoverart")
+	private String urlcoverart;
 	
 	@JsonProperty("name")
 	public String getName() {
@@ -33,14 +33,14 @@ public class Metadata {
 		this.name = name;
 	}
 	
-	@JsonProperty("albumName")
-	public String getAlbumName() {
-		return albumName;
+	@JsonProperty("albumname")
+	public String getalbumname() {
+		return albumname;
 	}
 	
-	@JsonProperty("albumName")
-	public void setAlbumName(String albumName) {
-		this.albumName = albumName;
+	@JsonProperty("albumname")
+	public void setalbumname(String albumname) {
+		this.albumname = albumname;
 	}
 	
 	@JsonProperty("author")
@@ -53,19 +53,19 @@ public class Metadata {
 		this.author = author;
 	}
 	
-	@JsonProperty("URLCoverArt")
-	public String getURLCoverArt() {
-		return URLCoverArt;
+	@JsonProperty("urlcoverart")
+	public String getUrlcoverart() {
+		return urlcoverart;
 	}
 	
-	@JsonProperty("URLCoverArt")
-	public void setURLCoverArt(String uRLCoverArt) {
-		URLCoverArt = uRLCoverArt;
+	@JsonProperty("urlcoverart")
+	public void setUrlcoverart(String urlcoverart) {
+		urlcoverart = urlcoverart;
 	}
 
 	@Override
 	public String toString() {
-		return name + "," + albumName + "," + author;
+		return name + "," + albumname + "," + author;
 	}
 	
 	

@@ -123,6 +123,7 @@ $(document).ready(() =>
         } else
         {
           $("#chatbox").prop("disabled", false); // reenable chatbox
+          $("#chatbox").focus();
         }
       }
     }, 700);
@@ -249,6 +250,7 @@ $(document).ready(() =>
     },1000);
     
     $("#chatbox").prop("disabled", false); // reenable chatbox
+    $("#chatbox").focus();
     // var a = document.createElement('a');
    // a.download = "moovid.mp4";
     
@@ -270,6 +272,7 @@ $(document).ready(() =>
     $("#loading-bar").css("animation", "none");
     $("#loading-bar").css("width", "100%");
     $("#chatbox").prop("disabled", false);
+    $("#chatbox").focus();
   }
 
   function montageProgress(message, progressPct)

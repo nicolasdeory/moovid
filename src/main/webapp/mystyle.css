@@ -375,7 +375,7 @@ a.button3:hover{
 }
 
 .info-montage{
-    font-size: 8px;
+    font-size: 12px;
 }
 
 .loading-container{
@@ -386,13 +386,25 @@ a.button3:hover{
     margin-bottom: 10px;
     margin-left: 5px;
     margin-right: 15px;
+    overflow: hidden;
 }
 
 .loading-bar{
     background-color: #1974d2;
     width: 0%;
+    margin-left: 0;
     height: 4px;
     border-radius: 10px;
+    transition: 0.2s;
+}
+
+@keyframes loadingAnim {
+    0% {
+        margin-left: -100px;
+    }
+    100% {
+        margin-left: 350px;
+    }
 }
 
 .loading-icon{

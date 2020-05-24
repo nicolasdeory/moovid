@@ -51,5 +51,8 @@ public class SpecificThemeIntent extends Intent{
 		return true;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return super.toString() + ": " + themeEntities;
+	}
 }

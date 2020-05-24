@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -27,8 +28,6 @@ import aiss.model.luis.enumerates.MusicEnergy;
 import aiss.model.luis.enumerates.MusicMood;
 import aiss.model.luis.enumerates.MusicTempo;
 import aiss.model.luis.enumerates.Sentiment;
-import aiss.resources.spotify.SpotifyResource;
-import jdk.internal.jline.internal.Log;
 
 public class LuisResource {
 
@@ -39,19 +38,15 @@ public class LuisResource {
 		return getIntentFromJson(getQueryPrediction(query));
 	}
 	
-	public static String getQueryPrediction(String message) {
-		/*String uri = "https://westus.api.cognitive.microsoft.com/"
-				+ "luis/prediction/v3.0/apps/b9e1fc9e-e095-4050-8786-ca9d2c7034de/"
-				+ "slots/staging/predict?subscription-key=8e8e367a952f4a15aff9a3d36a272063&verbose=false"
-				+ "&show-all-intents=true&log=true&query=\"";
-		uri += message + "\"";*/
+	private static String getQueryPrediction(String message) {
 		String uri = "https://westus.api.cognitive.microsoft.com/luis/prediction/v3.0/apps/b9e1fc9e-e095-4050-8786-ca9d2c7034de/slots/staging/predict?subscription-key=8e8e367a952f4a15aff9a3d36a272063&verbose=false&show-all-intents=true&log=true&query=";
 		uri += message;
+		log.log(Level.FINE, "Looking for LUIS prediction at endpoint: " + uri);
 		ClientResource cr = new ClientResource(uri);
 		return cr.get(String.class);
 	}
 	
-	public static Intent getIntentFromJson(String json) throws IOException {
+	private static Intent getIntentFromJson(String json) throws IOException {
 		JsonNode query = new ObjectMapper().readTree(json);
 		JsonNode entities = query.get("prediction").get("entities");
 		String s = query.get("prediction").get("topIntent").textValue();
@@ -59,7 +54,7 @@ public class LuisResource {
 		JsonNode nodo_themes = entities.get("MontageTheme");
 		List<MontageTheme> ls = retrieveThemes(nodo_themes , new ArrayList<MontageTheme>());
 		// Sentiment is unused anyway
-		Sentiment sent = null;
+		Sentiment sent = Sentiment.neutral;
 		//String sentimentString = query.get("prediction").get("sentiment").get("label").textValue();
 		//Sentiment sent = Sentiment.valueOf(sentimentString);
 		

@@ -16,6 +16,7 @@ public class Intent {
 	
 	public Intent(IntentType topIntent) {
 		this.topIntent = topIntent;
+		this.sentiment = Sentiment.neutral;
 	}
 
 	public Intent(IntentType topIntent, Sentiment sentiment) {
@@ -34,7 +35,7 @@ public class Intent {
 
 	@Override
 	public String toString() {
-		return "Intent [topIntent=" + topIntent + ", sentiment=" + sentiment + "]";
+		return topIntent + " Intent";
 	}
 	@Override
 	public int hashCode() {

@@ -42,7 +42,7 @@
 	</phraselist>
 	<phraselist name="montage-indicate-theme">
 		<responses>Cuéntame sobre qué quieres que te haga el montaje.</responses>
-		<response>Indícame sobre qué quieres hacer el montaje</response>
+		<response>Indícame sobre qué quieres hacer el montaje.</response>
 		<response>¿Sobre qué hago el montaje?</response>
 		<response>¿Sobre qué quieres el montaje?</response>
 		<response>¿Qué tipo de fotos quieres que te incluya en el montaje?</response>
@@ -110,8 +110,7 @@
 	<phraselist name="help-theme">
 		<response>Verás, como intento ser inteligente, resulta que puedo analizar tus fotos y buscarte las que se ajusten a lo que me pidas.
 			<ret/>Entonces, me puedes pedir que te busque desde fotos de tus amigos o fotos de paisajes, hasta fotos de los apuntes que sacaste la semana pasada (un montaje muy interesante)
-			<ret/>No olvides que me puedes indicar también desde qué fecha a qué fecha quieres que te busque las fotos.
-			<ret/>Y bueno, también me puedes decir el tipo de música que vas a querer para el montaje.
+			<ret/>¡Ah! También me puedes indicar desde qué fecha a qué fecha quieres que te busque las fotos.
 		</response>
 	</phraselist>
 	<phraselist name="cancel">

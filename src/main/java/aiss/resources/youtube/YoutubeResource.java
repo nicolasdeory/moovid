@@ -59,16 +59,16 @@ public class YoutubeResource {
 	public static String getVideoId(String query) {
 		String path = "./keys/YoutubeKey.txt";
     	String key = null;
-		InputStream is = SpotifyResource.class.getClassLoader().getResourceAsStream(path);
+		InputStream is = YoutubeResource.class.getClassLoader().getResourceAsStream(path);
 		try {
 		      key = IOUtils.toString(is, "UTF-8");
 		} catch (IOException e1) {
-			log.log(Level.INFO, "Couldnt find SpotifyKey.txt");
+			log.log(Level.INFO, "Couldnt find YTkey.txt");
 		}
 		
 		String uri = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=";
 		uri += query + "&key=" + key;
-		log.log(Level.FINE, "Searching videos at endpoint: " + uri);
+		log.log(Level.INFO, "Searching videos at endpoint: " + uri);
 		ClientResource cr = new ClientResource(uri);
 		String json = cr.get(String.class);
 		return getIdFromJson(json);

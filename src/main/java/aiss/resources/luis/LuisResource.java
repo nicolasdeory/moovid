@@ -163,6 +163,7 @@ public class LuisResource {
 		case Insult:
 			intn = new Intent(tipo);
 			return intn;
+		// TODO: ADD GOODBYE INTENTS AND REMANING STUFF
 		case No:
 			intn = new Intent(tipo);
 			return intn;

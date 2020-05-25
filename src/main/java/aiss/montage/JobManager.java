@@ -86,7 +86,7 @@ public class JobManager {
 		
 				MusicIntent music = job.getMusicDesciption();
 				
-				String songJson;
+				String songJson = null;
 				boolean usingBasicRecommendations = false;
 				if (music == null)
 				{
@@ -96,7 +96,7 @@ public class JobManager {
 					songJson = SpotifyResource.getBasicRecommendations();
 					usingBasicRecommendations = true;
 				}
-				else
+				else if (music.getVideoId() == null)
 				{
 					List<String> musicIntentAuthorList = music.getAuthor();
 					List<Artist> authorList = new ArrayList<Artist>();
@@ -132,69 +132,76 @@ public class JobManager {
 								music.getTempo().toString(), music.getMood().toString());
 					}
 				}
-				List<Song> songs = SpotifyResource.getSongsFromJson(songJson);
-				log.info("Found songs " + songs);
-				//Song randomSong = songs.get(rand.nextInt(songs.size()));
-				List<Song> threeSongs = songs.subList(0, 1); // Only 1 song to prevent rate limiting. It may be not robust enough
-				for(Song s : threeSongs)
-				{
-					String songName = s.getName();
-					String songAuthor = s.getArtist();
-					log.info("Picked song " + songAuthor + "--" + songName);
-				}
+				
+				
+				
 		
 		// Get Youtube audio stream link
 		
 		List<String> youtubeIdUrls = new ArrayList<String>();
 		
-		// TODO: random chance to find new recommendations, else cache has always only length 3
-		/*basicRecommendationsYtIdCache.add("2OfAtBBj-p8");
-		basicRecommendationsYtIdCache.add("SnmH9kcKy5c");
-		basicRecommendationsYtIdCache.add("Zb1mSGhyido"); // TODO: Remove this, temporary cache*/
-		System.out.println("basicRecommendations : " + usingBasicRecommendations);
-		System.out.println("cache " + basicRecommendationsYtIdCache.toString());
-		if (usingBasicRecommendations && basicRecommendationsYtIdCache.size() > 2) 
+		if (music.getVideoId() == null)
 		{
-			List<String> basicRecommendationsYtIdCacheList = basicRecommendationsYtIdCache.stream().collect(Collectors.toList());
-			//String randVideoId = basicRecommendationsYtIdCacheList.get(rand.nextInt(basicRecommendationsYtIdCacheList.size()));
-			for(int i = 0; i < 3; i++)
-			{
-				String randVideoId = basicRecommendationsYtIdCacheList.get(i);
-				if (randVideoId != null)
-				{
-					log.info("got video from basic recommendations cache. Id is " + randVideoId);
-					youtubeIdUrls.add(randVideoId);
-					//String audioStreamUrl = YoutubeResource.getAudioStreamUrl(randVideoId);
-					//if (audioStreamUrl != null && audioStreamUrl.length() > 0)
-					//	audioStreamUrls.add(audioStreamUrl);
-				}
-			}
-		}
-		else
-		{
-			for (Song s : threeSongs)
+			List<Song> songs = SpotifyResource.getSongsFromJson(songJson);
+			log.info("Found songs " + songs);
+			//Song randomSong = songs.get(rand.nextInt(songs.size()));
+			List<Song> threeSongs = songs.subList(0, 1); // Only 1 song to prevent rate limiting. It may be not robust enough
+			for(Song s : threeSongs)
 			{
 				String songName = s.getName();
 				String songAuthor = s.getArtist();
-				// Get song from Youtube
-				String videoId = YoutubeResource.getVideoId(songAuthor + " " + songName);
-				if (usingBasicRecommendations)
+				log.info("Picked song " + songAuthor + "--" + songName);
+			}
+			
+			// TODO: random chance to find new recommendations, else cache has always only length 3
+			System.out.println("basicRecommendations : " + usingBasicRecommendations);
+			System.out.println("cache " + basicRecommendationsYtIdCache.toString());
+			if (usingBasicRecommendations && basicRecommendationsYtIdCache.size() > 2) 
+			{
+				List<String> basicRecommendationsYtIdCacheList = basicRecommendationsYtIdCache.stream().collect(Collectors.toList());
+				//String randVideoId = basicRecommendationsYtIdCacheList.get(rand.nextInt(basicRecommendationsYtIdCacheList.size()));
+				for(int i = 0; i < 3; i++)
 				{
-					log.info("added video id " + videoId + " to cache");
-					basicRecommendationsYtIdCache.add(videoId);
-				}
-					
-				if (videoId != null)
-				{
-					log.info("video id is " + videoId);
-					youtubeIdUrls.add(videoId);
-					//String audioStreamUrl = YoutubeResource.getAudioStreamUrl(videoId);
-					//if (audioStreamUrl != null && audioStreamUrl.length() > 0)
-					//	audioStreamUrls.add(audioStreamUrl);
+					String randVideoId = basicRecommendationsYtIdCacheList.get(i);
+					if (randVideoId != null)
+					{
+						log.info("got video from basic recommendations cache. Id is " + randVideoId);
+						youtubeIdUrls.add(randVideoId);
+						//String audioStreamUrl = YoutubeResource.getAudioStreamUrl(randVideoId);
+						//if (audioStreamUrl != null && audioStreamUrl.length() > 0)
+						//	audioStreamUrls.add(audioStreamUrl);
+					}
 				}
 			}
+			else
+			{
+				for (Song s : threeSongs)
+				{
+					String songName = s.getName();
+					String songAuthor = s.getArtist();
+					// Get song from Youtube
+					String videoId = YoutubeResource.getVideoId(songAuthor + " " + songName);
+					if (usingBasicRecommendations)
+					{
+						log.info("added video id " + videoId + " to cache");
+						basicRecommendationsYtIdCache.add(videoId);
+					}
+						
+					if (videoId != null)
+					{
+						log.info("video id is " + videoId);
+						youtubeIdUrls.add(videoId);
+						//String audioStreamUrl = YoutubeResource.getAudioStreamUrl(videoId);
+						//if (audioStreamUrl != null && audioStreamUrl.length() > 0)
+						//	audioStreamUrls.add(audioStreamUrl);
+					}
+				}
+			}
+		} else 
+		{
+			log.info("User specified custom video id, returning that");
+			youtubeIdUrls.add(music.getVideoId());
 		}
-		
 		
 		if (youtubeIdUrls.size() == 0)
 		{

@@ -99,11 +99,12 @@
 		<response>Me puedes pedir que te busque una canción a tu medida, si así lo deseas.
 			<ret/>Puedes indicarme si quieres una canción de un género en concreto, animada, tranquila, lenta, rápida, con energía, instrumental...
 			<ret/>O si me pides que te busque un temazo de EDM, también te entiendo perfectamente y ya tengo unas cuantas pensadas.
-			<ret/>No se si me habré explicado bien.
+			<ret/>Por último, ¡también puedes darme un enlace de YouTube con la canción que prefieras!
 		</response>
 		<response>Me puedes pedir que te busque una canción a tu medida, si quieres.
 			<ret/>Puedes indicarme si quieres una canción de un género en concreto, animada, tranquila, lenta, rápida, con energía, instrumental...
 			<ret/>También te voy a entender si me dices que quieres un temazo de Reggaeton. De hecho, por aquí tengo alguna ya pensada.
+			<ret/>Por último, ¡también puedes darme un enlace de YouTube con la canción que prefieras!
 			<ret/>Espero que se haya entendido, más o menos.
 		</response>
 	</phraselist>

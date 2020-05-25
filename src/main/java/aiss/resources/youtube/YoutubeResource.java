@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 import org.apache.commons.io.IOUtils;
 import org.restlet.resource.ClientResource;
+import org.restlet.resource.ResourceException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -70,8 +71,14 @@ public class YoutubeResource {
 		uri += query + "&key=" + key;
 		log.log(Level.INFO, "Searching videos at endpoint: " + uri);
 		ClientResource cr = new ClientResource(uri);
-		String json = cr.get(String.class);
-		return getIdFromJson(json);
+		try {
+			String json = cr.get(String.class);
+			return getIdFromJson(json);
+		} catch (ResourceException e)
+		{
+			return null;
+		}
+		
 		//return null;
 	}
 	

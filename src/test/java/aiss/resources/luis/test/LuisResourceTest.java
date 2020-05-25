@@ -51,7 +51,7 @@ public class LuisResourceTest {
 		List<String> generos = new ArrayList<String>();
 		Intent test3 = new MusicIntent(Sentiment.neutral, autores, generos,
 				MusicMood.none, MusicTempo.none, MusicEnergy.highenergy,
-				MusicDanceable.none, MusicAcoustic.none);
+				MusicDanceable.none, MusicAcoustic.none, null);
 		
 		log.log(Level.INFO, "Results at LuisResourceTest.getIntentFromQueryTest(): ");
 		log.log(Level.INFO, "Expected result: (" + test1 + ")\nActual result: (" + int1 + ")");

@@ -19,6 +19,7 @@ public class MusicIntent extends Intent{
 	protected MusicEnergy energy;
 	protected MusicDanceable danceable;
 	protected MusicAcoustic acoustic;
+	protected String videoId;
 	
 	public MusicIntent() {
 		super(IntentType.MusicDescription);
@@ -33,7 +34,7 @@ public class MusicIntent extends Intent{
 	
 	public MusicIntent(Sentiment sentiment, List<String> author, List<String> genre,
 			MusicMood mood, MusicTempo tempo, MusicEnergy energy,
-			MusicDanceable danceable, MusicAcoustic acoustic) {
+			MusicDanceable danceable, MusicAcoustic acoustic, String videoId) {
 		super(IntentType.MusicDescription, sentiment);
 		this.author = author;
 		this.genre = genre;
@@ -42,6 +43,7 @@ public class MusicIntent extends Intent{
 		this.energy = energy;
 		this.danceable = danceable;
 		this.acoustic = acoustic;
+		this.videoId = videoId;
 	}
 
 	public List<String> getAuthor() {
@@ -50,6 +52,12 @@ public class MusicIntent extends Intent{
 
 	public List<String> getGenre() {
 		return genre;
+	}
+
+	
+	
+	public String getVideoId() {
+		return videoId;
 	}
 
 	public MusicMood getMood() {

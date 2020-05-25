@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
 import org.restlet.resource.ClientResource;
@@ -136,8 +138,26 @@ public class LuisResource {
 				}
 			}
 			
+			String videoId = null;
+			if (entities.get("VideoLink") != null)
+			{
+				String videoLink = entities.get("VideoLink").elements().next().textValue();
+				Pattern pattern = Pattern.compile("(http(s)??\\:\\/\\/)?(www\\.)?((youtube\\.com\\/watch\\?v=)|(youtu.be\\/))([a-zA-Z0-9\\-_]+)+");
+				Matcher matcher = pattern.matcher(videoLink);
+				System.out.println("video link " + videoLink);
+				if (matcher.matches())
+				{
+					videoId = matcher.group(7);
+					System.out.println(videoId);
+				}
+				else
+				{
+					log.warning("video link " + videoLink + " did not match pattern");
+				}
+				
+			}
 			MusicIntent mus = new MusicIntent(sent, ls_author, ls_genre, mood,
-					tempo, energy, danceable, acoustic);
+					tempo, energy, danceable, acoustic, videoId);
 			return mus;
 		case SpecificTheme:
 			SpecificThemeIntent sth = new SpecificThemeIntent(sent, ls);

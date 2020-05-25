@@ -140,7 +140,7 @@ public class JobManager {
 		
 		List<String> youtubeIdUrls = new ArrayList<String>();
 		
-		if (music.getVideoId() == null)
+		if (music == null || music.getVideoId() == null)
 		{
 			List<Song> songs = SpotifyResource.getSongsFromJson(songJson);
 			log.info("Found songs " + songs);

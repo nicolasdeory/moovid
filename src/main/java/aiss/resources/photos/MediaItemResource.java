@@ -184,6 +184,7 @@ public class MediaItemResource {
 		if(contador == 5) return ls;
 		//contador++;
 		MediaItems newMIs = searchMediaItem(fechas, inicio, fin, contenidos, excluidos, pageToken);
+		if (newMIs == null) return ls;
 		ls.addAll(obtenerURLSDeBajada(newMIs,fechas,inicio,fin,contenidos,excluidos,newMIs.getNextPageToken(),contador));
 		/*if(ls.size()>100) {
 			List<String> subl = ls.subList(0, 100);

@@ -36,6 +36,7 @@ public class YoutubeResourceTest {
 		assertEquals(id2, test2);
 		assertEquals(id3, test3);*/
 		// TODO: Reenable test when video ids are fixed
+		// Warning: testing consumes quota
 	}
 	
 	@Test

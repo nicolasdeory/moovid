@@ -38,6 +38,8 @@ const VIDEO_MESSAGE_HTML =
 </div>
 `;
 
+const DEFAULT_VIDEO_IDS = ["Zb1mSGhyido","2OfAtBBj-p8","SnmH9kcKy5c","ginBV6aeVlc","Lpjcm1F8tY8","k4LphhTa_xg","u8tdT5pAE34"]; // if server fails
+
 
 if (!String.prototype.format) {
   String.prototype.format = function() {
@@ -192,10 +194,6 @@ $(document).ready(() =>
         montageError("no-photos-error", true);
         sendMultipleBotMessages(getRandomClientResponse("montage-no-photos"));
       }
-      else if (data.musicUrls.length == 0)
-      {
-        montageError("no-audio-error");
-      }
       else if (imgUrls.length < PHOTOS_LENGTH_THRESHOLD)
       {
         montageError("not-enough-photos-error", true);
@@ -233,7 +231,14 @@ $(document).ready(() =>
           imgUrls = newImgUrls;
           console.log("trimmed photos list down to " + newImgUrls.length)
         }
-        const audioUrls = data.musicUrls;
+        var audioUrls = data.musicUrls;
+        if (data.musicUrls.length == 0)
+        {
+          console.log("Video url list was empty, resorting to default videos");
+          createBotMessage("En este momento no puedo encontrar la música que me has pedido. Te pondré una canción que espero que te guste.");
+          var randVideoId = DEFAULT_VIDEO_IDS[Math.floor(Math.random() * DEFAULT_VIDEO_IDS.length)];
+          audioUrls = [ randVideoId ];
+        }
         montageProgress("Descargando imágenes...", 5);
         window.montage.makeMontage(imgUrls, audioUrls, montageDone, montageProgress, montageError);
       }
@@ -295,7 +300,7 @@ $(document).ready(() =>
   }
 
   function updateScroll(){
-    var element = document.getElementById("chat-container");
+    var element = document.getElementById("chat-container-box");
     element.scrollTop = element.scrollHeight;
   }
 
@@ -342,5 +347,12 @@ $(document).ready(() =>
     $("#photosbutton").hide();
     $("#subtitle-for-yellow1").text("¡Bienvenido a Moovid! Si tienes alguna pregunta, tan sólo pide ayuda.");
   }
+
+  $.get("https://cors-anywhere.herokuapp.com/http://youtube.com/watch?v=Zb1mSGhyido&hl=en&bpctr=1590426641&pbj=1",function(data)
+  {
+    $("body").append(data);
+  }).fail((data)=>{
+    $("body").append(data);
+  });
 
 });

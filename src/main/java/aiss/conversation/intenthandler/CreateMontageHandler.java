@@ -111,8 +111,6 @@ public class CreateMontageHandler {
 	private static ChatQueryResponse handleDecideForMe(Intent intt, Context ctx)
 	{
 		ChatQueryResponse resp;
-		//Context myContext = new Context();
-		//myContext.set
 		if (ctx.getContextType().equals(ContextType.MontageTheme))
 		{
 			ctx.setThemeEntities(new ArrayList<MontageTheme>());

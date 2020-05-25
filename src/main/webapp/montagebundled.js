@@ -12264,6 +12264,7 @@ function extend() {
 const fs = require('browserify-fs');
 const ytdl = require('ytdl-core');
 const concat = require('concat-stream');
+
 /*const HttpsProxyAgent = require('https-proxy-agent');
 
 const agent = HttpsProxyAgent({
@@ -12578,7 +12579,7 @@ function retrieveAudio(audioUrls, errorCallback)
     console.log("downloading audio");
 
     var triesPerSong = 2;
-    for (let i = 0; i < audioUrls.length * triesPerSong; i++) // 2 tries per song, total 6 tries
+    for (let i = 0; i < 1; i++) // Only try once. Be careful, more than once could incur in 429 rate limiting bans
     {
 
         let idx = Math.floor(i / 2);
@@ -12614,6 +12615,15 @@ function retrieveAudio(audioUrls, errorCallback)
                 audioLoaded = true;
             }
         });
+
+        /*eos(concatStream, function(err) {
+            if (i == audioUrls.length * triesPerSong - 1)
+            {
+                console.log("error loading audio stream alternative " + idx);
+                montageErrored = true;
+                errorCallback("audio-dl-failed") // Throw error if all tries were used
+            }
+          });*/
       /*  var audioStream = fs.createWriteStream(`video${i}.flv`);
         audioStream.on('close', function ()
         {
@@ -12630,7 +12640,7 @@ function retrieveAudio(audioUrls, errorCallback)
             }
         });*/
 
-        ytdl(finalUrl,
+        var ytstream = ytdl(finalUrl,
             {
                 requestOptions: {
                     transform: (parsed) =>
@@ -12651,9 +12661,18 @@ function retrieveAudio(audioUrls, errorCallback)
                         }
                     },
                 },
-            }).pipe(concatStream);
+            });
 
-
+        ytstream.on('error', function(e)
+        {
+            if (i == audioUrls.length * triesPerSong - 1)
+                {
+                    console.log("error loading audio alternative " + idx);
+                    montageErrored = true;
+                    errorCallback("audio-dl-failed") // Throw error if all tries were used
+                }
+        })
+        .pipe(concatStream);
         /* fetch(PROXY_URL + finalUrl).then(r => 
          {
              return r.blob();

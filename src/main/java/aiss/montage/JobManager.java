@@ -50,9 +50,12 @@ public class JobManager {
 		LocalDate end = job.getEnd();
 		List<MontageTheme> themes = job.getThemes();
 		List<String> themeStrings = new ArrayList<String>();
-		for(MontageTheme t : themes)
+		if (themes != null) // HACK: When you do I want a montage -> no -> yes -> no, themes go null
 		{
-			themeStrings.add(t.toString());
+			for(MontageTheme t : themes)
+			{
+				themeStrings.add(t.toString());
+			}
 		}
 		
 		if (start == null && end == null)
@@ -132,7 +135,7 @@ public class JobManager {
 				List<Song> songs = SpotifyResource.getSongsFromJson(songJson);
 				log.info("Found songs " + songs);
 				//Song randomSong = songs.get(rand.nextInt(songs.size()));
-				List<Song> threeSongs = songs.subList(0, 5); // 5 songs should be robust enough
+				List<Song> threeSongs = songs.subList(0, 1); // Only 1 song to prevent rate limiting. It may be not robust enough
 				for(Song s : threeSongs)
 				{
 					String songName = s.getName();
@@ -145,9 +148,9 @@ public class JobManager {
 		List<String> youtubeIdUrls = new ArrayList<String>();
 		
 		// TODO: random chance to find new recommendations, else cache has always only length 3
-		basicRecommendationsYtIdCache.add("2OfAtBBj-p8");
+		/*basicRecommendationsYtIdCache.add("2OfAtBBj-p8");
 		basicRecommendationsYtIdCache.add("SnmH9kcKy5c");
-		basicRecommendationsYtIdCache.add("Zb1mSGhyido"); // TODO: Remove this, temporary cache
+		basicRecommendationsYtIdCache.add("Zb1mSGhyido"); // TODO: Remove this, temporary cache*/
 		System.out.println("basicRecommendations : " + usingBasicRecommendations);
 		System.out.println("cache " + basicRecommendationsYtIdCache.toString());
 		if (usingBasicRecommendations && basicRecommendationsYtIdCache.size() > 2) 

@@ -143,19 +143,17 @@ public class JobManager {
 		// Get Youtube audio stream link
 		
 		List<String> audioStreamUrls = new ArrayList<String>();
-		if (usingBasicRecommendations && basicRecommendationsYtIdCache.size() > 2)
+		// TODO: random chance to find new recommendations, else cache has always only length 3
+		if (usingBasicRecommendations && basicRecommendationsYtIdCache.size() > 2) 
 		{
-			if (basicRecommendationsYtIdCache.size() == 0)
+			List<String> basicRecommendationsYtIdCacheList = basicRecommendationsYtIdCache.stream().collect(Collectors.toList());
+			String randVideoId = basicRecommendationsYtIdCacheList.get(rand.nextInt(basicRecommendationsYtIdCacheList.size()));
+			if (randVideoId != null)
 			{
-				List<String> basicRecommendationsYtIdCacheList = basicRecommendationsYtIdCache.stream().collect(Collectors.toList());
-				String randVideoId = basicRecommendationsYtIdCacheList.get(rand.nextInt(basicRecommendationsYtIdCacheList.size()));
-				if (randVideoId != null)
-				{
-					log.info("basic recommendations video id is " + randVideoId);
-					String audioStreamUrl = YoutubeResource.getAudioStreamUrl(randVideoId);
-					if (audioStreamUrl != null && audioStreamUrl.length() > 0)
-						audioStreamUrls.add(audioStreamUrl);
-				}
+				log.info("got video from basic recommendations cache. Id is " + randVideoId);
+				String audioStreamUrl = YoutubeResource.getAudioStreamUrl(randVideoId);
+				if (audioStreamUrl != null && audioStreamUrl.length() > 0)
+					audioStreamUrls.add(audioStreamUrl);
 			}
 		}
 		else

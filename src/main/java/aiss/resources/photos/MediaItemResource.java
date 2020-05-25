@@ -99,6 +99,11 @@ public class MediaItemResource {
 		}
 		
 		MediaItems mis = searchMediaItem(fechas, inicio, fin, temas, excluidos, "");
+		if (mis == null)
+		{
+			log.warning("Google Photos user is not authenticated");
+			return new ArrayList<String>();
+		}
 		List<String> urls = obtenerURLSDeBajada(mis, fechas, inicio, fin, temas, excluidos, mis.getNextPageToken(), 0);
 		return urls;
 	}

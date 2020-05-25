@@ -142,18 +142,29 @@ public class JobManager {
 		
 		// Get Youtube audio stream link
 		
-		List<String> audioStreamUrls = new ArrayList<String>();
+		List<String> youtubeIdUrls = new ArrayList<String>();
+		
 		// TODO: random chance to find new recommendations, else cache has always only length 3
+		basicRecommendationsYtIdCache.add("2OfAtBBj-p8");
+		basicRecommendationsYtIdCache.add("SnmH9kcKy5c");
+		basicRecommendationsYtIdCache.add("Zb1mSGhyido"); // TODO: Remove this, temporary cache
+		System.out.println("basicRecommendations : " + usingBasicRecommendations);
+		System.out.println("cache " + basicRecommendationsYtIdCache.toString());
 		if (usingBasicRecommendations && basicRecommendationsYtIdCache.size() > 2) 
 		{
 			List<String> basicRecommendationsYtIdCacheList = basicRecommendationsYtIdCache.stream().collect(Collectors.toList());
-			String randVideoId = basicRecommendationsYtIdCacheList.get(rand.nextInt(basicRecommendationsYtIdCacheList.size()));
-			if (randVideoId != null)
+			//String randVideoId = basicRecommendationsYtIdCacheList.get(rand.nextInt(basicRecommendationsYtIdCacheList.size()));
+			for(int i = 0; i < 3; i++)
 			{
-				log.info("got video from basic recommendations cache. Id is " + randVideoId);
-				String audioStreamUrl = YoutubeResource.getAudioStreamUrl(randVideoId);
-				if (audioStreamUrl != null && audioStreamUrl.length() > 0)
-					audioStreamUrls.add(audioStreamUrl);
+				String randVideoId = basicRecommendationsYtIdCacheList.get(i);
+				if (randVideoId != null)
+				{
+					log.info("got video from basic recommendations cache. Id is " + randVideoId);
+					youtubeIdUrls.add(randVideoId);
+					//String audioStreamUrl = YoutubeResource.getAudioStreamUrl(randVideoId);
+					//if (audioStreamUrl != null && audioStreamUrl.length() > 0)
+					//	audioStreamUrls.add(audioStreamUrl);
+				}
 			}
 		}
 		else
@@ -173,15 +184,16 @@ public class JobManager {
 				if (videoId != null)
 				{
 					log.info("video id is " + videoId);
-					String audioStreamUrl = YoutubeResource.getAudioStreamUrl(videoId);
-					if (audioStreamUrl != null && audioStreamUrl.length() > 0)
-						audioStreamUrls.add(audioStreamUrl);
+					youtubeIdUrls.add(videoId);
+					//String audioStreamUrl = YoutubeResource.getAudioStreamUrl(videoId);
+					//if (audioStreamUrl != null && audioStreamUrl.length() > 0)
+					//	audioStreamUrls.add(audioStreamUrl);
 				}
 			}
 		}
 		
 		
-		if (audioStreamUrls.size() == 0)
+		if (youtubeIdUrls.size() == 0)
 		{
 			log.severe("CRITICAL: No youtube video ids were found!! Returning empty list");	
 		}
@@ -194,7 +206,7 @@ public class JobManager {
 		
 		// Finish up
 		//log.info("photo urls are " + urls);
-		MontageJobResult montageResult = new MontageJobResult(photoUrls, audioStreamUrls);
+		MontageJobResult montageResult = new MontageJobResult(photoUrls, youtubeIdUrls);
 		results.put(job.getUuid().toString(), montageResult);
 	}
 	

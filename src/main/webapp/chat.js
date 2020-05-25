@@ -192,6 +192,10 @@ $(document).ready(() =>
         montageError("no-photos-error", true);
         sendMultipleBotMessages(getRandomClientResponse("montage-no-photos"));
       }
+      else if (data.musicUrls.length == 0)
+      {
+        montageError("no-audio-error");
+      }
       else if (imgUrls.length < PHOTOS_LENGTH_THRESHOLD)
       {
         montageError("not-enough-photos-error", true);
@@ -231,7 +235,7 @@ $(document).ready(() =>
         }
         const audioUrls = data.musicUrls;
         montageProgress("Descargando imágenes...", 5);
-        makeMontage(imgUrls, audioUrls, montageDone, montageProgress, montageError);
+        window.montage.makeMontage(imgUrls, audioUrls, montageDone, montageProgress, montageError);
       }
     }).fail(() =>
     {

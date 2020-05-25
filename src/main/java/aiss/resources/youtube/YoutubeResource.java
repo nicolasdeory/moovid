@@ -57,7 +57,7 @@ public class YoutubeResource {
 	}
 	
 	public static String getVideoId(String query) {
-		String path = "./keys/YoutubeKey.txt";
+		/*String path = "./keys/YoutubeKey.txt";
     	String key = null;
 		InputStream is = YoutubeResource.class.getClassLoader().getResourceAsStream(path);
 		try {
@@ -71,7 +71,8 @@ public class YoutubeResource {
 		log.log(Level.INFO, "Searching videos at endpoint: " + uri);
 		ClientResource cr = new ClientResource(uri);
 		String json = cr.get(String.class);
-		return getIdFromJson(json);
+		return getIdFromJson(json);*/
+		return null;
 	}
 	
 	public static String getAudioStreamUrl(String id) {

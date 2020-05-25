@@ -3,15 +3,15 @@ package aiss.montage;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
+import java.util.Set;
 import java.util.logging.Logger;
-
-import com.google.appengine.api.ThreadManager;
+import java.util.stream.Collectors;
 
 import aiss.model.luis.classes.MusicIntent;
 import aiss.model.luis.enumerates.MontageTheme;
@@ -31,6 +31,8 @@ public class JobManager {
 	private static Map<String, MontageJob> jobs;
 	
 	private static Random rand;
+	
+	private static Set<String> basicRecommendationsYtIdCache = new HashSet<String>();
 
 	private static final Logger log = Logger.getLogger(JobManager.class.getName());
 	
@@ -72,17 +74,24 @@ public class JobManager {
 		
 		// Init montageresult
 		
+		// Retrieve photos
+				MediaItemResource mr = new MediaItemResource(job.getPhotosToken());
+				List<String> photoUrls = mr.searchMediaItem(new ArrayList<LocalDate>(), start, end, themeStrings, new ArrayList<String>());
+				log.info("media urls retrieved. size " + photoUrls.size());
+				
 		// Music
 		
 				MusicIntent music = job.getMusicDesciption();
 				
 				String songJson;
+				boolean usingBasicRecommendations = false;
 				if (music == null)
 				{
 					// TODO: Default song...
 					// Pick genre from a random list (edm, reggaeton, pop)
 					// Keep attributes that the user might have specified
 					songJson = SpotifyResource.getBasicRecommendations();
+					usingBasicRecommendations = true;
 				}
 				else
 				{
@@ -103,6 +112,7 @@ public class JobManager {
 						{
 							log.warning("author list and genres had 0 elements, resorting to basic recommendations");
 							songJson = SpotifyResource.getBasicRecommendations();
+							usingBasicRecommendations = true;
 						}
 						else
 						{
@@ -130,29 +140,48 @@ public class JobManager {
 					log.info("Picked song " + songAuthor + "--" + songName);
 				}
 		
-		// Retrieve photos
-		MediaItemResource mr = new MediaItemResource(job.getPhotosToken());
-		List<String> photoUrls = mr.searchMediaItem(new ArrayList<LocalDate>(), start, end, themeStrings, new ArrayList<String>());
-		log.info("media urls retrieved. size " + photoUrls.size());
-		//List<String> urls = getDownloadUrls(mis);
-		
 		// Get Youtube audio stream link
 		
 		List<String> audioStreamUrls = new ArrayList<String>();
-		for (Song s : threeSongs)
+		if (usingBasicRecommendations && basicRecommendationsYtIdCache.size() > 2)
 		{
-			String songName = s.getName();
-			String songAuthor = s.getArtist();
-			// Get song from Youtube
-			String videoId = YoutubeResource.getVideoId(songAuthor + " " + songName);
-			if (videoId != null)
+			if (basicRecommendationsYtIdCache.size() == 0)
 			{
-				log.info("video id is " + videoId);
-				String audioStreamUrl = YoutubeResource.getAudioStreamUrl(videoId);
-				if (audioStreamUrl != null && audioStreamUrl.length() > 0)
-					audioStreamUrls.add(audioStreamUrl);
+				List<String> basicRecommendationsYtIdCacheList = basicRecommendationsYtIdCache.stream().collect(Collectors.toList());
+				String randVideoId = basicRecommendationsYtIdCacheList.get(rand.nextInt(basicRecommendationsYtIdCacheList.size()));
+				if (randVideoId != null)
+				{
+					log.info("basic recommendations video id is " + randVideoId);
+					String audioStreamUrl = YoutubeResource.getAudioStreamUrl(randVideoId);
+					if (audioStreamUrl != null && audioStreamUrl.length() > 0)
+						audioStreamUrls.add(audioStreamUrl);
+				}
 			}
 		}
+		else
+		{
+			for (Song s : threeSongs)
+			{
+				String songName = s.getName();
+				String songAuthor = s.getArtist();
+				// Get song from Youtube
+				String videoId = YoutubeResource.getVideoId(songAuthor + " " + songName);
+				if (usingBasicRecommendations)
+				{
+					log.info("added video id " + videoId + " to cache");
+					basicRecommendationsYtIdCache.add(videoId);
+				}
+					
+				if (videoId != null)
+				{
+					log.info("video id is " + videoId);
+					String audioStreamUrl = YoutubeResource.getAudioStreamUrl(videoId);
+					if (audioStreamUrl != null && audioStreamUrl.length() > 0)
+						audioStreamUrls.add(audioStreamUrl);
+				}
+			}
+		}
+		
 		
 		if (audioStreamUrls.size() == 0)
 		{

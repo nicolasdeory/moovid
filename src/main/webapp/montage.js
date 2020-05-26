@@ -134,11 +134,11 @@ function getFilters()
 
 function generateVid(doneCallback, progressCallback, errorCallback)
 {
-    progressCallback("Montando vídeo...", 20);
+    progressCallback("Montando vídeo...", 30);
     console.log("generating video");
 
     var blobsArray = [
-        { name: "audio.webm", data: audioData }
+        { name: "audio.mp3", data: audioData }
     ]
     for (let i = 0; i < sampleVideoData.length; i++)
     {
@@ -153,7 +153,7 @@ function generateVid(doneCallback, progressCallback, errorCallback)
     //arg += "-loop 1 ";
     //arg += ""
     // ss ===== fast forward 35s
-    arg += "-ss 35 -vn -i /test/audio.webm "; // Added vn for webm only use audio
+    arg += "-ss 35 -vn -i /test/audio.mp3 "; // Added vn for webm only use audio
     /*filesArray.forEach(name => {
         arg += `-framerate 1/3 -vcodec ${formats[name]} -i ${"/test/"+name} `;
     });
@@ -223,7 +223,7 @@ function generateVid(doneCallback, progressCallback, errorCallback)
                     var regx = /^frame= *([0-9]+)/g;
                     var progMatch = regx.exec(msgData);
                     if (progMatch.length > 0)
-                        progressCallback("Montando vídeo...", 20 + (progMatch[1] / totalVideoFrames) * 80);
+                        progressCallback("Montando vídeo...", 30 + (progMatch[1] / totalVideoFrames) * 70);
                 }
                 break;
             case "done":
@@ -262,7 +262,7 @@ var canvasCtx = canvas.getContext('2d');
 
 const PROXY_URL = 'https://cors-anywhere.herokuapp.com/';
 
-function retrieveSampleVideo(urlArray, errorCallback)
+function retrieveImages(urlArray, errorCallback)
 {
     // TODO: Do error handling
 
@@ -310,142 +310,9 @@ function retrieveSampleVideo(urlArray, errorCallback)
     }
 }
 
-function retrieveAudio(audioUrls, errorCallback)
+function retrieveAudio(videoId, doneCallback, progressCallback, errorCallback)
 {
-    // We take a list of audioUrls and pick the first one that works
-    console.log("downloading audio");
-
-    var triesPerSong = 2;
-    for (let i = 0; i < 1; i++) // Only try once. Be careful, more than once could incur in 429 rate limiting bans
-    {
-
-        let idx = Math.floor(i / 2);
-        const audioId = audioUrls[idx];
-        const finalUrl = YOUTUBE_ENDPOINT + audioId;
-
-
-        var concatStream = concat((arrayBuffer) =>
-        {
-            console.log('file downloaded');
-            var blob = new Blob([arrayBuffer]);
-            //let arraybuffer = Uint8Array.from(buffer).buffer;
-
-            if (audioLoaded)
-            {
-                console.log("Thanks but we've already loaded audio");
-                return; // Already loaded
-            }
-            if (!blob || blob.size < 100) // less than 100 bytes is not really an audio file...
-            {
-                if (i == audioUrls.length * triesPerSong - 1)
-                {
-                    console.log("error loading audio alternative " + idx);
-                    montageErrored = true;
-                    errorCallback("audio-dl-failed") // Throw error if all tries were used
-                }
-                return;
-            }
-            else
-            {
-                console.log("audio loaded");
-                audioData = blob;
-                audioLoaded = true;
-            }
-        });
-
-        /*eos(concatStream, function(err) {
-            if (i == audioUrls.length * triesPerSong - 1)
-            {
-                console.log("error loading audio stream alternative " + idx);
-                montageErrored = true;
-                errorCallback("audio-dl-failed") // Throw error if all tries were used
-            }
-          });*/
-      /*  var audioStream = fs.createWriteStream(`video${i}.flv`);
-        audioStream.on('close', function ()
-        {
-            
-        });*/
-
-        /*audioStream.on('error', function ()
-        {
-            if (i == audioUrls.length * triesPerSong - 1)
-            {
-                console.log("error loading audio alternative " + idx);
-                montageErrored = true;
-                errorCallback("audio-dl-failed") // Throw error if all tries were used
-            }
-        });*/
-
-        var ytstream = ytdl(finalUrl,
-            {
-                requestOptions: {
-                    transform: (parsed) =>
-                    {
-                        //parsed.host = 'cors-anywhere.herokuapp.com'
-                        //parsed.path = `/https://www.youtube.com/watch?v=${audioId}`
-                        //console.log(parsed);    
-                        var parsedHeaders = parsed.headers;
-                        //parsedHeaders.Accept = "application/json";
-                        return {
-                            host: 'cors-anywhere.herokuapp.com/', //body.ip contains the ip adress of the proxy (which is random everytime)
-                           // protocol: 'https:',
-                            //port: 80, //body.port contains the port of the proxy (which is random everytime, is matching for the proxy ip)
-                            path: "http://youtube.com" + parsed.path,
-                            //href: "cors-anywhere.herokuapp.com/" + parsed.href,
-                            maxRedirects: 10,
-                            headers: parsedHeaders
-                        }
-                    },
-                },
-            });
-
-        ytstream.on('error', function(e)
-        {
-            if (i == audioUrls.length * triesPerSong - 1)
-                {
-                    console.log("error loading audio alternative " + idx);
-                    montageErrored = true;
-                    errorCallback("audio-dl-failed") // Throw error if all tries were used
-                }
-        })
-        .pipe(concatStream);
-        /* fetch(PROXY_URL + finalUrl).then(r => 
-         {
-             return r.blob();
-         }).then((blob) =>
-         {
-             if (audioLoaded)
-             {
-                 console.log("Thanks but we've already loaded audio");
-                 return; // Already loaded
-             }
-             if (blob.size < 100) // less than 100 bytes is not really an audio file...
-             {
-                 if (i == audioUrls.length * triesPerSong - 1)
-                 {
-                     console.log("error loading audio alternative " + idx);
-                     montageErrored = true;
-                     errorCallback("audio-dl-failed") // Throw error if all tries were used
-                 }
-                 return;
-             }
-             else
-             {
-                 console.log("audio loaded");
-                 audioData = blob;
-                 audioLoaded = true;
-             }
-         }).catch(() =>
-         {
-             console.log("error loading audio alternative " + idx);
-             if (i == audioUrls.length * triesPerSong - 1)
-             {
-                 montageErrored = true;
-                 errorCallback("audio-dl-failed") // Throw error if all tries were used
-             }
-         });*/
-    }
+    window.retrieveMP3Audio(videoId, doneCallback, progressCallback, errorCallback);
 }
 
 function makeMontage(imageUrlList, audioUrls, doneCallback, progressCallback, errorCallback)
@@ -453,11 +320,28 @@ function makeMontage(imageUrlList, audioUrls, doneCallback, progressCallback, er
     audioLoaded = false;
     imagesLoaded = 0;
     //getFilters();
-    retrieveSampleVideo(imageUrlList, errorCallback);
-    retrieveAudio(audioUrls, errorCallback);
+    var audioProgressMessage = "";
+    var audioProgressPct = 0;
+    retrieveImages(imageUrlList, errorCallback);
+    retrieveAudio(audioUrls[0],
+        (blob) => 
+        {
+            audioData = blob;
+            audioLoaded = true;
+        },
+        (msg, pct) =>
+        {
+            audioProgressMessage = msg;
+            audioProgressPct = pct;
+        },
+        (msg) =>
+        {
+            montageErrored = true;
+            errorCallback(msg);
+        });
     var interval = setInterval(function ()
     {
-        var progressPct = 5 + (((audioLoaded ? 1 : 0) + imagesLoaded) / (1 + imageUrlList.length)) * 15; // We know it starts at 5 here
+        var progressPct = 5 + (((audioProgressPct/100)*5 + imagesLoaded) / (10 + imageUrlList.length)) * 25; // We know it starts at 5 here
         if (montageErrored)
         {
             montageErrored = false;
@@ -465,7 +349,7 @@ function makeMontage(imageUrlList, audioUrls, doneCallback, progressCallback, er
         }
         if (!audioLoaded && imagesLoaded == imageUrlList.length)
         {
-            progressCallback("Descargando audio...", progressPct);
+            progressCallback("Descargando audio... " + audioProgressMessage, progressPct);
         }
         else 
         {

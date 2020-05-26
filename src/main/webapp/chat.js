@@ -274,7 +274,15 @@ $(document).ready(() =>
     console.log("FATAL MONTAGE ERROR: " + errcode);
     if (!dontSendMessage)
     {
-      sendMultipleBotMessages(getRandomClientResponse("montage-error"));
+      if (errcode == "audio-dl-failed-unknown-video")
+      {
+        sendMultipleBotMessages(getRandomClientResponse("error-no-video"));
+      }
+      else
+      {
+        sendMultipleBotMessages(getRandomClientResponse("montage-error"));
+      }
+      
     }
     $("#loading-bar").addClass("error");
     $("#loading-message").text("Error en el montaje");
@@ -347,12 +355,4 @@ $(document).ready(() =>
     $("#photosbutton").hide();
     $("#subtitle-for-yellow1").text("¡Bienvenido a Moovid! Si tienes alguna pregunta, tan sólo pide ayuda.");
   }
-
-  $.get("https://cors-anywhere.herokuapp.com/http://youtube.com/watch?v=Zb1mSGhyido&hl=en&bpctr=1590426641&pbj=1",function(data)
-  {
-    $("body").append(data);
-  }).fail((data)=>{
-    $("body").append(data);
-  });
-
 });

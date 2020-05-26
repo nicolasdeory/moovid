@@ -79,11 +79,12 @@ public class CreateMontageHandler {
 	private static ChatQueryResponse handleMontageTheme(Intent intt, Context ctx)
 	{
 		MontageThemeIntent intentMontage = (MontageThemeIntent)intt; // TODO: We should probably deprecate MontageTheme...
-		Context myContext = new Context();
+		if (ctx == null)
+			ctx = new Context();
 		ChatQueryResponse resp;
-		myContext.setContextType(ContextType.MontageMusic);
-		myContext.setThemeEntities(intentMontage.getThemeEntities());
-		resp = ChatQueryResponse.createWaitForInput(intt, myContext);
+		ctx.setContextType(ContextType.MontageMusic);
+		ctx.setThemeEntities(intentMontage.getThemeEntities());
+		resp = ChatQueryResponse.createWaitForInput(intt, ctx);
 		resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-ask-music"));
 		return resp;
 	}
@@ -91,9 +92,10 @@ public class CreateMontageHandler {
 	private static ChatQueryResponse handleAskTheme(Intent intt, Context ctx)
 	{
 		ChatQueryResponse resp = ChatQueryResponse.createWaitForInput(intt, ctx);
-		Context myContext = new Context();
-		myContext.setContextType(ContextType.MontageTheme);
-		resp = ChatQueryResponse.createWaitForInput(intt, myContext);
+		if (ctx == null) 
+			ctx = new Context();
+		ctx.setContextType(ContextType.MontageTheme);
+		resp = ChatQueryResponse.createWaitForInput(intt, ctx);
 		resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-indicate-theme"));
 		return resp;
 	}
@@ -101,9 +103,10 @@ public class CreateMontageHandler {
 	private static ChatQueryResponse handleAskMusic(Intent intt, Context ctx)
 	{
 		ChatQueryResponse resp;
-		Context myContext = new Context();
-		myContext.setContextType(ContextType.MontageMusic);
-		resp = ChatQueryResponse.createWaitForInput(intt, myContext);
+		if (ctx == null) 
+			ctx = new Context();
+		ctx.setContextType(ContextType.MontageMusic);
+		resp = ChatQueryResponse.createWaitForInput(intt, ctx);
 		resp.addChatMessages(ChatResponseSupplier.getLocalizedResponse("montage-indicate-music"));
 		return resp;
 	}

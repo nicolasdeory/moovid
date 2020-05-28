@@ -40,6 +40,10 @@
         ["Vaya.","Algo ha fallado montando el vídeo. Comprueba tu conexión y vuelve a cargar la página."],
         ["Algo ha fallado montando el vídeo, lo siento.", "Comprueba tu conexión y vuelve a cargar la página si sigue sin funcionar."]
     ],
+    "error-no-video":
+    [
+        ["Lo siento, no he podido acceder al vídeo que me has pedido.","Prueba a pasarme el enlace de otra canción."]
+    ],
     "error-too-few-photos":
     [
         ["Vaya, no he encontrado apenas fotos para hacer un montaje.","Pídeme un rango de fechas más amplio y un tema sobre el que tengas algunas fotos.."],

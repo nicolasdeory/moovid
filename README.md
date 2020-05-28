@@ -16,7 +16,7 @@ You can also specify the montage theme:
 3. If you didn't specify a theme, the bot will ask you if you want a particular one. You can ask it to decide for you, if you wish.
 - _"Decide por mí"_
 - _"Me da igual"_
-4. The bot asks you what kind of music you'd like to hear in the montage. You can specify from simple parameters such as the song genre or artist, to more complex one such as the song "danceability", mood, energy or BPM. You can also ask it to decide for you, and it will pick a popular song.
+4. The bot asks you what kind of music you'd like to hear in the montage. You can specify from simple parameters such as the song genre or artist, to more complex ones such as the song "danceability", mood, energy or BPM. You can also ask it to decide for you, and it will pick a popular song.
 - _"Quiero una canción de EDM de Zedd"_ (Artist: Zedd, Genre: EDM)
 - _"Quiero una canción triste de Don Diablo y Zedd"_ (Artist: Don Diablo, Zedd; Mood: Sad)
 - _"Ponme un temazo de reggaeton de Bad Bunny"_ (Artist: Bad Bunny, Genre: Reggaeton, Energy: High)

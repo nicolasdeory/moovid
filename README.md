@@ -44,3 +44,12 @@ Keep in mind that for the app to work properly you will need a Spotify API Key a
 Place them under `/src/main/resources/keys/SpotifyKey.txt` and `/src/main/resources/keys/YoutubeKey.txt`.
 
 The API key for LUIS is hardcoded, because you would need to create your own model and train it otherwise. If you wish to make changes to the model, you will have to roll your own LUIS project. 
+
+## About
+This mashup was made as a class project for the University of Seville, tutorized by Javier Troya Castilla.
+
+### Main contributors
+- Daniel Caro Olmedo
+- Ignacio Navarro Blázquez
+- Antonio González Gómez
+- Nicolás de Ory Carmona

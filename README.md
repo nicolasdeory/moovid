@@ -2,7 +2,7 @@
 A mashup webapp integrating Google Photos, Spotify and Cognitive Services LUIS to create customized photo collage videos.
 
 ## Usage
-1. Go to https://moovid-271019.appspot.com/. At the moment the chatbot only works with spanish input. Grant Moovid access to your Google Photos library by logging in. You might see a security warning, because the app is not yet verified. You can click on "Advanced" -> "Allow (unsafe)".
+1. Go to ~~https://moovid-271019.appspot.com/~~. At the moment the chatbot only works with spanish input. Grant Moovid access to your Google Photos library by logging in. You might see a security warning, because the app is not yet verified. You can click on "Advanced" -> "Allow (unsafe)".
 2. Ask it to make a montage for you (_"Hazme un montaje"_). 
 You can specify details such as a date range:
 - _"Hazme un montaje con fotos de las últimas 3 semanas"_

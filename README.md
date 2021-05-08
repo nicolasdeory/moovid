@@ -43,7 +43,7 @@ If you run the app locally, make sure you launch it with one of these profiles:
 Keep in mind that for the app to work properly you will need a Spotify API Key and a YouTube API Key.
 Place them under `/src/main/resources/keys/SpotifyKey.txt` and `/src/main/resources/keys/YoutubeKey.txt`.
 
-The API key for LUIS is hardcoded, because you would need to create your own model and train it otherwise. If you wish to make changes to the model, you will have to roll your own LUIS project. 
+The API key for LUIS is hardcoded, because you would need to create your own model and train it otherwise. If you wish to make changes to the model, you will have to roll out your own LUIS project. 
 
 ## About
 This mashup was made as a class project for the University of Seville, tutorized by Javier Troya Castilla.
